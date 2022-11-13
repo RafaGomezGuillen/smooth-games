@@ -1,0 +1,113 @@
+body {
+  background-color: #183943;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+div.top-bar {
+  height: 50px;
+  width: 700px;
+  margin: auto;
+  border-bottom-style: solid;
+  border-bottom-color: #B7C0A6;
+}
+
+div.top-bar-name {
+  color: #DDE2C1;
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  text-align: center;
+}
+
+div.top-bar-name > p.top-bar-name-1 {
+  text-transform: uppercase;
+  margin: 0 auto;
+  font-size: 20px;
+  width: 200px;
+  height: 25px;
+}
+
+div.top-bar-name > p.top-bar-name-2 {
+  text-transform: uppercase;
+  margin: 0 auto;
+  color: grey;
+  font-size: 15px;
+  width: 200px;
+  height: 25px;
+}
+
+/* The menu container */
+.menu {
+  background-image: url("../image_files/bars.svg");
+  background-repeat: no-repeat;
+  width: 30px;
+  position: relative;
+  bottom: 35px;
+  left: 5px;
+}
+
+/* menu button */
+.menu .menu-button {
+  font-size: 16px;
+  border: none;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+}
+
+.menu:hover .menu-button {
+  background-color: rgba(0, 0, 0, 0.5);;
+}
+
+/* menu content (hidden by default) */
+.menu-content {
+  display: none;
+  position: absolute;
+  background-color: #677F72;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(22,3C,E3,0.9);
+  z-index: 1;
+}
+
+/* Links inside the menu */
+.menu-content a {
+  float: none;
+  color: #DDE2C1;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to menu links on hover */
+.menu-content a:hover {
+  background-color: #223C3E;
+}
+
+/* Show the menu menu on hover */
+.menu:hover .menu-content {
+  display: block;
+}
+
+div.how-to-play > img, div.how-to-play  {
+  width: 30px;
+}
+
+div.how-to-play {
+  position: relative;
+  bottom: 64px;
+  left: 100px;
+}
+
+div.how-to-play > img {
+  margin: 0 auto;
+}
+
+/* paleta de colores
+DDE2C1
+B7C0A6
+677F72
+183943
+223C3E */
+
