@@ -4,6 +4,8 @@
 <head>
   <title> Smooth Match 3 </title>
   <link rel="stylesheet" href="../css_files/style.css" />
+  <script src="../javascript_files/display_menu.js"> </script>
+  <script src="../javascript_files/display_statistics.js"> </script>
 </head>
 
 <body>
@@ -13,25 +15,33 @@
       <p class="top-bar-name-2"> Version Beta </p>
     </div>
     <div class="menu">
-      <button class="menu-button"></button>
-      <div class="menu-content">
+      <button onclick="myFunctionMenu()" class="menu-button"> </button>
+      <img class="bars" width="20px" src="../image_files/bars.svg">
+      <div id="my_menu" class="menu-content">
         <a href="#">Link 1</a>
         <a href="#">Link 2</a>
         <a href="#">Link 3</a>
       </div>
     </div>
     <div class="how-to-play">
-      <img src="../image_files/how-to-play.svg" usemap="#map_zone">
-      <map name = "map_zone">
-        <area shape = "circle" coords = "15,15,15" href = "https://www.google.com/"/>
-      </map>      
+      <img class="how-to-play-img" width="25px" src="../image_files/how-to-play.svg" usemap="#map_zone">
+      <map name="map_zone">
+        <area shape="circle" coords="15,15,15" href="https://www.google.com/" />
+      </map>
     </div>
-    <!-- <div class="statistics">
-      <img src="../image_files/statistics.svg" alt="statistics icon" name="statistics">
+    <div class="statistics">
+      <button class="statistics-button" onclick="myFunctionStatistics()"></button>
+      <img width="30px" class="statistics-img" src="../image_files/statistics.svg">
+      <div id="statisticsContent">
+        <p> This is my DIV element. </p>
+      </div>
     </div>
-    <div class="settings">
+
+
+    <!-- <div class="settings">
       <img src="../image_files/settings.svg" alt="settings icon" name="settings">
     </div>  -->
+    
   </div>
 </body>
 
