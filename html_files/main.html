@@ -4,8 +4,8 @@
 <head>
   <title> Smooth Match 3 </title>
   <link rel="stylesheet" href="../css_files/style.css" />
-  <script src="../javascript_files/display_menu.js"> </script>
-  <script src="../javascript_files/display_statistics.js"> </script>
+  <script src="../javascript_files/display.js"> </script>
+  <script src="../javascript_files/hola.js"> </script>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
       <p class="top-bar-name-2"> Version Beta </p>
     </div>
     <div class="menu">
-      <button onclick="myFunctionMenu()" class="menu-button"> </button>
+      <button onclick="displayMenu()" class="menu-button"> </button>
       <img class="bars" width="20px" src="../image_files/bars.svg">
       <div id="my_menu" class="menu-content">
         <a href="#">Link 1</a>
@@ -30,19 +30,18 @@
       </map>
     </div>
     <div class="statistics">
-      <button class="statistics-button" onclick="myFunctionStatistics()"></button>
-      <img width="30px" class="statistics-img" src="../image_files/statistics.svg">
-      <div id="statisticsContent">
-        <p> This is my DIV element. </p>
+      <button onclick="displayStatistics()" class="statistics-button"> </button>
+      <img class="statistics-img" width="22px" src="../image_files/statistics.svg">
+      <div id="my_statistics" class="statistics-content">
+        <a href="#">Link 1</a>
+        <a href="#">Link 2</a>
+        <a href="#">Link 3</a>
       </div>
     </div>
-
-
-    <!-- <div class="settings">
-      <img src="../image_files/settings.svg" alt="settings icon" name="settings">
-    </div>  -->
-    
+    <div class="mode">
+      <img width="35px"class="mode-img" src="../image_files/dark-mode.svg">
+      <button class="mode-button" onclick="lightMode()"></button>
+    </div>
   </div>
 </body>
-
 </html>
