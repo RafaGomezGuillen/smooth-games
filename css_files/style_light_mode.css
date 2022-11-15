@@ -1,0 +1,26 @@
+.light-mode {
+  background-color: white;
+}
+
+.light-mode div.top-bar-name {
+  color: black;
+}
+
+.light-mode div.top-bar {
+  border-bottom-color: black;
+}
+
+.light-mode .menu-content,
+.light-mode .statistics-content {
+  background-color: black;
+}
+
+.light-mode .menu-content a,
+.light-mode .statistics-content a {
+  color: white;
+}
+
+.light-mode .menu-content a:hover,
+.light-mode .statistics-content a:hover {
+  background-color: rgba(128, 128, 128, 0.3);
+}
