@@ -1,6 +1,3 @@
-// cuando game over se puede seguir jugando y tener puntos arregla eso
-
-
 // The function gets called when the window is fully loaded
 window.onload = function () {
   // Get the canvas and context
@@ -11,15 +8,15 @@ window.onload = function () {
   var lastframe = 0;
   var fpstime = 0;
   var framecount = 0;
-  var fps = 0;
+
 
   // Mouse dragging
   var drag = false;
 
   // Level object
   var level = {
-    x: 250, // X position
-    y: 113, // Y position
+    x: 162, // X position
+    y: 80, // Y position
     columns: 8, // Number of tile columns
     rows: 8, // Number of tile rows
     tilewidth: 40, // Visual width of a tile
@@ -54,7 +51,15 @@ window.onload = function () {
   var score = 0;
 
   // Count moves
-  var countmoves = 10;
+  var countmoves = 0;
+
+  // Moves left
+  var movesleft = true;
+
+  // Seconds
+  var seconds = 0;
+  let timeout;
+  let timer_on = 0;
 
   // Animation variables
   var animationstate = 0;
@@ -72,9 +77,9 @@ window.onload = function () {
 
   // Gui buttons
   var buttons = [
-    { x: 30, y: 240, width: 150, height: 50, text: "New Game" },
-    { x: 30, y: 300, width: 150, height: 50, text: "Show Moves" },
-    { x: 30, y: 360, width: 150, height: 50, text: "Enable AI Bot" },
+    { x: -10, y: 0, width: 150, height: 50, text: "New Game" },
+    { x: 245.5, y: 0, width: 150, height: 50, text: "Show Moves" },
+    { x: 500, y: 0, width: 150, height: 50, text: "Enable AI Bot"},
   ];
 
   // Initialize the game
@@ -125,6 +130,8 @@ window.onload = function () {
       // Check for game over
       if (moves.length <= 0) {
         gameover = true;
+        movesleft = false;
+        stopTimer();
       }
 
       // Let the AI bot make a move, if enabled
@@ -260,20 +267,20 @@ window.onload = function () {
     // Draw score
     context.fillStyle = "#000000";
     context.font = "24px Helvetica";
-    drawCenterText("Score:", 30, level.y + -30, 150);
-    drawCenterText(score, 30, level.y + 0, 150);
+    drawCenterText("Score", 245, level.y + 370, 150);
+    drawCenterText(score, 245, level.y + 395, 150);
 
-    // // Draw score oroginal
-    // context.fillStyle = "#000000";
-    // context.font = "24px Verdana";
-    // drawCenterText("Score:", 30, level.y + 40, 150);
-    // drawCenterText(score, 30, level.y + 70, 150);
-
-    // Draw timer
+    // Draw moves left
     context.fillStyle = "#000000";
     context.font = "24px Helvetica";
-    drawCenterText("Moves left:", 30, level.y + 50, 150);
-    drawCenterText(countmoves, 30, level.y + 80, 150);
+    drawCenterText("Moves left", 0, level.y + 370, 150);
+    drawCenterText(countmoves, 0, level.y + 395, 150);
+
+    // Draw temp
+    context.fillStyle = "#000000";
+    context.font = "24px Helvetica";
+    drawCenterText("Time left", 500, level.y + 370, 150);
+    drawCenterText(seconds, 505, level.y + 395, 150);
 
     // Draw buttons
     drawButtons();
@@ -286,7 +293,6 @@ window.onload = function () {
 
     // Render tiles
     renderTiles();
-
     // Render clusters
     renderClusters();
 
@@ -525,6 +531,13 @@ window.onload = function () {
     // Reset score
     score = 0;
 
+    // Reset moves
+    countmoves = 10000;
+    movesleft = true;
+
+    // Reset seconds
+    seconds = 50000;
+
     // Set the gamestate to ready
     gamestate = gamestates.ready;
 
@@ -534,10 +547,12 @@ window.onload = function () {
     // Create the level
     createLevel();
 
+    // Set timer
+    startTimer();
+
     // Find initial clusters and moves
     findMoves();
     findClusters();
-    countmoves = 10;
   }
 
   // Create a random level
@@ -840,6 +855,8 @@ window.onload = function () {
     animationstate = 2;
     animationtime = 0;
     gamestate = gamestates.resolve;
+
+    // setMoves
     setMoves();
   }
 
@@ -952,13 +969,46 @@ window.onload = function () {
     }
   }
 
+  // Decrease moves to 0
   function setMoves() {
-    if (countmoves == 0) {
-      gameover = true;
-    } else {
-      countmoves--;
+    if ((movesleft == true)) {
+      if (countmoves == 0) {
+        // Display gameover
+        gameover = true;
+        // Set the gamestate to ready
+        gamestate = gamestates.ready;
+      } else {
+        // If you make a move it will decrease
+        countmoves--;
+      }
     }
-    
+  }
+
+  // Decrease seconds to 0
+  function timedCount() {
+    // Decrease seconds
+    seconds--;
+    timeout = setTimeout(timedCount, 1000);
+    if (seconds == 0) {
+      stopTimer();
+      movesleft = false;
+      gameover = true;
+      gamestate = gamestates.ready;
+    }
+  }
+
+  // Start timer
+  function startTimer() {
+    if (!timer_on) {
+      timer_on = 1;
+      timedCount();
+    }
+  }
+
+  // Stop timer
+  function stopTimer() {
+    clearTimeout(timeout);
+    timer_on = 0;
   }
 
   function onMouseUp(e) {
