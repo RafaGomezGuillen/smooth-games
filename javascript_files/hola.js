@@ -265,19 +265,19 @@ window.onload = function () {
     drawFrame();
 
     // Draw score
-    context.fillStyle = "#000000";
+    context.fillStyle = "#dde2c1";
     context.font = "24px Helvetica";
     drawCenterText("Score", 245, level.y + 370, 150);
     drawCenterText(score, 245, level.y + 395, 150);
 
     // Draw moves left
-    context.fillStyle = "#000000";
+    context.fillStyle = "#dde2c1";
     context.font = "24px Helvetica";
     drawCenterText("Moves left", 0, level.y + 370, 150);
     drawCenterText(countmoves, 0, level.y + 395, 150);
 
     // Draw temp
-    context.fillStyle = "#000000";
+    context.fillStyle = "#dde2c1";
     context.font = "24px Helvetica";
     drawCenterText("Time left", 500, level.y + 370, 150);
     drawCenterText(seconds, 505, level.y + 395, 150);
@@ -327,7 +327,7 @@ window.onload = function () {
   function drawButtons() {
     for (var i = 0; i < buttons.length; i++) {
       // Draw button shape
-      context.fillStyle = "#000000";
+      context.fillStyle = "#677f72";
       context.fillRect(
         buttons[i].x,
         buttons[i].y,
@@ -336,8 +336,9 @@ window.onload = function () {
       );
 
       // Draw button text
-      context.fillStyle = "#ffffff";
+      context.fillStyle = "#dde2c1";
       context.font = "18px Helvetica";
+      context.f
       var textdim = context.measureText(buttons[i].text);
       context.fillText(
         buttons[i].text,
