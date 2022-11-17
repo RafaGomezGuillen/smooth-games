@@ -196,9 +196,12 @@ div.how-to-play:hover {
 }
 
 .game {
-  border: solid white;
   width: 700px;
+  height: 600px;
   margin: 0 auto;
+  position: relative; 
+  bottom: -80px;
+  
 }
 
 canvas {
