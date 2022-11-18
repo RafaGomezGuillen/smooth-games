@@ -22,13 +22,14 @@
   background-color: rgba(128, 128, 128, 0.3);
 }
 
-.blog-content {
-  width: 700px;
-  margin: 0 auto;
+.light-mode .blog-content p, .light-mode .blog-content a {
   color: black;
 }
 
-.blog-content p {
-  padding-left: 50px;
-  padding-right: 50px;
+.light-mode .match-3-game-button {
+  background-color: black;
+}
+
+.light-mode .match-3-game-button a {
+  color: white;
 }

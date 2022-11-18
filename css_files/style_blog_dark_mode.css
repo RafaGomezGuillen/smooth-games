@@ -123,10 +123,32 @@ div.top-bar-name > p.top-bar-name-2 {
 .blog-content {
   width: 700px;
   margin: 0 auto;
-  color: #dde2c1;
+  font-size: 18px;
 }
 
 .blog-content p {
   padding-left: 50px;
   padding-right: 50px;
+  color: #dde2c1;
 }
+
+.blog-content a {
+  color: #dde2c1;
+}
+
+.match-3-game-button {
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  background-color: #677f72;
+  border-radius: 10px;
+}
+
+.match-3-game-button a {
+  position: relative;
+  bottom: -13px;
+  left: 18px;
+  font-size: 22px;
+  text-decoration: none;
+}
+
