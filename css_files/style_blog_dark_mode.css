@@ -1,0 +1,132 @@
+body {
+  background-color: #183943;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+div.top-bar {
+  height: 50px;
+  width: 700px;
+  margin: auto;
+  border-bottom-style: solid;
+  border-bottom-color: #b7c0a6;
+}
+
+div.top-bar-name {
+  color: #dde2c1;
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  text-align: center;
+}
+
+div.top-bar-name > p.top-bar-name-1 {
+  text-transform: uppercase;
+  margin: 0 auto;
+  font-size: 20px;
+  width: 200px;
+  height: 25px;
+}
+
+div.top-bar-name > p.top-bar-name-2 {
+  text-transform: uppercase;
+  margin: 0 auto;
+  color: grey;
+  font-size: 15px;
+  width: 200px;
+  height: 25px;
+}
+
+.menu-button {
+  border: none;
+  cursor: pointer;
+  position: relative;
+  bottom: 50px;
+  width: 45px;
+  height: 45px;
+  background: inherit;
+  z-index: 1;
+}
+
+.bars {
+  position: relative;
+  bottom: 60px;
+  left: -37px;
+}
+
+.menu-button:hover,
+.menu-button:focus {
+  background-color: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+}
+
+.menu {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-content {
+  display: none;
+  position: absolute;
+  bottom: -97px;
+  background-color: #677f72;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(22, 60, 227, 0.2);
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.menu-content a {
+  color: #dde2c1;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-radius: 10px;
+}
+
+.menu-content a:hover {
+  background-color: #223c3e;
+}
+
+.show {
+  display: block;
+}
+
+.mode {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  bottom: 97px;
+  left: 650px;
+}
+
+.mode-img {
+  position: relative;
+  bottom: -5px;
+  left: 5px;
+}
+
+.mode-button {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  bottom: 40px;
+  background: none;
+  border: none;
+}
+
+.mode-button:hover,
+.mode-button:focus {
+  background-color: rgba(128, 128, 128, 0.3);
+  border-radius: 10px;
+}
+
+.blog-content {
+  width: 700px;
+  margin: 0 auto;
+  color: #dde2c1;
+}
+
+.blog-content p {
+  padding-left: 50px;
+  padding-right: 50px;
+}

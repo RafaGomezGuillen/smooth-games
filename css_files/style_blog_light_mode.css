@@ -1,0 +1,34 @@
+.light-mode {
+  background-color: white;
+}
+
+.light-mode div.top-bar-name {
+  color: black;
+}
+
+.light-mode div.top-bar {
+  border-bottom-color: black;
+}
+
+.light-mode .menu-content {
+  background-color: black;
+}
+
+.light-mode .menu-content a {
+  color: white;
+}
+
+.light-mode .menu-content a:hover {
+  background-color: rgba(128, 128, 128, 0.3);
+}
+
+.blog-content {
+  width: 700px;
+  margin: 0 auto;
+  color: black;
+}
+
+.blog-content p {
+  padding-left: 50px;
+  padding-right: 50px;
+}
