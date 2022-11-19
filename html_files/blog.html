@@ -3,7 +3,7 @@
 
 <head>
   <title> Smooth Match 3 Blog </title>
-  <link rel="stylesheet" href="../css_files/style_light_mode.css" />
+  <link rel="stylesheet" href="../css_files/style.css" />
   <script src="../javascript_files/display.js"></script>
 </head>
 
@@ -11,7 +11,7 @@
   <div class="top-bar">
     <div class="top-bar-name">
       <p class="top-bar-name-1"> Smooth Match 3</p>
-      <p class="top-bar-name-2"> Blog</p>
+      <p class="top-bar-name-2"> Blog </p>
     </div>
     <div class="menu">
       <button onclick="displayMenu()" class="menu-button"> </button>
@@ -22,9 +22,12 @@
         <a href="../html_files/contact.html">Contact</a>
       </div>
     </div>
-    <div class="mode">
+    <div class="mode-blog">
       <img width="35px" class="mode-img" src="../image_files/dark-mode.svg">
-      <button class="mode-button" onclick="lightMode()"></button>
+      <select class="select__input" id="selTheme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
     </div>
   </div>
   <div class="blog-content">
@@ -37,6 +40,7 @@
       <a href="../html_files/main.html">Smooth Match 3</a>
     </div>
   </div>
+  
 </body>
 
 </html>
