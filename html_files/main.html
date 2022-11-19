@@ -3,7 +3,6 @@
 
 <head>
   <title> Smooth Match 3 </title>
-  <link rel="stylesheet" href="../css_files/style_dark_mode.css" />
   <link rel="stylesheet" href="../css_files/style_light_mode.css" />
   <script src="../javascript_files/display.js"> </script>
   <script src="../javascript_files/hola.js"> </script>
@@ -41,13 +40,15 @@
     </div>
     <div class="mode">
       <img width="35px" class="mode-img" src="../image_files/dark-mode.svg">
-      <button class="mode-button" onclick="lightMode()"></button>
+      <select class="select__input" id="selTheme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
     </div>
   </div>
   <div class="game">
     <canvas id="viewport" width="640" height="480"> </canvas>
   </div>
-
 </body>
 
 </html>
