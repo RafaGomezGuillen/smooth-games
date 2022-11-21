@@ -9,7 +9,6 @@ window.onload = function () {
   var fpstime = 0;
   var framecount = 0;
 
-
   // Mouse dragging
   var drag = false;
 
@@ -79,7 +78,7 @@ window.onload = function () {
   var buttons = [
     { x: -10, y: 0, width: 150, height: 50, text: "New Game" },
     { x: 245.5, y: 0, width: 150, height: 50, text: "Show Moves" },
-    { x: 500, y: 0, width: 150, height: 50, text: "Enable AI Bot"},
+    { x: 500, y: 0, width: 150, height: 50, text: "Enable AI Bot" },
   ];
 
   // Initialize the game
@@ -263,24 +262,44 @@ window.onload = function () {
   function render() {
     // Draw the frame
     drawFrame();
+    let eleccion = seleccionar.value;
+    if (eleccion === "light") {
+      // Draw score
+      context.fillStyle = "#000000";
+      context.font = "24px Helvetica";
+      drawCenterText("Score", 245, level.y + 370, 150);
+      drawCenterText(score, 245, level.y + 395, 150);
 
-    // Draw score
-    context.fillStyle = "#000000";
-    context.font = "24px Helvetica";
-    drawCenterText("Score", 245, level.y + 370, 150);
-    drawCenterText(score, 245, level.y + 395, 150);
+      // Draw moves left
+      context.fillStyle = "#000000";
+      context.font = "24px Helvetica";
+      drawCenterText("Moves left", 0, level.y + 370, 150);
+      drawCenterText(countmoves, 0, level.y + 395, 150);
 
-    // Draw moves left
-    context.fillStyle = "#000000";
-    context.font = "24px Helvetica";
-    drawCenterText("Moves left", 0, level.y + 370, 150);
-    drawCenterText(countmoves, 0, level.y + 395, 150);
+      // Draw temp
+      context.fillStyle = "#000000";
+      context.font = "24px Helvetica";
+      drawCenterText("Time left", 500, level.y + 370, 150);
+      drawCenterText(seconds, 505, level.y + 395, 150);
+    } else {
+      // Draw score
+      context.fillStyle = "#dde2c1";
+      context.font = "24px Helvetica";
+      drawCenterText("Score", 245, level.y + 370, 150);
+      drawCenterText(score, 245, level.y + 395, 150);
 
-    // Draw temp
-    context.fillStyle = "#000000";
-    context.font = "24px Helvetica";
-    drawCenterText("Time left", 500, level.y + 370, 150);
-    drawCenterText(seconds, 505, level.y + 395, 150);
+      // Draw moves left
+      context.fillStyle = "#dde2c1";
+      context.font = "24px Helvetica";
+      drawCenterText("Moves left", 0, level.y + 370, 150);
+      drawCenterText(countmoves, 0, level.y + 395, 150);
+
+      // Draw temp
+      context.fillStyle = "#dde2c1";
+      context.font = "24px Helvetica";
+      drawCenterText("Time left", 500, level.y + 370, 150);
+      drawCenterText(seconds, 505, level.y + 395, 150);
+    }
 
     // Draw buttons
     drawButtons();
@@ -317,34 +336,82 @@ window.onload = function () {
     }
   }
 
+  let seleccionar = document.querySelector("select");
+  seleccionar.addEventListener("change", drawFrame);
+
   // Draw a frame with a border
   function drawFrame() {
-    context.fillStyle = "#ffffff";
-    context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
+    let eleccion = seleccionar.value;
+    if (eleccion === "light") {
+      // Color Background
+      context.fillStyle = "#ffffff";
+      context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
+
+      // Draw header
+      context.fillStyle = "#808080";
+      context.fillRect(0, 0, canvas.width, 50);
+      // Draw header-2
+      context.fillStyle = "#808080";
+      context.fillRect(0, 430, canvas.width, 50);
+    } else {
+      // Color Background
+      context.fillStyle = "#183943";
+      context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
+
+      // Draw header
+      context.fillStyle = "#677f72";
+      context.fillRect(0, 0, canvas.width, 50);
+      // Draw header-2
+      context.fillStyle = "#677f72";
+      context.fillRect(0, 430, canvas.width, 50);
+    }
   }
 
   // Draw buttons
   function drawButtons() {
     for (var i = 0; i < buttons.length; i++) {
-      // Draw button shape
-      context.fillStyle = "#000000";
-      context.fillRect(
-        buttons[i].x,
-        buttons[i].y,
-        buttons[i].width,
-        buttons[i].height
-      );
+      let eleccion = seleccionar.value;
+      if (eleccion === "light") {
+        // Draw button shape
+        context.fillStyle = "#000000";
+        context.fillRect(
+          buttons[i].x,
+          buttons[i].y,
+          buttons[i].width,
+          buttons[i].height
+        );
 
-      // Draw button text
-      context.fillStyle = "#ffffff";
-      context.font = "18px Helvetica";
-      context.f
-      var textdim = context.measureText(buttons[i].text);
-      context.fillText(
-        buttons[i].text,
-        buttons[i].x + (buttons[i].width - textdim.width) / 2,
-        buttons[i].y + 30
-      );
+        // Draw button text
+        context.fillStyle = "#ffffff";
+        context.font = "18px Helvetica";
+        context.f;
+        var textdim = context.measureText(buttons[i].text);
+        context.fillText(
+          buttons[i].text,
+          buttons[i].x + (buttons[i].width - textdim.width) / 2,
+          buttons[i].y + 30
+        );
+      } else {
+        // Draw button shape
+        context.fillStyle = "#223c3e";
+        context.fillRect(
+          buttons[i].x,
+          buttons[i].y,
+          buttons[i].width,
+          buttons[i].height
+        );
+
+        // Draw button text
+        context.fillStyle = "#dde2c1";
+        context.font = "18px Helvetica";
+        context.f;
+        var textdim = context.measureText(buttons[i].text);
+        context.fillText(
+          buttons[i].text,
+          buttons[i].x + (buttons[i].width - textdim.width) / 2,
+          buttons[i].y + 30
+        );
+      }
     }
   }
 
@@ -972,7 +1039,7 @@ window.onload = function () {
 
   // Decrease moves to 0
   function setMoves() {
-    if ((movesleft == true)) {
+    if (movesleft == true) {
       if (countmoves == 0) {
         // Display gameover
         gameover = true;

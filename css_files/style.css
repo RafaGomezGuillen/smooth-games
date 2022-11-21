@@ -56,7 +56,7 @@ div.how-to-play:hover,
 .menu-button:focus,
 .mode:hover,
 .mode-blog:hover,
-.mode-about  {
+.mode-about:hover  {
   background-color: rgba(128, 128, 128, 0.3);
 }
 
@@ -264,7 +264,7 @@ canvas {
 .match-3-game-button,
 .mode,
 .mode-blog,
-.mode-about  {
+.mode-about {
   border-radius: 10px;
 }
 
