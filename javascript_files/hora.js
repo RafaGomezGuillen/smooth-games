@@ -1,27 +1,28 @@
-// Variable to add 12 hours. 720 min = 12 h.
-  // const minutes = 720;
-  // var addHours = new Date(new Date().getTime() + minutes * 60000);
-  // var countDate = new Date('Nov 24, 2022 00:00:00').getTime();
-  var countDate = new Date();
-  // add a day
-  countDate.setDate(countDate.getDate() + 1);
-  const newYear = () => {
-    var now = Date.now();
-    gap = countDate - now;
+if (localStorage.getItem("count_timer")) {
+  var count_timer = localStorage.getItem("count_timer");
+} else {
+  var count_timer = 1800;
+}
+var minutes = parseInt(count_timer / 60);
+var seconds = parseInt(count_timer % 60);
+function countDownTimer() {
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
 
-    var second = 1000;
-    var minute = second * 60;
-    var hour = minute * 60;
-    var day = hour * 24;
-
-    var h = Math.floor((gap % day) / hour);
-    var m = Math.floor((gap % hour) / minute);
-    var s = Math.floor((gap % minute) / second);
-
-    document.getElementById("hour").innerText = h;
-    document.getElementById("minute").innerText = m;
-    document.getElementById("second").innerText = s;
-  };
-  setInterval(() => {
-    newYear();
-  }, 1000);
+  document.getElementById("minute").innerText = minutes;
+  document.getElementById("second").innerText = seconds;
+  if (count_timer <= 0) {
+    localStorage.clear("count_timer");
+  } else {
+    count_timer = count_timer - 1;
+    minutes = parseInt(count_timer / 60);
+    seconds = parseInt(count_timer % 60);
+    localStorage.setItem("count_timer", count_timer);
+    setTimeout("countDownTimer()", 1000);
+  }
+}
+setTimeout("countDownTimer()", 1000);
