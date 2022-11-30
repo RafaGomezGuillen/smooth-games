@@ -319,7 +319,6 @@ window.onload = function () {
     if (showmoves && clusters.length <= 0 && gamestate == gamestates.ready) {
       renderMoves();
     }
-
     // Game Over overlay
     if (gameover) {
       context.fillStyle = "rgba(0, 0, 0, 0.8)";
@@ -600,11 +599,11 @@ window.onload = function () {
     score = 0;
 
     // Reset moves
-    countmoves = 10000;
+    countmoves = 10;
     movesleft = true;
 
     // Reset seconds
-    seconds = 50000;
+    seconds = 2;
 
     // Set the gamestate to ready
     gamestate = gamestates.ready;
@@ -1057,6 +1056,7 @@ window.onload = function () {
     // Decrease seconds
     seconds--;
     timeout = setTimeout(timedCount, 1000);
+
     if (seconds == 0) {
       stopTimer();
       movesleft = false;
