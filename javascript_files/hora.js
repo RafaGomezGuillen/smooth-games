@@ -29,4 +29,3 @@ function countDownTimer() {
 }
 
 setTimeout("countDownTimer()", 1000);
-
