@@ -35,7 +35,6 @@ body.theme-dark {
 }
 
 .menu-content,
-.statistics-content,
 #selTheme {
   background-color: var(--content);
   box-shadow: 0px 8px 16px 0px rgba(22, 60, 227, 0.2);
@@ -196,17 +195,23 @@ img.how-to-play-img {
 }
 
 .statistics-content {
+  background-color: var(--background-color);
   display: none;
   position: absolute;
-  bottom: -97px;
+  top: -90px;
   min-width: 160px;
+  width: 700px;
+  height: 800px;
+  /* border: solid black; */
   z-index: 1;
 }
 
-.statistics-content a {
-  padding: 12px 16px;
+.statistics-content h1 {
+  color: var(--top-bar-name-color);
   text-decoration: none;
   display: block;
+  /* border: solid red; */
+  text-align: center;
 }
 
 .show {

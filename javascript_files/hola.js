@@ -45,9 +45,11 @@ window.onload = function () {
   // Game states
   var gamestates = { init: 0, ready: 1, resolve: 2 };
   var gamestate = gamestates.init;
+  var countnewgame = parseFloat(localStorage.getItem("countnewgame"));
 
   // Score
   var score = 0;
+  var highScore = parseFloat(localStorage.getItem("highScore"));
 
   // Count moves
   var countmoves = 0;
@@ -134,7 +136,7 @@ window.onload = function () {
       }
 
       // Let the AI bot make a move, if enabled
-      if (aibot) {
+      if (aibot == true && gameover == false) {
         animationtime += dt;
         if (animationtime > animationtimetotal) {
           // Check if there are moves available
@@ -281,6 +283,12 @@ window.onload = function () {
       context.font = "24px Helvetica";
       drawCenterText("Time left", 500, level.y + 370, 150);
       drawCenterText(seconds, 505, level.y + 395, 150);
+
+      // Draw high score
+      context.fillStyle = "#000000";
+      context.font = "24px Helvetica";
+      drawCenterText("Max score", 400, level.y + 370, 150);
+      drawCenterText(highScore, 400, level.y + 395, 150);
     } else {
       // Draw score
       context.fillStyle = "#dde2c1";
@@ -299,6 +307,12 @@ window.onload = function () {
       context.font = "24px Helvetica";
       drawCenterText("Time left", 500, level.y + 370, 150);
       drawCenterText(seconds, 505, level.y + 395, 150);
+
+      // Draw high score
+      context.fillStyle = "#dde2c1";
+      context.font = "24px Helvetica";
+      drawCenterText("Max score", 400, level.y + 370, 150);
+      drawCenterText(highScore, 400, level.y + 395, 150);
     }
 
     // Draw buttons
@@ -593,8 +607,18 @@ window.onload = function () {
     }
   }
 
+  // Save in highScore the max score
+  function highScores() {
+    highScore = highScore > score ? highScore : score;
+    localStorage.setItem("highScore", highScore);
+  }
+  document.getElementById("highScores").innerHTML = highScore;  
+
   // Start a new game
   function newGame() {
+    // Save high score data
+    highScores();
+
     // Reset score
     score = 0;
 
@@ -603,7 +627,7 @@ window.onload = function () {
     movesleft = true;
 
     // Reset seconds
-    seconds = 2;
+    seconds = 10;
 
     // Set the gamestate to ready
     gamestate = gamestates.ready;
@@ -613,6 +637,11 @@ window.onload = function () {
 
     // Create the level
     createLevel();
+    
+    // Count the number of games played
+    countnewgame++;
+    localStorage.setItem("countnewgame", countnewgame);
+    document.getElementById("count-games").innerHTML = countnewgame;
 
     // Set timer
     startTimer();
@@ -621,6 +650,7 @@ window.onload = function () {
     findMoves();
     findClusters();
   }
+  
 
   // Create a random level
   function createLevel() {
