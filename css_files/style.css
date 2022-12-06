@@ -141,7 +141,7 @@ div.top-bar-name > p.top-bar-name-2 {
   display: none;
   position: absolute;
   bottom: -84px;
-  min-width: 160px;
+  min-width: 200px;
   z-index: 1;
 }
 
@@ -293,19 +293,29 @@ canvas {
   padding-right: 50px;
 }
 
+.blog-content h1 {
+  color: var(--top-bar-name-color);
+  text-align: center;
+}
+
+/* match-3-game-button */
 .match-3-game-button {
   margin: 0 auto;
-  width: 200px;
+  margin-top: 40px;
+  width: 700px;
   height: 50px;
-  background-color: var(--background-match-3-button);
 }
 
 .match-3-game-button a {
+  padding: 20px;
+  background-color: var(--background-match-3-button);
+  text-align: center;
   position: relative;
-  bottom: -13px;
-  left: 18px;
+  left: 250px;
+  width: 50px;
   font-size: 22px;
   text-decoration: none;
+  border-radius: 10px;
 }
 
 .mode-blog {
@@ -316,6 +326,46 @@ canvas {
   left: 608px;
 }
 
+/* Contact and social media */
+.contact-content h1, .about-content h1 {
+  text-align: center;
+  width: 700px;
+  margin: 0 auto;
+  color: var(--top-bar-name-color);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.contact-buttons, .donation-buttons {
+  margin: 0 auto;
+  width: 700px;
+}
+
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+  position: relative;
+  left: 138px;
+  margin-left: 10px;
+}
+
+.fa-paypal {
+  left: 295px;
+}
+
+.fa:hover, .match-3-game-button:hover {
+  opacity: 0.7;
+}
+
+.fa-twitter, .fa-instagram, .fa-linkedin, .fa-github, .fa-paypal {
+  background-color: var(--background-match-3-button);
+  color: var(--content-a);
+  border-radius: 10px;
+}
+
 /* ABOUT */
 .mode-about {
   width: 93px;
@@ -324,4 +374,14 @@ canvas {
   bottom: 98px;
   left: 608px;
 }
+
+.about-content p {
+  margin: 0 auto;
+  width: 640px;
+  color: var(--top-bar-name-color);
+  /* border: solid red; */
+}
+
+
+
 
