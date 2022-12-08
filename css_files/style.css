@@ -55,7 +55,7 @@ div.how-to-play:hover,
 .menu-button:focus,
 .mode:hover,
 .mode-blog:hover,
-.mode-about:hover  {
+.mode-about:hover {
   background-color: rgba(128, 128, 128, 0.3);
 }
 
@@ -274,7 +274,10 @@ canvas {
 }
 
 /* BLOG */
-.blog-content p, .blog-content a {
+.blog-content p,
+.blog-content a,
+.about-content p,
+.about-content a {
   color: var(--blog-content);
 }
 
@@ -282,13 +285,15 @@ canvas {
   color: var(--match-3-button-a);
 }
 
-.blog-content {
+.blog-content,
+.about-content {
   width: 700px;
   margin: 0 auto;
   font-size: 18px;
 }
 
-.blog-content p {
+.blog-content p,
+.about-content p {
   padding-left: 50px;
   padding-right: 50px;
 }
@@ -327,16 +332,20 @@ canvas {
 }
 
 /* Contact and social media */
-.contact-content h1, .about-content h1 {
+.contact-content h1,
+.about-content h1,
+.how-content h1 {
   text-align: center;
   width: 700px;
   margin: 0 auto;
   color: var(--top-bar-name-color);
   margin-top: 20px;
   margin-bottom: 20px;
+  clear: both;
 }
 
-.contact-buttons, .donation-buttons {
+.contact-buttons,
+.donation-buttons {
   margin: 0 auto;
   width: 700px;
 }
@@ -356,11 +365,16 @@ canvas {
   left: 295px;
 }
 
-.fa:hover, .match-3-game-button:hover {
+.fa:hover,
+.match-3-game-button:hover {
   opacity: 0.7;
 }
 
-.fa-twitter, .fa-instagram, .fa-linkedin, .fa-github, .fa-paypal {
+.fa-twitter,
+.fa-instagram,
+.fa-linkedin,
+.fa-github,
+.fa-paypal {
   background-color: var(--background-match-3-button);
   color: var(--content-a);
   border-radius: 10px;
@@ -375,13 +389,78 @@ canvas {
   left: 608px;
 }
 
-.about-content p {
+/* how-to-play */
+.how-content {
+  width: 700px;
   margin: 0 auto;
-  width: 640px;
-  color: var(--top-bar-name-color);
-  /* border: solid red; */
+  clear: both;
 }
 
+.row-01 {
+  width: 65px;
+  height: 65px;
+  animation: row-01 0.9s linear 0.5s both;
+  border-radius: 10px;
+  float: left;
+  margin: 10px;
+}
 
+.row-01 p {
+  text-align: center;
+  font-size: 30px;
+  margin: auto;
+  padding: 15px;
+}
 
+#letter-01 {
+  background-color: #ff8080;
+}
 
+#letter-02 {
+  background-color: #80FF80;
+}
+
+#letter-03 {
+  background-color: #8080FF;
+}
+
+#letter-04 {
+  background-color: #ffFF80;
+}
+
+#letter-05 {
+  background-color: #ff80FF;
+}
+
+#letter-06 {
+  background-color: #80FFFF;
+}
+
+.title-01 {
+  width: 550px;
+  margin: 0 auto;
+}
+
+.title-02 {
+  width: 450px;
+  margin: 0 auto;
+}
+
+.title-03 {
+  width: 70px;
+  margin: 0 auto;
+  position: relative;
+  left: -20px;
+}
+
+@keyframes row-01 {
+  0% {
+    transform: rotate3d(1, 1, 0, 0deg);
+  }
+  50% {
+    transform: rotate3d(1, 1, 0, -180deg);
+  }
+  100% {
+    transform: rotate3d(1, 1, 0, -360deg);
+  }
+}
