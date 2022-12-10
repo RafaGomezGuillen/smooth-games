@@ -277,7 +277,8 @@ canvas {
 .blog-content p,
 .blog-content a,
 .about-content p,
-.about-content a {
+.about-content a,
+.how-content {
   color: var(--blog-content);
 }
 
@@ -286,16 +287,19 @@ canvas {
 }
 
 .blog-content,
-.about-content {
+.about-content,
+.how-content {
   width: 700px;
   margin: 0 auto;
   font-size: 18px;
 }
 
 .blog-content p,
-.about-content p {
+.about-content p,
+.how-content p {
   padding-left: 50px;
   padding-right: 50px;
+  line-height: 24px;
 }
 
 .blog-content h1 {
@@ -412,6 +416,25 @@ canvas {
   padding: 15px;
 }
 
+.row-02 {
+  width: 155px;
+  height: 55px;
+  animation: row-01 0.9s linear 0.5s both;
+  margin: 15px;
+}
+
+.row-02 p {
+  text-align: center;
+  font-size: 18px;
+  margin: auto;
+  padding: 15px;
+  color: var(--content-a);
+}
+
+#buttons {
+  background-color: var(--background-match-3-button);
+}
+
 #letter-01 {
   background-color: #ff8080;
 }
@@ -463,4 +486,19 @@ canvas {
   100% {
     transform: rotate3d(1, 1, 0, -360deg);
   }
+}
+
+.how-game {
+  width: 185px;
+  margin: 0 auto;
+}
+
+#settings {
+  display: none;
+  /* Hide the settings section by default */
+  width: 200px;
+  height: 200px;
+  background-color: lightgray;
+  border: 1px solid black;
+  padding: 10px;
 }

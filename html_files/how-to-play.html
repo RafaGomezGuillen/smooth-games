@@ -5,8 +5,7 @@
   <title> Smooth Match 3 </title>
   <link rel="stylesheet" href="../css_files/style.css" />
   <script src="../javascript_files/display.js"> </script>
-  <script src="../javascript_files/hola.js"> </script>
-  <script src="../javascript_files/hora.js"> </script>
+  <script src="../javascript_files/match3_demo.js"> </script>
 </head>
 
 <body>
@@ -34,30 +33,148 @@
   </div>
 
   <div class="title-01">
-    <div id="letter-01" class="row-01"> <p> S </p> </div>
-    <div id="letter-02" class="row-01"> <p> M </p> </div>
-    <div id="letter-03" class="row-01"> <p> O </p> </div>
-    <div id="letter-04" class="row-01"> <p> O </p> </div>
-    <div id="letter-05" class="row-01"> <p> T </p> </div>
-    <div id="letter-06" class="row-01"> <p> H </p> </div>
+    <div id="letter-01" class="row-01">
+      <p> S </p>
+    </div>
+    <div id="letter-02" class="row-01">
+      <p> M </p>
+    </div>
+    <div id="letter-03" class="row-01">
+      <p> O </p>
+    </div>
+    <div id="letter-04" class="row-01">
+      <p> O </p>
+    </div>
+    <div id="letter-05" class="row-01">
+      <p> T </p>
+    </div>
+    <div id="letter-06" class="row-01">
+      <p> H </p>
+    </div>
   </div>
   <div class="title-02">
-    <div id="letter-01" class="row-01"> <p> M </p> </div>
-    <div id="letter-02" class="row-01"> <p> A </p> </div>
-    <div id="letter-03" class="row-01"> <p> T </p> </div>
-    <div id="letter-04" class="row-01"> <p> C </p> </div>
-    <div id="letter-05" class="row-01"> <p> H </p> </div>
+    <div id="letter-01" class="row-01">
+      <p> M </p>
+    </div>
+    <div id="letter-02" class="row-01">
+      <p> A </p>
+    </div>
+    <div id="letter-03" class="row-01">
+      <p> T </p>
+    </div>
+    <div id="letter-04" class="row-01">
+      <p> C </p>
+    </div>
+    <div id="letter-05" class="row-01">
+      <p> H </p>
+    </div>
   </div>
   <div class="title-03">
-    <div id="letter-01" class="row-01"> <p> 3 </p> </div>
+    <div id="letter-01" class="row-01">
+      <p> 3 </p>
+    </div>
   </div>
-  <div class="how-content">  
+  <div class="how-content">
+    <br>
+    <p>
+      The goal of this game is simple, reach the max score as fast as you can. The table has 7 different colors.
+      If you connect 3 of them you will sum 100 points, but, if you connect 4 of them, for example, it will be 200 points and so on.
+      <br><br>
+
+      The maximum difficulty of this game is the moves left and time left that you have to play. You have a certain number of possible moves
+      and time. So be careful
+      with that.
+    </p>
+    <h1> Buttons</h1>
+    <div class="title-01">
+      <table>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> New Game </p>
+            </div>
+          </td>
+          <td>
+            If you want to start a new game, press New Game button.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> Show Moves </p>
+            </div>
+          </td>
+          <td>
+            If you want to see the possible moves, press Show Moves button.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> Enable IA Bot </p>
+            </div>
+          </td>
+          <td>
+            If you want to play automatically, press Enable IA Bot button.
+          </td>
+        </tr>
+      </table>
+    </div>
+    <h1> Titles </h1>
+    <div class="title-01">
+      <table>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> Moves left</p>
+            </div>
+          </td>
+          <td>
+            Moves left tells you how many moves you have.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> Score </p>
+            </div>
+          </td>
+          <td>
+            Score tells you the actual points you have.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> Max score </p>
+            </div>
+          </td>
+          <td>
+            Max score tells you the higher points that you have ever scored.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02">
+              <p> Time left </p>
+            </div>
+          </td>
+          <td>
+            Time left tells you how many time you have to play the actual game.
+          </td>
+        </tr>
+      </table>
+    </div>
+    <h1> Can you connect 3?</h1>
+    <div class="how-game">
+      <canvas id="viewport" width="640" height="48"> </canvas>
+    </div>
     <h1> Ready to play?</h1>
     <div class="match-3-game-button">
       <a href="main.html">Smooth Match 3</a>
     </div>
   </div>
-  
+
 </body>
 
 </html>

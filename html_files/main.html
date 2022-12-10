@@ -34,9 +34,7 @@
       <button onclick="displayStatistics()" class="statistics-button"> </button>
       <img class="statistics-img" width="22px" src="../image_files/statistics.svg">
       <div id="my_statistics" class="statistics-content">
-        <h1> Statistics </h1>
-        <span id="highScores">5</span>
-        <span id="count-games">10</span>
+
       </div>
     </div>
     <div class="mode">
@@ -49,6 +47,23 @@
   </div>
   <div class="game">
     <canvas id="viewport" width="640" height="480"> </canvas>
+  </div>
+  <!-- Create the settings button -->
+  <button onclick="showSettings()">Settings</button>
+
+  <!-- Create the settings section -->
+  <div id="settings">
+    <h1> Statistics </h1>
+    <form>
+      <label for="seconds">seconds:</label><br>
+      <input type="number" id="seconds" name="seconds" value="60" min="0" max="1000"><br>
+    </form>
+    <button onclick="getInputSeconds()">Get input value</button>
+    <form>
+      <label for="moves">moves:</label><br>
+      <input type="number" id="moves" name="moves" value="60" min="0" max="1000"><br>
+    </form>
+    <button onclick="getInputMoves()">Get input value</button>
   </div>
 
   <!-- <div id="countdown"> 

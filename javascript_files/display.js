@@ -2,35 +2,35 @@ function displayMenu() {
   document.getElementById("my_menu").classList.toggle("show");
 }
 
-window.onclick = function(event) {
-  if (!event.target.matches('.menu-button')) {
+window.onclick = function (event) {
+  if (!event.target.matches(".menu-button")) {
     var dropdowns = document.getElementsByClassName("menu-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+      if (openDropdown.classList.contains("show")) {
+        openDropdown.classList.remove("show");
       }
     }
   }
-}
+};
 
-function displayStatistics() {
-  document.getElementById("my_statistics").classList.toggle("show");
-}
+// function displayStatistics() {
+//   document.getElementById("my_statistics").classList.toggle("show");
+// }
 
-window.onclick = function(event) {
-  if (!event.target.matches('.statistics-button')) {
-    var dropdowns = document.getElementsByClassName("statistics-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
+// window.onclick = function(event) {
+//   if (!event.target.matches('.statistics-button')) {
+//     var dropdowns = document.getElementsByClassName("statistics-content");
+//     var i;
+//     for (i = 0; i < dropdowns.length; i++) {
+//       var openDropdown = dropdowns[i];
+//       if (openDropdown.classList.contains('show')) {
+//         openDropdown.classList.remove('show');
+//       }
+//     }
+//   }
+// }
 
 function applyTheme(theme) {
   document.body.classList.remove("theme-auto", "theme-light", "theme-dark");
@@ -51,3 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
     applyTheme(this.value);
   });
 });
+
+function showSettings() {
+  // Get the settings element
+  var settings = document.getElementById("settings");
+
+  // Toggle the display of the settings section
+  if (settings.style.display === "none") {
+    settings.style.display = "block";
+  } else {
+    settings.style.display = "none";
+  }
+}
+

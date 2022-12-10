@@ -1,4 +1,3 @@
-// The function gets called when the window is fully loaded
 window.onload = function () {
   // Get the canvas and context
   var canvas = document.getElementById("viewport");
@@ -6,18 +5,16 @@ window.onload = function () {
 
   // Timing and frames per second
   var lastframe = 0;
-  var fpstime = 0;
-  var framecount = 0;
 
   // Mouse dragging
   var drag = false;
 
   // Level object
   var level = {
-    x: 162, // X position
-    y: 80, // Y position
-    columns: 8, // Number of tile columns
-    rows: 8, // Number of tile rows
+    x: 4, // X position
+    y: 4, // Y position
+    columns: 4, // Number of tile columns
+    rows: 1, // Number of tile rows
     tilewidth: 40, // Visual width of a tile
     tileheight: 40, // Visual height of a tile
     tiles: [], // The two-dimensional tile array
@@ -48,40 +45,14 @@ window.onload = function () {
 
   // Score
   var score = 0;
-  var highScore = parseFloat(localStorage.getItem("highScore"));
-
-  // Count moves
-  let countmoves = 0;
-
-  // Moves left
-  var movesleft = true;
-
-  // Seconds
-  var seconds = 0;
-
-  let timeout;
-  let timer_on = 0;
 
   // Animation variables
   var animationstate = 0;
   var animationtime = 0;
   var animationtimetotal = 0.3;
 
-  // Show available moves
-  var showmoves = false;
-
-  // The AI bot
-  var aibot = false;
-
   // Game Over
   var gameover = false;
-
-  // Gui buttons
-  var buttons = [
-    { x: -10, y: 0, width: 150, height: 50, text: "New Game" },
-    { x: 245.5, y: 0, width: 150, height: 50, text: "Show Moves" },
-    { x: 500, y: 0, width: 150, height: 50, text: "Enable AI Bot" },
-  ];
 
   // Initialize the game
   function init() {
@@ -122,35 +93,12 @@ window.onload = function () {
     var dt = (tframe - lastframe) / 1000;
     lastframe = tframe;
 
-    // Update the fps counter
-    updateFps(dt);
-
     if (gamestate == gamestates.ready) {
       // Game is ready for player input
 
       // Check for game over
       if (moves.length <= 0) {
         gameover = true;
-        movesleft = false;
-        stopTimer();
-      }
-
-      // Let the AI bot make a move, if enabled
-      if (aibot == true && gameover == false) {
-        animationtime += dt;
-        if (animationtime > animationtimetotal) {
-          // Check if there are moves available
-          findMoves();
-
-          if (moves.length > 0) {
-            // Get a random valid move
-            var move = moves[Math.floor(Math.random() * moves.length)];
-
-            // Simulate a player using the mouse to swap two tiles
-            mouseSwap(move.column1, move.row1, move.column2, move.row2);
-          }
-          animationtime = 0;
-        }
       }
     } else if (gamestate == gamestates.resolve) {
       // Game is busy resolving and animating clusters
@@ -248,12 +196,6 @@ window.onload = function () {
     }
   }
 
-  function updateFps(dt) {
-    // Increase time and framecount
-    fpstime += dt;
-    framecount++;
-  }
-
   // Draw text that is centered
   function drawCenterText(text, x, y, width) {
     var textdim = context.measureText(text);
@@ -262,62 +204,6 @@ window.onload = function () {
 
   // Render the game
   function render() {
-    // Draw the frame
-    drawFrame();
-    let eleccion = seleccionar.value;
-    if (eleccion === "light") {
-      // Draw score
-      context.fillStyle = "#000000";
-      context.font = "24px Helvetica";
-      drawCenterText("Score", 180, level.y + 370, 150);
-      drawCenterText(score, 180, level.y + 395, 150);
-
-      // Draw moves left
-      context.fillStyle = "#000000";
-      context.font = "24px Helvetica";
-      drawCenterText("Moves left", 0, level.y + 370, 150);
-      drawCenterText(countmoves, 0, level.y + 395, 150);
-
-      // Draw temp
-      context.fillStyle = "#000000";
-      context.font = "24px Helvetica";
-      drawCenterText("Time left", 500, level.y + 370, 150);
-      drawCenterText(seconds, 505, level.y + 395, 150);
-
-      // Draw high score
-      context.fillStyle = "#000000";
-      context.font = "24px Helvetica";
-      drawCenterText("Max score", 350, level.y + 370, 150);
-      drawCenterText(highScore, 350, level.y + 395, 150);
-    } else {
-      // Draw score
-      context.fillStyle = "#dde2c1";
-      context.font = "24px Helvetica";
-      drawCenterText("Score", 180, level.y + 370, 150);
-      drawCenterText(score, 180, level.y + 395, 150);
-
-      // Draw moves left
-      context.fillStyle = "#dde2c1";
-      context.font = "24px Helvetica";
-      drawCenterText("Moves left", 0, level.y + 370, 150);
-      drawCenterText(countmoves, 0, level.y + 395, 150);
-
-      // Draw temp
-      context.fillStyle = "#dde2c1";
-      context.font = "24px Helvetica";
-      drawCenterText("Time left", 500, level.y + 370, 150);
-      drawCenterText(seconds, 505, level.y + 395, 150);
-
-      // Draw high score
-      context.fillStyle = "#dde2c1";
-      context.font = "24px Helvetica";
-      drawCenterText("Max score", 350, level.y + 370, 150);
-      drawCenterText(highScore, 350, level.y + 395, 150);
-    }
-
-    // Draw buttons
-    drawButtons();
-
     // Draw level background
     var levelwidth = level.columns * level.tilewidth;
     var levelheight = level.rows * level.tileheight;
@@ -326,105 +212,23 @@ window.onload = function () {
 
     // Render tiles
     renderTiles();
+
     // Render clusters
     renderClusters();
 
-    // Render moves, when there are no clusters
-    if (showmoves && clusters.length <= 0 && gamestate == gamestates.ready) {
-      renderMoves();
-    }
     // Game Over overlay
     if (gameover) {
       context.fillStyle = "rgba(0, 0, 0, 0.8)";
       context.fillRect(level.x, level.y, levelwidth, levelheight);
 
       context.fillStyle = "#ffffff";
-      context.font = "24px Helvetica";
+      context.font = "24px Verdana";
       drawCenterText(
         "Game Over!",
         level.x,
         level.y + levelheight / 2 + 10,
         levelwidth
       );
-    }
-  }
-
-  let seleccionar = document.querySelector("select");
-  seleccionar.addEventListener("change", drawFrame);
-
-  // Draw a frame with a border
-  function drawFrame() {
-    let eleccion = seleccionar.value;
-    if (eleccion === "light") {
-      // Color Background
-      context.fillStyle = "#ffffff";
-      context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-
-      // Draw header
-      context.fillStyle = "#808080";
-      context.fillRect(0, 0, canvas.width, 50);
-      // Draw header-2
-      context.fillStyle = "#808080";
-      context.fillRect(0, 430, canvas.width, 50);
-    } else {
-      // Color Background
-      context.fillStyle = "#183943";
-      context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-
-      // Draw header
-      context.fillStyle = "#677f72";
-      context.fillRect(0, 0, canvas.width, 50);
-      // Draw header-2
-      context.fillStyle = "#677f72";
-      context.fillRect(0, 430, canvas.width, 50);
-    }
-  }
-
-  // Draw buttons
-  function drawButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      let eleccion = seleccionar.value;
-      if (eleccion === "light") {
-        // Draw button shape
-        context.fillStyle = "#000000";
-        context.fillRect(
-          buttons[i].x,
-          buttons[i].y,
-          buttons[i].width,
-          buttons[i].height
-        );
-
-        // Draw button text
-        context.fillStyle = "#ffffff";
-        context.font = "18px Helvetica";
-        context.f;
-        var textdim = context.measureText(buttons[i].text);
-        context.fillText(
-          buttons[i].text,
-          buttons[i].x + (buttons[i].width - textdim.width) / 2,
-          buttons[i].y + 30
-        );
-      } else {
-        // Draw button shape
-        context.fillStyle = "#223c3e";
-        context.fillRect(
-          buttons[i].x,
-          buttons[i].y,
-          buttons[i].width,
-          buttons[i].height
-        );
-
-        // Draw button text
-        context.fillStyle = "#dde2c1";
-        context.font = "18px Helvetica";
-        context.f;
-        var textdim = context.measureText(buttons[i].text);
-        context.fillText(
-          buttons[i].text,
-          buttons[i].x + (buttons[i].width - textdim.width) / 2,
-          buttons[i].y + 30
-        );
-      }
     }
   }
 
@@ -585,71 +389,8 @@ window.onload = function () {
     }
   }
 
-  // Render moves
-  function renderMoves() {
-    for (var i = 0; i < moves.length; i++) {
-      // Calculate coordinates of tile 1 and 2
-      var coord1 = getTileCoordinate(moves[i].column1, moves[i].row1, 0, 0);
-      var coord2 = getTileCoordinate(moves[i].column2, moves[i].row2, 0, 0);
-
-      // Draw a line from tile 1 to tile 2
-      context.strokeStyle = "#ff0000";
-      context.beginPath();
-      context.moveTo(
-        coord1.tilex + level.tilewidth / 2,
-        coord1.tiley + level.tileheight / 2
-      );
-      context.lineTo(
-        coord2.tilex + level.tilewidth / 2,
-        coord2.tiley + level.tileheight / 2
-      );
-      context.stroke();
-    }
-  }
-
-  // Save in highScore the max score
-  function highScores() {
-    highScore = highScore > score ? highScore : score;
-    localStorage.setItem("highScore", highScore);
-  }
-
-  function getInputSeconds() {
-    // Get the input element
-    var input = document.getElementById("seconds");
-
-    // Get the value entered in the input field
-    var inputValue = input.value;
-
-    // You can now use the "inputValue" variable in your code to do whatever you want with it
-    seconds = inputValue;
-  }
-
-  function getInputMoves() {
-    // Get the input element
-    var input = document.getElementById("moves");
-
-    // Get the value entered in the input field
-    var inputValue = input.value;
-
-    // You can now use the "inputValue" variable in your code to do whatever you want with it
-    countmoves = inputValue;
-  }
-  
   // Start a new game
   function newGame() {
-    // Save high score data
-    highScores();
-
-    // Reset score
-    score = 0;
-
-    // Reset moves
-    getInputMoves();
-    movesleft = true;
-
-    // Reset seconds
-    getInputSeconds();
-
     // Set the gamestate to ready
     gamestate = gamestates.ready;
 
@@ -658,9 +399,6 @@ window.onload = function () {
 
     // Create the level
     createLevel();
-
-    // Set timer
-    startTimer();
 
     // Find initial clusters and moves
     findMoves();
@@ -967,9 +705,6 @@ window.onload = function () {
     animationstate = 2;
     animationtime = 0;
     gamestate = gamestates.resolve;
-
-    // setMoves
-    setMoves();
   }
 
   // On mouse movement
@@ -1055,73 +790,6 @@ window.onload = function () {
       // Start dragging
       drag = true;
     }
-
-    // Check if a button was clicked
-    for (var i = 0; i < buttons.length; i++) {
-      if (
-        pos.x >= buttons[i].x &&
-        pos.x < buttons[i].x + buttons[i].width &&
-        pos.y >= buttons[i].y &&
-        pos.y < buttons[i].y + buttons[i].height
-      ) {
-        // Button i was clicked
-        if (i == 0) {
-          // New Game
-          newGame();
-        } else if (i == 1) {
-          // Show Moves
-          showmoves = !showmoves;
-          buttons[i].text = (showmoves ? "Hide" : "Show") + " Moves";
-        } else if (i == 2) {
-          // AI Bot
-          aibot = !aibot;
-          buttons[i].text = (aibot ? "Disable" : "Enable") + " AI Bot";
-        }
-      }
-    }
-  }
-
-  // Decrease moves to 0
-  function setMoves() {
-    if (movesleft == true) {
-      if (countmoves == 0) {
-        // Display gameover
-        gameover = true;
-        // Set the gamestate to ready
-        gamestate = gamestates.ready;
-      } else {
-        // If you make a move it will decrease
-        countmoves--;
-      }
-    }
-  }
-
-  // Decrease seconds to 0
-  function timedCount() {
-    // Decrease seconds
-    seconds--;
-    timeout = setTimeout(timedCount, 1000);
-
-    if (seconds == 0) {
-      stopTimer();
-      movesleft = false;
-      gameover = true;
-      gamestate = gamestates.ready;
-    }
-  }
-
-  // Start timer
-  function startTimer() {
-    if (!timer_on) {
-      timer_on = 1;
-      timedCount();
-    }
-  }
-
-  // Stop timer
-  function stopTimer() {
-    clearTimeout(timeout);
-    timer_on = 0;
   }
 
   function onMouseUp(e) {
