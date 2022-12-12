@@ -35,20 +35,20 @@ body.theme-dark {
 }
 
 .menu-content,
-#selTheme {
+#selTheme,
+#settings-content {
   background-color: var(--content);
   box-shadow: 0px 8px 16px 0px rgba(22, 60, 227, 0.2);
 }
 
 .menu-content a,
-.statistics-content a,
 #selTheme {
   color: var(--content-a);
 }
 
 div.how-to-play:hover,
-.statistics-button:hover,
-.statistics-button:focus,
+.settings-button:hover,
+.settings-button:focus,
 .mode-button:hover,
 .mode-button:focus,
 .menu-button:hover,
@@ -59,8 +59,7 @@ div.how-to-play:hover,
   background-color: rgba(128, 128, 128, 0.3);
 }
 
-.menu-content a:hover,
-.statistics-content a:hover {
+.menu-content a:hover {
   background-color: var(--background-content-a);
 }
 
@@ -170,8 +169,8 @@ img.how-to-play-img {
   bottom: -12px;
 }
 
-/* STATISTICS */
-.statistics-button {
+/* settings */
+.settings-button {
   border: none;
   cursor: pointer;
   position: relative;
@@ -183,39 +182,71 @@ img.how-to-play-img {
   z-index: 1;
 }
 
-.statistics-img {
+.settings-img {
   position: relative;
   bottom: 153px;
   left: 512px;
 }
 
-.statistics {
+#settings-content {
+  margin: 0 auto;
   position: relative;
-  display: inline-block;
-}
-
-.statistics-content {
-  background-color: var(--background-color);
+  bottom: 598px;
+  left: 226px;
   display: none;
-  position: absolute;
-  top: -90px;
-  min-width: 160px;
-  width: 700px;
-  height: 800px;
-  /* border: solid black; */
+  width: 250px;
+  color: var(--content-a);
   z-index: 1;
 }
 
-.statistics-content h1 {
-  color: var(--top-bar-name-color);
-  text-decoration: none;
-  display: block;
-  /* border: solid red; */
-  text-align: center;
+.set-seconds,
+.set-moves {
+  padding: 20px;
+  height: 20px;
 }
 
-.show {
-  display: block;
+.set-seconds:hover,
+.set-moves:hover {
+  background-color: var(--background-content-a);
+  border-radius: 10px;
+}
+
+.set-seconds button,
+.set-moves button {
+  border: none;
+  cursor: pointer;
+  background: inherit;
+  z-index: 2;
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  position: relative;
+  bottom: 23px;
+  left: 183.5px;
+}
+
+.set-seconds button:hover,
+.set-seconds button:focus,
+.set-moves button:hover,
+.set-moves button:focus {
+  background-color: var(--background-color);
+  border-radius: 100%;
+}
+
+.check-button {
+  position: relative;
+  right: 6px;
+  bottom: 1.3px;
+}
+
+input {
+  text-align: center;
+  background-color: var(--background-color);
+  color: var(--top-bar-name-color);
+}
+
+.set-moves input {
+  margin-left: 13px;
 }
 
 /* MODE */
@@ -254,15 +285,14 @@ canvas {
 }
 
 /* OTHERS */
-.statistics-button:hover,
-.statistics-button:focus,
+.settings-button:hover,
+.settings-button:focus,
 .mode-button:hover,
 .mode-button:focus,
-.statistics-content,
-.statistics-content a,
 .menu-button:hover,
 .menu-button:focus,
 .menu-content,
+#settings-content,
 .menu-content a,
 .how-to-play,
 #selTheme,
@@ -440,23 +470,23 @@ canvas {
 }
 
 #letter-02 {
-  background-color: #80FF80;
+  background-color: #008080;
 }
 
 #letter-03 {
-  background-color: #8080FF;
+  background-color: #8080ff;
 }
 
 #letter-04 {
-  background-color: #ffFF80;
+  background-color: #ffff80;
 }
 
 #letter-05 {
-  background-color: #ff80FF;
+  background-color: #808080;
 }
 
 #letter-06 {
-  background-color: #80FFFF;
+  background-color: #80ffff;
 }
 
 .title-01 {
@@ -476,6 +506,12 @@ canvas {
   left: -20px;
 }
 
+.title-04 {
+  width: 700px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
 @keyframes row-01 {
   0% {
     transform: rotate3d(1, 1, 0, 0deg);
@@ -491,14 +527,4 @@ canvas {
 .how-game {
   width: 185px;
   margin: 0 auto;
-}
-
-#settings {
-  display: none;
-  /* Hide the settings section by default */
-  width: 200px;
-  height: 200px;
-  background-color: lightgray;
-  border: 1px solid black;
-  padding: 10px;
 }

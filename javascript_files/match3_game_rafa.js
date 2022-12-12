@@ -27,12 +27,12 @@ window.onload = function () {
   // All of the different tile colors in RGB
   var tilecolors = [
     [255, 128, 128],
-    [128, 255, 128],
+    [000, 128, 128],
     [128, 128, 255],
     [255, 255, 128],
-    [255, 128, 255],
+    [255, 000, 255],
     [128, 255, 255],
-    [255, 255, 255],
+    [128, 128, 128],
   ];
 
   // Clusters and moves that were found
@@ -622,6 +622,10 @@ window.onload = function () {
 
     // You can now use the "inputValue" variable in your code to do whatever you want with it
     seconds = inputValue;
+
+    // Adding a limit
+    if (seconds < 10 ) seconds = 10;
+    if (seconds > 500 ) seconds = 500;
   }
 
   function getInputMoves() {
@@ -633,6 +637,10 @@ window.onload = function () {
 
     // You can now use the "inputValue" variable in your code to do whatever you want with it
     countmoves = inputValue;
+
+    // Adding a limit
+    if (countmoves < 10 ) countmoves = 10;
+    if (countmoves > 500 ) countmoves = 500;
   }
   
   // Start a new game

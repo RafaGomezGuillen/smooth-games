@@ -15,23 +15,6 @@ window.onclick = function (event) {
   }
 };
 
-// function displayStatistics() {
-//   document.getElementById("my_statistics").classList.toggle("show");
-// }
-
-// window.onclick = function(event) {
-//   if (!event.target.matches('.statistics-button')) {
-//     var dropdowns = document.getElementsByClassName("statistics-content");
-//     var i;
-//     for (i = 0; i < dropdowns.length; i++) {
-//       var openDropdown = dropdowns[i];
-//       if (openDropdown.classList.contains('show')) {
-//         openDropdown.classList.remove('show');
-//       }
-//     }
-//   }
-// }
-
 function applyTheme(theme) {
   document.body.classList.remove("theme-auto", "theme-light", "theme-dark");
   document.body.classList.add(`theme-${theme}`);
@@ -54,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function showSettings() {
   // Get the settings element
-  var settings = document.getElementById("settings");
+  var settings = document.getElementById("settings-content");
 
   // Toggle the display of the settings section
   if (settings.style.display === "none") {

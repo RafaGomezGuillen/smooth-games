@@ -24,12 +24,12 @@ window.onload = function () {
   // All of the different tile colors in RGB
   var tilecolors = [
     [255, 128, 128],
-    [128, 255, 128],
+    [000, 128, 128],
     [128, 128, 255],
     [255, 255, 128],
-    [255, 128, 255],
+    [255, 000, 255],
     [128, 255, 255],
-    [255, 255, 255],
+    [128, 128, 128],
   ];
 
   // Clusters and moves that were found
