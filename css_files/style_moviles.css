@@ -1,0 +1,549 @@
+/* DARK COLORS */
+colores {
+  color: #dde2c1;
+  color: #b7c0a6;
+  color: #677f72;
+  color: #183943;
+  color: #223c3e;
+}
+
+@media only screen and (max-width: 450px) {
+  body.theme-dark {
+    /* Set dark mode variables */
+    --background-color: var(--dark-background-color);
+    --border-bottom-color: var(--dark-border-bottom-color);
+    --top-bar-name-color: var(--dark-top-bar-name-color);
+    --content: var(--dark-content);
+    --content-a: var(--dark-content-a);
+    --background-content-a: var(--dark-background-content-a);
+    --background-match-3-button: var(--dark-background-match-3-button);
+    --match-3-button-a: var(--dark-match-3-button-a);
+    --blog-content: var(--dark-blog-content);
+  }
+
+  /* COLORS SECTION */
+  :root {
+    /* Dark mode variables */
+    --dark-background-color: #183943;
+    --dark-border-bottom-color: #677f72;
+    --dark-top-bar-name-color: #dde2c1;
+    --dark-content: #677f72;
+    --dark-content-a: #dde2c1;
+    --dark-background-content-a: #223c3e;
+    --dark-background-match-3-button: #677f72;
+    --dark-match-3-button-a: #dde2c1;
+    --dark-blog-content: #dde2c1;
+  }
+
+  body {
+    /* Light mode variables*/
+    --background-color: white;
+    --border-bottom-color: black;
+    --top-bar-name-color: black;
+    --content: black;
+    --content-a: white;
+    --background-content-a: rgba(128, 128, 128, 0.3);
+    --background-match-3-button: black;
+    --match-3-button-a: white;
+    --blog-content: black;
+
+    background-color: var(--background-color);
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .menu-content,
+  #selTheme,
+  #settings-content {
+    background-color: var(--content);
+    box-shadow: 0px 8px 16px 0px rgba(22, 60, 227, 0.2);
+  }
+
+  .menu-content a,
+  #selTheme {
+    color: var(--content-a);
+  }
+
+  div.how-to-play:hover,
+  .settings-button:hover,
+  .settings-button:focus,
+  .mode-button:hover,
+  .mode-button:focus,
+  .menu-button:hover,
+  .menu-button:focus,
+  .mode:hover,
+  .mode-blog:hover,
+  .mode-about:hover {
+    background-color: rgba(128, 128, 128, 0.3);
+  }
+
+  .menu-content a:hover {
+    background-color: var(--background-content-a);
+  }
+
+  /* TOP BAR */
+  div.top-bar {
+    height: 50px;
+    width: 400px;
+    margin: auto;
+    border-bottom-style: solid;
+    border-bottom-color: var(--border-bottom-color);
+  }
+
+  div.top-bar-name {
+    color: var(--top-bar-name-color);
+    margin: 0 auto;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    position: relative;
+  }
+
+  div.top-bar-name > p.top-bar-name-1 {
+    text-transform: uppercase;
+    margin: 0 auto;
+    font-size: 20px;
+    width: 200px;
+    height: 25px;
+  }
+
+  div.top-bar-name > p.top-bar-name-2 {
+    text-transform: uppercase;
+    margin: 0 auto;
+    color: grey;
+    font-size: 15px;
+    width: 200px;
+    height: 25px;
+  }
+
+  /* MENU */
+  .menu-button {
+    border: none;
+    cursor: pointer;
+    position: relative;
+    bottom: 50px;
+    width: 45px;
+    height: 45px;
+    background: inherit;
+    z-index: 1;
+  }
+
+  .bars {
+    position: relative;
+    bottom: 60px;
+    left: -37px;
+    width: 20px;
+  }
+
+  .menu {
+    position: relative;
+    display: inline-block;
+  }
+
+  .menu-content {
+    display: none;
+    position: absolute;
+    bottom: -84px;
+    min-width: 200px;
+    z-index: 1;
+  }
+
+  .menu-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .show {
+    display: block;
+  }
+
+  /* HOW TO PLAY */
+  .how-to-play {
+    position: relative;
+    bottom: 100px;
+    left: 40px;
+    width: 45px;
+    height: 45px;
+  }
+
+  img.how-to-play-img {
+    position: relative;
+    left: 10px;
+    bottom: -12px;
+    width: 25px;
+  }
+
+  /* settings */
+  .settings-button {
+    border: none;
+    cursor: pointer;
+    position: relative;
+    bottom: 143px;
+    left: 297px;
+    width: 45px;
+    height: 45px;
+    background: inherit;
+    z-index: 1;
+  }
+
+  .settings-img {
+    position: relative;
+    bottom: 153px;
+    left: 259px;
+    width: 22px;
+  }
+
+  #settings-content {
+    margin: 0 auto;
+    position: relative;
+    bottom: 598px;
+    left: 72px;
+    display: none;
+    width: 250px;
+    color: var(--content-a);
+    z-index: 1;
+  }
+
+  .set-seconds,
+  .set-moves {
+    padding: 20px;
+    height: 20px;
+  }
+
+  .set-seconds:hover,
+  .set-moves:hover {
+    background-color: var(--background-content-a);
+    border-radius: 10px;
+  }
+
+  .set-seconds button,
+  .set-moves button {
+    border: none;
+    cursor: pointer;
+    background: inherit;
+    z-index: 2;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    position: relative;
+    bottom: 23px;
+    left: 183.5px;
+  }
+
+  .set-seconds button:hover,
+  .set-seconds button:focus,
+  .set-moves button:hover,
+  .set-moves button:focus {
+    background-color: var(--background-color);
+    border-radius: 100%;
+  }
+
+  .check-button {
+    position: relative;
+    right: 6px;
+    bottom: 1.3px;
+  }
+
+  input {
+    text-align: center;
+    background-color: var(--background-color);
+    color: var(--top-bar-name-color);
+  }
+
+  .set-moves input {
+    margin-left: 13px;
+  }
+
+  /* MODE */
+  .mode {
+    position: relative;
+    width: 55px;
+    height: 45px;
+    bottom: 191px;
+    left: 343px;
+  }
+
+  .mode-img {
+    visibility: hidden;
+  }
+
+  .mode #selTheme {
+    position: relative;
+    left: 1px;
+    bottom: 25px;
+  }
+
+  /* GAME */
+  .game {
+    width: 400px;
+    height: 600px;
+    margin: 0 auto;
+    position: relative;
+    bottom: -80px;
+  }
+
+  canvas {
+    margin: 0 auto;
+  }
+
+  .game #viewport {
+    width: 390px;
+    height: 480px;
+  }
+
+  /* OTHERS */
+  .settings-button:hover,
+  .settings-button:focus,
+  .mode-button:hover,
+  .mode-button:focus,
+  .menu-button:hover,
+  .menu-button:focus,
+  .menu-content,
+  #settings-content,
+  .menu-content a,
+  .how-to-play,
+  #selTheme,
+  .match-3-game-button,
+  .mode,
+  .mode-blog,
+  .mode-about {
+    border-radius: 10px;
+  }
+
+  /* BLOG */
+  .blog-content p,
+  .blog-content a,
+  .about-content p,
+  .about-content a,
+  .how-content {
+    color: var(--blog-content);
+  }
+
+  .match-3-game-button a {
+    color: var(--match-3-button-a);
+  }
+
+  .blog-content,
+  .about-content,
+  .how-content {
+    width: 400px;
+    margin: 0 auto;
+    font-size: 18px;
+  }
+
+  .blog-content p,
+  .about-content p,
+  .how-content p {
+    padding-left: 50px;
+    padding-right: 50px;
+    line-height: 24px;
+  }
+
+  .blog-content h1 {
+    color: var(--top-bar-name-color);
+    text-align: center;
+  }
+
+  /* match-3-game-button */
+  .match-3-game-button {
+    margin: 0 auto;
+    margin-top: 40px;
+    width: 300px;
+    height: 50px;
+  }
+
+  .match-3-game-button a {
+    padding: 20px;
+    background-color: var(--background-match-3-button);
+    text-align: center;
+    position: relative;
+    left: 45px;
+    width: 50px;
+    font-size: 22px;
+    text-decoration: none;
+    border-radius: 10px;
+  }
+
+  .mode-blog {
+    width: 93px;
+    height: 45px;
+    position: relative;
+    bottom: 98px;
+    left: 305px;
+  }
+
+  .mode-img-blog {
+    visibility: hidden;
+  }
+
+  /* Contact and social media */
+  .contact-content h1,
+  .about-content h1,
+  .how-content h1 {
+    text-align: center;
+    width: 300px;
+    margin: 0 auto;
+    color: var(--top-bar-name-color);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    clear: both;
+  }
+
+  .contact-buttons,
+  .donation-buttons {
+    margin: 0 auto;
+    width: 300px;
+    height: 120px;
+  }
+
+  .fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 10px;
+    left: 45px;
+  }
+
+  .contact-buttons a {
+    position: relative;
+    right: 100px;
+  }
+
+  .fa-paypal {
+    left: 98px;
+  }
+
+  .fa:hover,
+  .match-3-game-button:hover {
+    opacity: 0.7;
+  }
+
+  .fa-twitter,
+  .fa-instagram,
+  .fa-linkedin,
+  .fa-github,
+  .fa-paypal {
+    background-color: var(--background-match-3-button);
+    color: var(--content-a);
+    border-radius: 10px;
+  }
+
+  /* ABOUT */
+  .mode-about {
+    width: 93px;
+    height: 45px;
+    position: relative;
+    bottom: 98px;
+    left: 305px;
+  }
+
+  /* how-to-play */
+  .how-content {
+    width: 400px;
+    margin: 0 auto;
+    clear: both;
+  }
+
+  .row-01 {
+    width: 45px;
+    height: 45px;
+    animation: row-01 0.9s linear 0.5s both;
+    border-radius: 10px;
+    float: left;
+    margin: 10px;
+  }
+
+  .row-01 p {
+    text-align: center;
+    font-size: 20px;
+    margin: auto;
+    padding: 15px;
+  }
+
+  .row-02 {
+    width: 155px;
+    height: 55px;
+    animation: row-01 0.9s linear 0.5s both;
+    margin: 15px;
+  }
+
+  .row-02 p {
+    text-align: center;
+    font-size: 18px;
+    margin: auto;
+    padding: 15px;
+    color: var(--content-a);
+  }
+
+  #buttons {
+    background-color: var(--background-match-3-button);
+  }
+
+  #letter-01 {
+    background-color: #ff8080;
+  }
+
+  #letter-02 {
+    background-color: #008080;
+  }
+
+  #letter-03 {
+    background-color: #8080ff;
+  }
+
+  #letter-04 {
+    background-color: #ffff80;
+  }
+
+  #letter-05 {
+    background-color: #808080;
+  }
+
+  #letter-06 {
+    background-color: #80ffff;
+  }
+
+  .title-01 {
+    width: 400px;
+    margin: 0 auto;
+  }
+
+  .title-02 {
+    width: 350px;
+    margin: 0 auto;
+  }
+
+  .title-03 {
+    width: 70px;
+    margin: 0 auto;
+    position: relative;
+    left: -9px;
+  }
+
+  .title-04 {
+    width: 390px;
+    margin: 0 auto;
+    padding: 10px;
+  }
+
+  @keyframes row-01 {
+    0% {
+      transform: rotate3d(1, 1, 0, 0deg);
+    }
+    50% {
+      transform: rotate3d(1, 1, 0, -180deg);
+    }
+    100% {
+      transform: rotate3d(1, 1, 0, -360deg);
+    }
+  }
+
+  .how-game {
+    width: 185px;
+    margin: 0 auto;
+    position: relative;
+    left: -5px;
+  }
+}

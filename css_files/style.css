@@ -129,6 +129,7 @@ div.top-bar-name > p.top-bar-name-2 {
   position: relative;
   bottom: 60px;
   left: -37px;
+  width: 20px;
 }
 
 .menu {
@@ -167,6 +168,7 @@ img.how-to-play-img {
   position: relative;
   left: 10px;
   bottom: -12px;
+  width: 25px;
 }
 
 /* settings */
@@ -186,6 +188,7 @@ img.how-to-play-img {
   position: relative;
   bottom: 153px;
   left: 512px;
+  width: 22px;
 }
 
 #settings-content {
@@ -261,6 +264,13 @@ input {
 .mode-img {
   position: relative;
   bottom: -5px;
+  width: 35px;
+}
+
+#selTheme {
+  position: relative;
+  left: 1px;
+  bottom: 6px;
 }
 
 /* GAME */
@@ -275,13 +285,6 @@ input {
 canvas {
   width: 700px;
   margin: 0 auto;
-}
-
-/* SELECT MODE */
-#selTheme {
-  position: relative;
-  left: 1px;
-  bottom: 6px;
 }
 
 /* OTHERS */
@@ -363,6 +366,12 @@ canvas {
   position: relative;
   bottom: 98px;
   left: 608px;
+}
+
+.mode-img-blog {
+  position: relative;
+  bottom: -5px;
+  width: 35px;
 }
 
 /* Contact and social media */
