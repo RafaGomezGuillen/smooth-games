@@ -83,7 +83,7 @@ colores {
   /* TOP BAR */
   div.top-bar {
     height: 50px;
-    width: 400px;
+    width: 390px;
     margin: auto;
     border-bottom-style: solid;
     border-bottom-color: var(--border-bottom-color);
@@ -179,7 +179,7 @@ colores {
     cursor: pointer;
     position: relative;
     bottom: 143px;
-    left: 297px;
+    left: 290px;
     width: 45px;
     height: 45px;
     background: inherit;
@@ -189,7 +189,7 @@ colores {
   .settings-img {
     position: relative;
     bottom: 153px;
-    left: 259px;
+    left: 252px;
     width: 22px;
   }
 
@@ -260,7 +260,7 @@ colores {
     width: 55px;
     height: 45px;
     bottom: 191px;
-    left: 343px;
+    left: 335px;
   }
 
   .mode-img {
