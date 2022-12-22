@@ -7,6 +7,7 @@ colores {
   color: #223c3e;
 }
 
+@media only screen and (min-width: 451px) { 
 /* COLORS SECTION */
 :root {
   /* Dark mode variables */
@@ -404,6 +405,10 @@ canvas {
   margin-left: 10px;
 }
 
+.donation-buttons {
+  height: 55px;
+}
+
 .fa-paypal {
   left: 295px;
 }
@@ -536,4 +541,6 @@ canvas {
 .how-game {
   width: 185px;
   margin: 0 auto;
+}
+
 }
