@@ -100,19 +100,23 @@ colores {
 
   div.top-bar-name > p.top-bar-name-1 {
     text-transform: uppercase;
-    margin: 0 auto;
     font-size: 18px;
     width: 170px;
     height: 25px;
+    margin: 0 auto;
+    position: relative;
+    left: -7px;
   }
 
   div.top-bar-name > p.top-bar-name-2 {
     text-transform: uppercase;
-    margin: 0 auto;
     color: grey;
     font-size: 13px;
     width: 170px;
     height: 25px;
+    margin: 0 auto;
+    position: relative;
+    left: -10px;
   }
 
   /* MENU */
@@ -649,6 +653,7 @@ colores {
     width: 140px;
     position: relative;
     bottom: -8px;
+    left: -8px;
   }
 
   div.top-bar-name > p.top-bar-name-2 {
@@ -660,6 +665,7 @@ colores {
     height: 10px;
     position: relative;
     bottom: -5px;
+    left: -7px;
   }
 
   /* MENU */
