@@ -1,1432 +1,1418 @@
-// The function gets called when the window is fully loaded
-window.onload = function () {
-  // Get the canvas and context
-  var canvas = document.getElementById("viewport");
-  var context = canvas.getContext("2d");
-
-  // Timing and frames per second
-  var lastframe = 0;
-  var fpstime = 0;
-  var framecount = 0;
-
-  // Screen width
-  const screenWidth = window.innerWidth;
-
-  // Mouse dragging
-  var drag = false;
-
-  // Level object
-  let level = {
-    x: 162, // X position
-    y: 80, // Y position
-    columns: 8, // Number of tile columns
-    rows: 8, // Number of tile rows
-    tilewidth: 40, // Visual width of a tile
-    tileheight: 40, // Visual height of a tile
-    tiles: [], // The two-dimensional tile array
-    selectedtile: { selected: false, column: 0, row: 0 },
-  };
-
-  let screen = screenWidth;
-  // PC mode
-  if (screen > 450) {
-    level.x = 162;
-    level.y = 80;
-    level.tilewidth = 40;
-    level.tileheight = 40;
-    // Big devices
-  } else if (screen <= 450 && screen > 400) {
-    level.x = 18;
-    level.y = 4;
-    level.tilewidth = 55;
-    level.tileheight = 55;
-    // Small devices
-  } else {
-    level.x = 4;
-    level.y = 4;
-    level.tilewidth = 55;
-    level.tileheight = 55;
-  }
-
-  // All of the different tile colors in RGB
-  var tilecolors = [
-    [255, 128, 128],
-    [000, 128, 128],
-    [128, 128, 255],
-    [255, 255, 128],
-    [255, 000, 255],
-    [128, 255, 255],
-    [128, 128, 128],
-  ];
-
-  // Clusters and moves that were found
-  var clusters = []; // { column, row, length, horizontal }
-  var moves = []; // { column1, row1, column2, row2 }
-
-  // Current move
-  var currentmove = { column1: 0, row1: 0, column2: 0, row2: 0 };
-
-  // Game states
-  var gamestates = { init: 0, ready: 1, resolve: 2 };
-  var gamestate = gamestates.init;
-
-  // Score
-  var score = 0;
-  var highScore = parseFloat(localStorage.getItem("highScore"));
-
-  // Count moves
-  let countmoves = 0;
-
-  // Moves left
-  var movesleft = true;
-
-  // Seconds
-  var seconds = 0;
-
-  let timeout;
-  let timer_on = 0;
-
-  // Animation variables
-  var animationstate = 0;
-  var animationtime = 0;
-  var animationtimetotal = 0.3;
-
-  // Show available moves
-  var showmoves = false;
-
-  // The AI bot
-  var aibot = false;
-
-  // Game Over
-  var gameover = false;
-
-  // Gui buttons
-  // New game
-  var xNewGame = 0;
-  var yNewGame = 0;
-  var widthNewGame = 0;
-  var heightNewGame = 0;
-  // Show moves
-  var xShowMoves = 0;
-  var yShowMoves = 0;
-  var widthShowMoves = 0;
-  var heightShowMoves = 0;
-  // Enable IA
-  var xEnableIA = 0;
-  var yEnableIA = 0;
-  var widthEnableIA = 0;
-  var heightEnableIA = 0;
-
-  let screen2 = screenWidth;
-
-  // PC mode
-  if (screen2 > 450) {
-    // New game
-    xNewGame = -10;
-    yNewGame = 0;
-    widthNewGame = 150;
-    heightNewGame = 50;
-    // Show moves
-    xShowMoves = 245.5;
-    yShowMoves = 0;
-    widthShowMoves = 150;
-    heightShowMoves = 50;
-    // Enable IA
-    xEnableIA = 500;
-    yEnableIA = 0;
-    widthEnableIA = 150;
-    heightEnableIA = 50;
-    // Big devices
-  } else if (screen2 <= 450 && screen2 > 400) {
-    // New game
-    xNewGame = 490;
-    yNewGame = 0;
-    widthNewGame = 160;
-    heightNewGame = 50;
-    // Show moves
-    xShowMoves = 490;
-    yShowMoves = 70;
-    widthShowMoves = 160;
-    heightShowMoves = 50;
-    // Enable IA
-    xEnableIA = 490;
-    yEnableIA = 140;
-    widthEnableIA = 160;
-    heightEnableIA = 50;
-    // Small devices
-  } else {
-    // New game
-    xNewGame = 470;
-    yNewGame = 0;
-    widthNewGame = 170;
-    heightNewGame = 50;
-    // Show moves
-    xShowMoves = 470;
-    yShowMoves = 70;
-    widthShowMoves = 170;
-    heightShowMoves = 50;
-    // Enable IA
-    xEnableIA = 470;
-    yEnableIA = 140;
-    widthEnableIA = 170;
-    heightEnableIA = 50;
-  }
-
-  var buttons = [
-    {
-      x: xNewGame,
-      y: yNewGame,
-      width: widthNewGame,
-      height: heightNewGame,
-      text: "New Game",
-    },
-    {
-      x: xShowMoves,
-      y: yShowMoves,
-      width: widthShowMoves,
-      height: heightShowMoves,
-      text: "Show Moves",
-    },
-    {
-      x: xEnableIA,
-      y: yEnableIA,
-      width: widthEnableIA,
-      height: heightEnableIA,
-      text: "Enable AI Bot",
-    },
-  ];
-
-  // Initialize the game
-  function init() {
-    // Add mouse events
-    canvas.addEventListener("mousemove", onMouseMove);
-    canvas.addEventListener("mousedown", onMouseDown);
-    canvas.addEventListener("mouseup", onMouseUp);
-    canvas.addEventListener("mouseout", onMouseOut);
-
-    // Initialize the two-dimensional tile array
-    for (var i = 0; i < level.columns; i++) {
-      level.tiles[i] = [];
-      for (var j = 0; j < level.rows; j++) {
-        // Define a tile type and a shift parameter for animation
-        level.tiles[i][j] = { type: 0, shift: 0 };
-      }
+var _0x262f93 = _0x3bed;
+function _0x3bed(_0x14eff2, _0x1a8365) {
+  var _0x52de7d = _0x52de();
+  return (
+    (_0x3bed = function (_0x3bed5a, _0x1bef4f) {
+      _0x3bed5a = _0x3bed5a - 0xfe;
+      var _0xf2b625 = _0x52de7d[_0x3bed5a];
+      return _0xf2b625;
+    }),
+    _0x3bed(_0x14eff2, _0x1a8365)
+  );
+}
+(function (_0x9df522, _0xc366bc) {
+  var _0x50aa69 = _0x3bed,
+    _0x5e7199 = _0x9df522();
+  while (!![]) {
+    try {
+      var _0x29c6a4 =
+        -parseInt(_0x50aa69(0x111)) / 0x1 +
+        (-parseInt(_0x50aa69(0x13c)) / 0x2) *
+          (parseInt(_0x50aa69(0x106)) / 0x3) +
+        -parseInt(_0x50aa69(0x142)) / 0x4 +
+        -parseInt(_0x50aa69(0x126)) / 0x5 +
+        (-parseInt(_0x50aa69(0x11d)) / 0x6) *
+          (parseInt(_0x50aa69(0x129)) / 0x7) +
+        -parseInt(_0x50aa69(0x11b)) / 0x8 +
+        parseInt(_0x50aa69(0x10f)) / 0x9;
+      if (_0x29c6a4 === _0xc366bc) break;
+      else _0x5e7199["push"](_0x5e7199["shift"]());
+    } catch (_0x347ec2) {
+      _0x5e7199["push"](_0x5e7199["shift"]());
     }
-
-    // New game
-    newGame();
-
-    // Enter main loop
-    main(0);
   }
-
-  // Main loop
-  function main(tframe) {
-    // Request animation frames
-    window.requestAnimationFrame(main);
-
-    // Update and render the game
-    update(tframe);
-    render();
-  }
-
-  // Update the game state
-  function update(tframe) {
-    var dt = (tframe - lastframe) / 1000;
-    lastframe = tframe;
-
-    // Update the fps counter
-    updateFps(dt);
-
-    if (gamestate == gamestates.ready) {
-      // Game is ready for player input
-
-      // Check for game over
-      if (moves.length <= 0) {
-        gameover = true;
-        movesleft = false;
-        stopTimer();
-      }
-
-      // Let the AI bot make a move, if enabled
-      if (aibot == true && gameover == false) {
-        animationtime += dt;
-        if (animationtime > animationtimetotal) {
-          // Check if there are moves available
-          findMoves();
-
-          if (moves.length > 0) {
-            // Get a random valid move
-            var move = moves[Math.floor(Math.random() * moves.length)];
-
-            // Simulate a player using the mouse to swap two tiles
-            mouseSwap(move.column1, move.row1, move.column2, move.row2);
-          }
-          animationtime = 0;
+})(_0x52de, 0xa9086),
+  (window[_0x262f93(0x134)] = function () {
+    var _0x15e955 = _0x262f93,
+      _0x50e22c = document[_0x15e955(0x14d)](_0x15e955(0xff)),
+      _0x3aac5e = _0x50e22c[_0x15e955(0x11c)]("2d"),
+      _0x7938d5 = 0x0,
+      _0x4d1c80 = 0x0,
+      _0x2e7ca5 = 0x0;
+    const _0x9d3d97 = window[_0x15e955(0x133)];
+    var _0x663bef = ![];
+    let _0x169a7a = {
+        x: 0xa2,
+        y: 0x50,
+        columns: 0x8,
+        rows: 0x8,
+        tilewidth: 0x28,
+        tileheight: 0x28,
+        tiles: [],
+        selectedtile: { selected: ![], column: 0x0, row: 0x0 },
+      },
+      _0x2cf14e = _0x9d3d97;
+    if (_0x2cf14e > 0x1c2)
+      (_0x169a7a["x"] = 0xa2),
+        (_0x169a7a["y"] = 0x50),
+        (_0x169a7a[_0x15e955(0xfe)] = 0x28),
+        (_0x169a7a[_0x15e955(0x14f)] = 0x28);
+    else
+      _0x2cf14e <= 0x1c2 && _0x2cf14e > 0x190
+        ? ((_0x169a7a["x"] = 0x12),
+          (_0x169a7a["y"] = 0x4),
+          (_0x169a7a[_0x15e955(0xfe)] = 0x37),
+          (_0x169a7a["tileheight"] = 0x37))
+        : ((_0x169a7a["x"] = 0x4),
+          (_0x169a7a["y"] = 0x4),
+          (_0x169a7a[_0x15e955(0xfe)] = 0x37),
+          (_0x169a7a[_0x15e955(0x14f)] = 0x37));
+    var _0x26ecfc = [
+        [0xff, 0x80, 0x80],
+        [0x0, 0x80, 0x80],
+        [0x80, 0x80, 0xff],
+        [0xff, 0xff, 0x80],
+        [0xff, 0x0, 0xff],
+        [0x80, 0xff, 0xff],
+        [0x80, 0x80, 0x80],
+      ],
+      _0x8f4bb1 = [],
+      _0x2dc60f = [],
+      _0x2f0df2 = { column1: 0x0, row1: 0x0, column2: 0x0, row2: 0x0 },
+      _0x45db39 = { init: 0x0, ready: 0x1, resolve: 0x2 },
+      _0x35dc3e = _0x45db39["init"],
+      _0x1edecb = 0x0,
+      _0x17fb52 = parseFloat(localStorage[_0x15e955(0x156)](_0x15e955(0x114)));
+    let _0x3fd541 = 0x0;
+    var _0x20cbdc = !![],
+      _0x1b5e89 = 0x0;
+    let _0x46af79,
+      _0x1b4725 = 0x0;
+    var _0x54c8ef = 0x0,
+      _0x1b671c = 0x0,
+      _0x4b24cc = 0.3,
+      _0x376bbd = ![],
+      _0x36fb99 = ![],
+      _0x2a3635 = ![],
+      _0x29693e = 0x0,
+      _0x3dd1eb = 0x0,
+      _0x13fb3f = 0x0,
+      _0x21bc8a = 0x0,
+      _0x2e31c2 = 0x0,
+      _0x323b4f = 0x0,
+      _0x540d2e = 0x0,
+      _0x1c8540 = 0x0,
+      _0x448575 = 0x0,
+      _0x96023a = 0x0,
+      _0x5270bb = 0x0,
+      _0x52729e = 0x0;
+    let _0x3526f9 = _0x9d3d97;
+    if (_0x3526f9 > 0x1c2)
+      (_0x29693e = -0xa),
+        (_0x3dd1eb = 0x0),
+        (_0x13fb3f = 0x96),
+        (_0x21bc8a = 0x32),
+        (_0x2e31c2 = 245.5),
+        (_0x323b4f = 0x0),
+        (_0x540d2e = 0x96),
+        (_0x1c8540 = 0x32),
+        (_0x448575 = 0x1f4),
+        (_0x96023a = 0x0),
+        (_0x5270bb = 0x96),
+        (_0x52729e = 0x32);
+    else
+      _0x3526f9 <= 0x1c2 && _0x3526f9 > 0x190
+        ? ((_0x29693e = 0x1ea),
+          (_0x3dd1eb = 0x0),
+          (_0x13fb3f = 0xa0),
+          (_0x21bc8a = 0x32),
+          (_0x2e31c2 = 0x1ea),
+          (_0x323b4f = 0x46),
+          (_0x540d2e = 0xa0),
+          (_0x1c8540 = 0x32),
+          (_0x448575 = 0x1ea),
+          (_0x96023a = 0x8c),
+          (_0x5270bb = 0xa0),
+          (_0x52729e = 0x32))
+        : ((_0x29693e = 0x1d6),
+          (_0x3dd1eb = 0x0),
+          (_0x13fb3f = 0xaa),
+          (_0x21bc8a = 0x32),
+          (_0x2e31c2 = 0x1d6),
+          (_0x323b4f = 0x46),
+          (_0x540d2e = 0xaa),
+          (_0x1c8540 = 0x32),
+          (_0x448575 = 0x1d6),
+          (_0x96023a = 0x8c),
+          (_0x5270bb = 0xaa),
+          (_0x52729e = 0x32));
+    var _0x19f457 = [
+      {
+        x: _0x29693e,
+        y: _0x3dd1eb,
+        width: _0x13fb3f,
+        height: _0x21bc8a,
+        text: "New\x20Game",
+      },
+      {
+        x: _0x2e31c2,
+        y: _0x323b4f,
+        width: _0x540d2e,
+        height: _0x1c8540,
+        text: _0x15e955(0x148),
+      },
+      {
+        x: _0x448575,
+        y: _0x96023a,
+        width: _0x5270bb,
+        height: _0x52729e,
+        text: "Enable\x20AI\x20Bot",
+      },
+    ];
+    function _0x1f1aee() {
+      var _0x3758b1 = _0x15e955;
+      _0x50e22c[_0x3758b1(0x102)](_0x3758b1(0x107), _0x1a1b3a),
+        _0x50e22c[_0x3758b1(0x102)](_0x3758b1(0x115), _0x126e5f),
+        _0x50e22c[_0x3758b1(0x102)](_0x3758b1(0x121), _0x1e25a0),
+        _0x50e22c["addEventListener"](_0x3758b1(0x13b), _0x3191d3);
+      for (
+        var _0x41b6dd = 0x0;
+        _0x41b6dd < _0x169a7a[_0x3758b1(0x101)];
+        _0x41b6dd++
+      ) {
+        _0x169a7a["tiles"][_0x41b6dd] = [];
+        for (
+          var _0x27c840 = 0x0;
+          _0x27c840 < _0x169a7a[_0x3758b1(0x12c)];
+          _0x27c840++
+        ) {
+          _0x169a7a[_0x3758b1(0x153)][_0x41b6dd][_0x27c840] = {
+            type: 0x0,
+            shift: 0x0,
+          };
         }
       }
-    } else if (gamestate == gamestates.resolve) {
-      // Game is busy resolving and animating clusters
-      animationtime += dt;
-
-      if (animationstate == 0) {
-        // Clusters need to be found and removed
-        if (animationtime > animationtimetotal) {
-          // Find clusters
-          findClusters();
-
-          if (clusters.length > 0) {
-            // Add points to the score
-            for (var i = 0; i < clusters.length; i++) {
-              // Add extra points for longer clusters
-              score += 100 * (clusters[i].length - 2);
+      _0x44ceb8(), _0x4ab6ae(0x0);
+    }
+    function _0x4ab6ae(_0x5d31e0) {
+      var _0x4ff9e2 = _0x15e955;
+      window[_0x4ff9e2(0x132)](_0x4ab6ae), _0x53791a(_0x5d31e0), _0x52dc16();
+    }
+    function _0x53791a(_0x2a5fd4) {
+      var _0x1fe8a8 = _0x15e955,
+        _0x4e9c8c = (_0x2a5fd4 - _0x7938d5) / 0x3e8;
+      (_0x7938d5 = _0x2a5fd4), _0x125869(_0x4e9c8c);
+      if (_0x35dc3e == _0x45db39[_0x1fe8a8(0x14a)]) {
+        _0x2dc60f[_0x1fe8a8(0x155)] <= 0x0 &&
+          ((_0x2a3635 = !![]), (_0x20cbdc = ![]), _0x364cc1());
+        if (_0x36fb99 == !![] && _0x2a3635 == ![]) {
+          _0x1b671c += _0x4e9c8c;
+          if (_0x1b671c > _0x4b24cc) {
+            _0x59a143();
+            if (_0x2dc60f[_0x1fe8a8(0x155)] > 0x0) {
+              var _0x58b773 =
+                _0x2dc60f[
+                  Math["floor"](
+                    Math[_0x1fe8a8(0x119)]() * _0x2dc60f[_0x1fe8a8(0x155)]
+                  )
+                ];
+              _0x1f474d(
+                _0x58b773[_0x1fe8a8(0x116)],
+                _0x58b773["row1"],
+                _0x58b773[_0x1fe8a8(0x139)],
+                _0x58b773[_0x1fe8a8(0x150)]
+              );
             }
-
-            // Clusters found, remove them
-            removeClusters();
-
-            // Tiles need to be shifted
-            animationstate = 1;
+            _0x1b671c = 0x0;
+          }
+        }
+      } else {
+        if (_0x35dc3e == _0x45db39["resolve"]) {
+          _0x1b671c += _0x4e9c8c;
+          if (_0x54c8ef == 0x0) {
+            if (_0x1b671c > _0x4b24cc) {
+              _0x4643c6();
+              if (_0x8f4bb1[_0x1fe8a8(0x155)] > 0x0) {
+                for (
+                  var _0xe002c3 = 0x0;
+                  _0xe002c3 < _0x8f4bb1[_0x1fe8a8(0x155)];
+                  _0xe002c3++
+                ) {
+                  _0x1edecb +=
+                    0x64 * (_0x8f4bb1[_0xe002c3][_0x1fe8a8(0x155)] - 0x2);
+                }
+                _0x554d27(), (_0x54c8ef = 0x1);
+              } else _0x35dc3e = _0x45db39[_0x1fe8a8(0x14a)];
+              _0x1b671c = 0x0;
+            }
           } else {
-            // No clusters found, animation complete
-            gamestate = gamestates.ready;
+            if (_0x54c8ef == 0x1)
+              _0x1b671c > _0x4b24cc &&
+                (_0x323218(),
+                (_0x54c8ef = 0x0),
+                (_0x1b671c = 0x0),
+                _0x4643c6(),
+                _0x8f4bb1[_0x1fe8a8(0x155)] <= 0x0 &&
+                  (_0x35dc3e = _0x45db39[_0x1fe8a8(0x14a)]));
+            else {
+              if (_0x54c8ef == 0x2)
+                _0x1b671c > _0x4b24cc &&
+                  (_0x52c45f(
+                    _0x2f0df2[_0x1fe8a8(0x116)],
+                    _0x2f0df2["row1"],
+                    _0x2f0df2[_0x1fe8a8(0x139)],
+                    _0x2f0df2[_0x1fe8a8(0x150)]
+                  ),
+                  _0x4643c6(),
+                  _0x8f4bb1[_0x1fe8a8(0x155)] > 0x0
+                    ? ((_0x54c8ef = 0x0),
+                      (_0x1b671c = 0x0),
+                      (_0x35dc3e = _0x45db39[_0x1fe8a8(0x10e)]))
+                    : ((_0x54c8ef = 0x3), (_0x1b671c = 0x0)),
+                  _0x59a143(),
+                  _0x4643c6());
+              else
+                _0x54c8ef == 0x3 &&
+                  _0x1b671c > _0x4b24cc &&
+                  (_0x52c45f(
+                    _0x2f0df2[_0x1fe8a8(0x116)],
+                    _0x2f0df2[_0x1fe8a8(0x15d)],
+                    _0x2f0df2[_0x1fe8a8(0x139)],
+                    _0x2f0df2[_0x1fe8a8(0x150)]
+                  ),
+                  (_0x35dc3e = _0x45db39[_0x1fe8a8(0x14a)]));
+            }
           }
-          animationtime = 0;
+          _0x59a143(), _0x4643c6();
         }
-      } else if (animationstate == 1) {
-        // Tiles need to be shifted
-        if (animationtime > animationtimetotal) {
-          // Shift tiles
-          shiftTiles();
-
-          // New clusters need to be found
-          animationstate = 0;
-          animationtime = 0;
-
-          // Check if there are new clusters
-          findClusters();
-          if (clusters.length <= 0) {
-            // Animation complete
-            gamestate = gamestates.ready;
-          }
-        }
-      } else if (animationstate == 2) {
-        // Swapping tiles animation
-        if (animationtime > animationtimetotal) {
-          // Swap the tiles
-          swap(
-            currentmove.column1,
-            currentmove.row1,
-            currentmove.column2,
-            currentmove.row2
+      }
+    }
+    function _0x125869(_0x36b4a8) {
+      (_0x4d1c80 += _0x36b4a8), _0x2e7ca5++;
+    }
+    function _0xb206aa(_0x1bae3c, _0x198c95, _0x1208de, _0x2dc7bb) {
+      var _0x3d005a = _0x15e955,
+        _0x4eebaa = _0x3aac5e[_0x3d005a(0x158)](_0x1bae3c);
+      _0x3aac5e[_0x3d005a(0x10c)](
+        _0x1bae3c,
+        _0x198c95 + (_0x2dc7bb - _0x4eebaa["width"]) / 0x2,
+        _0x1208de
+      );
+    }
+    function _0x52dc16() {
+      var _0x1a6419 = _0x15e955;
+      _0x42dda7();
+      let _0x127ea2 = _0x3932ae[_0x1a6419(0x127)];
+      if (_0x127ea2 === "light") {
+        if (_0x9d3d97 > 0x1c2)
+          (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+            (_0x3aac5e[_0x1a6419(0x12a)] = "24px\x20Helvetica"),
+            _0xb206aa("Score", 0xb4, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x1edecb, 0xb4, _0x169a7a["y"] + 0x18b, 0x96),
+            (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+            (_0x3aac5e["font"] = _0x1a6419(0x159)),
+            _0xb206aa("Moves\x20left", 0x0, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x3fd541, 0x0, _0x169a7a["y"] + 0x18b, 0x96),
+            (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+            (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+            _0xb206aa(_0x1a6419(0x140), 0x1f4, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x1b5e89, 0x1f9, _0x169a7a["y"] + 0x18b, 0x96),
+            (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+            (_0x3aac5e["font"] = _0x1a6419(0x159)),
+            _0xb206aa("Max\x20score", 0x15e, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x17fb52, 0x15e, _0x169a7a["y"] + 0x18b, 0x96);
+        else
+          _0x9d3d97 <= 0x1c2 && _0x9d3d97 > 0x190
+            ? ((_0x3aac5e["fillStyle"] = "#000000"),
+              (_0x3aac5e[_0x1a6419(0x12a)] = "24px\x20Helvetica"),
+              _0xb206aa(_0x1a6419(0x14e), 0x1ea, _0x169a7a["y"] + 0xe6, 0x96),
+              _0xb206aa(_0x1edecb, 0x1ea, _0x169a7a["y"] + 0xff, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+              (_0x3aac5e["font"] = "24px\x20Helvetica"),
+              _0xb206aa(_0x1a6419(0x136), 0x1ea, _0x169a7a["y"] + 0x122, 0x96),
+              _0xb206aa(_0x3fd541, 0x1ea, _0x169a7a["y"] + 0x13b, 0x96),
+              (_0x3aac5e["fillStyle"] = _0x1a6419(0x112)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = "24px\x20Helvetica"),
+              _0xb206aa(_0x1a6419(0x13f), 0x1ea, _0x169a7a["y"] + 0x15e, 0x96),
+              _0xb206aa(_0x17fb52, 0x1ea, _0x169a7a["y"] + 0x177, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = "#000000"),
+              (_0x3aac5e[_0x1a6419(0x12a)] = "24px\x20Helvetica"),
+              _0xb206aa(_0x1a6419(0x140), 0x1ea, _0x169a7a["y"] + 0x19a, 0x96),
+              _0xb206aa(_0x1b5e89, 0x1ea, _0x169a7a["y"] + 0x1b3, 0x96))
+            : ((_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+              (_0x3aac5e["font"] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x14e), 0x1e0, _0x169a7a["y"] + 0xe6, 0x96),
+              _0xb206aa(_0x1edecb, 0x1e0, _0x169a7a["y"] + 0xff, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = "#000000"),
+              (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x136), 0x1e0, _0x169a7a["y"] + 0x122, 0x96),
+              _0xb206aa(_0x3fd541, 0x1e0, _0x169a7a["y"] + 0x13b, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+              _0xb206aa("Max\x20score", 0x1e0, _0x169a7a["y"] + 0x15e, 0x96),
+              _0xb206aa(_0x17fb52, 0x1e0, _0x169a7a["y"] + 0x177, 0x96),
+              (_0x3aac5e["fillStyle"] = _0x1a6419(0x112)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x140), 0x1e0, _0x169a7a["y"] + 0x19a, 0x96),
+              _0xb206aa(_0x1b5e89, 0x1e0, _0x169a7a["y"] + 0x1b3, 0x96));
+      } else {
+        if (_0x9d3d97 > 0x1c2)
+          (_0x3aac5e["fillStyle"] = _0x1a6419(0x135)),
+            (_0x3aac5e["font"] = "24px\x20Helvetica"),
+            _0xb206aa(_0x1a6419(0x14e), 0xb4, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x1edecb, 0xb4, _0x169a7a["y"] + 0x18b, 0x96),
+            (_0x3aac5e["fillStyle"] = "#dde2c1"),
+            (_0x3aac5e["font"] = _0x1a6419(0x159)),
+            _0xb206aa("Moves\x20left", 0x0, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x3fd541, 0x0, _0x169a7a["y"] + 0x18b, 0x96),
+            (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+            (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+            _0xb206aa(_0x1a6419(0x140), 0x1f4, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x1b5e89, 0x1f9, _0x169a7a["y"] + 0x18b, 0x96),
+            (_0x3aac5e[_0x1a6419(0x118)] = "#dde2c1"),
+            (_0x3aac5e["font"] = _0x1a6419(0x159)),
+            _0xb206aa(_0x1a6419(0x13f), 0x15e, _0x169a7a["y"] + 0x172, 0x96),
+            _0xb206aa(_0x17fb52, 0x15e, _0x169a7a["y"] + 0x18b, 0x96);
+        else
+          _0x9d3d97 <= 0x1c2 && _0x9d3d97 > 0x190
+            ? ((_0x3aac5e["fillStyle"] = "#dde2c1"),
+              (_0x3aac5e[_0x1a6419(0x12a)] = "24px\x20Helvetica"),
+              _0xb206aa(_0x1a6419(0x14e), 0x1ea, _0x169a7a["y"] + 0xe6, 0x96),
+              _0xb206aa(_0x1edecb, 0x1ea, _0x169a7a["y"] + 0xff, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+              (_0x3aac5e["font"] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x136), 0x1ea, _0x169a7a["y"] + 0x122, 0x96),
+              _0xb206aa(_0x3fd541, 0x1ea, _0x169a7a["y"] + 0x13b, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = "24px\x20Helvetica"),
+              _0xb206aa("Max\x20score", 0x1ea, _0x169a7a["y"] + 0x15e, 0x96),
+              _0xb206aa(_0x17fb52, 0x1ea, _0x169a7a["y"] + 0x177, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x140), 0x1ea, _0x169a7a["y"] + 0x19a, 0x96),
+              _0xb206aa(_0x1b5e89, 0x1ea, _0x169a7a["y"] + 0x1b3, 0x96))
+            : ((_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x14e), 0x1e0, _0x169a7a["y"] + 0xe6, 0x96),
+              _0xb206aa(_0x1edecb, 0x1e0, _0x169a7a["y"] + 0xff, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = "#dde2c1"),
+              (_0x3aac5e["font"] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x136), 0x1e0, _0x169a7a["y"] + 0x122, 0x96),
+              _0xb206aa(_0x3fd541, 0x1e0, _0x169a7a["y"] + 0x13b, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+              (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x13f), 0x1e0, _0x169a7a["y"] + 0x15e, 0x96),
+              _0xb206aa(_0x17fb52, 0x1e0, _0x169a7a["y"] + 0x177, 0x96),
+              (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x135)),
+              (_0x3aac5e["font"] = _0x1a6419(0x159)),
+              _0xb206aa(_0x1a6419(0x140), 0x1e0, _0x169a7a["y"] + 0x19a, 0x96),
+              _0xb206aa(_0x1b5e89, 0x1e0, _0x169a7a["y"] + 0x1b3, 0x96));
+      }
+      _0x353e0a();
+      var _0x1d9771 = _0x169a7a[_0x1a6419(0x101)] * _0x169a7a[_0x1a6419(0xfe)],
+        _0x195591 = _0x169a7a[_0x1a6419(0x12c)] * _0x169a7a[_0x1a6419(0x14f)];
+      (_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x112)),
+        _0x3aac5e["fillRect"](
+          _0x169a7a["x"] - 0x4,
+          _0x169a7a["y"] - 0x4,
+          _0x1d9771 + 0x8,
+          _0x195591 + 0x8
+        ),
+        _0x488ca0(),
+        _0x5d81a5(),
+        _0x376bbd &&
+          _0x8f4bb1["length"] <= 0x0 &&
+          _0x35dc3e == _0x45db39[_0x1a6419(0x14a)] &&
+          _0x3c53af(),
+        _0x2a3635 &&
+          ((_0x3aac5e[_0x1a6419(0x118)] = _0x1a6419(0x12f)),
+          _0x3aac5e["fillRect"](
+            _0x169a7a["x"],
+            _0x169a7a["y"],
+            _0x1d9771,
+            _0x195591
+          ),
+          (_0x3aac5e[_0x1a6419(0x118)] = "#ffffff"),
+          (_0x3aac5e[_0x1a6419(0x12a)] = _0x1a6419(0x159)),
+          _0xb206aa(
+            _0x1a6419(0x124),
+            _0x169a7a["x"],
+            _0x169a7a["y"] + _0x195591 / 0x2 + 0xa,
+            _0x1d9771
+          ));
+    }
+    let _0x3932ae = document[_0x15e955(0x117)](_0x15e955(0x123));
+    _0x3932ae["addEventListener"](_0x15e955(0x122), _0x42dda7);
+    function _0x42dda7() {
+      var _0xb9992f = _0x15e955;
+      let _0x10d6ed = _0x3932ae[_0xb9992f(0x127)];
+      if (_0x10d6ed === _0xb9992f(0x149)) {
+        if (_0x9d3d97 > 0x1c2)
+          (_0x3aac5e["fillStyle"] = _0xb9992f(0x13e)),
+            _0x3aac5e[_0xb9992f(0x130)](
+              0x1,
+              0x1,
+              _0x50e22c["width"] - 0x2,
+              _0x50e22c[_0xb9992f(0x13d)] - 0x2
+            ),
+            (_0x3aac5e[_0xb9992f(0x118)] = "#808080"),
+            _0x3aac5e["fillRect"](0x0, 0x0, _0x50e22c[_0xb9992f(0x13a)], 0x32),
+            (_0x3aac5e["fillStyle"] = _0xb9992f(0x113)),
+            _0x3aac5e[_0xb9992f(0x130)](
+              0x0,
+              0x1ae,
+              _0x50e22c[_0xb9992f(0x13a)],
+              0x32
+            );
+        else
+          _0x9d3d97 <= 0x1c2 && _0x9d3d97 > 0x190
+            ? ((_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x13e)),
+              _0x3aac5e["fillRect"](
+                0x1,
+                0x1,
+                _0x50e22c["width"] - 0x2,
+                _0x50e22c[_0xb9992f(0x13d)] - 0x2
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x113)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x190,
+                0x0,
+                _0x50e22c["width"],
+                0x1c0
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x15b)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                -0x96,
+                0x0,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x1c0
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = "#FFFFFF"),
+              _0x3aac5e[_0xb9992f(0x130)](0x0, 0xbe, _0x50e22c["width"], 0x14))
+            : ((_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x13e)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x1,
+                0x1,
+                _0x50e22c["width"] - 0x2,
+                _0x50e22c[_0xb9992f(0x13d)] - 0x2
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x113)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x190,
+                0x0,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x1c0
+              ),
+              (_0x3aac5e["fillStyle"] = _0xb9992f(0x15b)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                -0xaa,
+                0x0,
+                _0x50e22c["width"],
+                0x1c0
+              ),
+              (_0x3aac5e["fillStyle"] = _0xb9992f(0x15b)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x0,
+                0xbe,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x14
+              ));
+      } else {
+        if (_0x9d3d97 > 0x1c2)
+          (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x14b)),
+            _0x3aac5e[_0xb9992f(0x130)](
+              0x1,
+              0x1,
+              _0x50e22c[_0xb9992f(0x13a)] - 0x2,
+              _0x50e22c[_0xb9992f(0x13d)] - 0x2
+            ),
+            (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x147)),
+            _0x3aac5e["fillRect"](0x0, 0x0, _0x50e22c["width"], 0x32),
+            (_0x3aac5e["fillStyle"] = _0xb9992f(0x147)),
+            _0x3aac5e[_0xb9992f(0x130)](
+              0x0,
+              0x1ae,
+              _0x50e22c[_0xb9992f(0x13a)],
+              0x32
+            );
+        else
+          _0x9d3d97 <= 0x1c2 && _0x9d3d97 > 0x190
+            ? ((_0x3aac5e["fillStyle"] = _0xb9992f(0x14b)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x1,
+                0x1,
+                _0x50e22c[_0xb9992f(0x13a)] - 0x2,
+                _0x50e22c[_0xb9992f(0x13d)] - 0x2
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x147)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x190,
+                0x0,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x1c0
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x14b)),
+              _0x3aac5e["fillRect"](
+                -0x96,
+                0x0,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x1c0
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x14b)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x0,
+                0xbe,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x14
+              ))
+            : ((_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x14b)),
+              _0x3aac5e["fillRect"](
+                0x1,
+                0x1,
+                _0x50e22c["width"] - 0x2,
+                _0x50e22c["height"] - 0x2
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = "#677f72"),
+              _0x3aac5e[_0xb9992f(0x130)](
+                0x190,
+                0x0,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x1c0
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x14b)),
+              _0x3aac5e[_0xb9992f(0x130)](
+                -0xaa,
+                0x0,
+                _0x50e22c[_0xb9992f(0x13a)],
+                0x1c0
+              ),
+              (_0x3aac5e[_0xb9992f(0x118)] = _0xb9992f(0x14b)),
+              _0x3aac5e[_0xb9992f(0x130)](0x0, 0xbe, _0x50e22c["width"], 0x14));
+      }
+    }
+    function _0x353e0a() {
+      var _0x39e50d = _0x15e955;
+      for (
+        var _0x2ea2d4 = 0x0;
+        _0x2ea2d4 < _0x19f457[_0x39e50d(0x155)];
+        _0x2ea2d4++
+      ) {
+        let _0x2228f8 = _0x3932ae[_0x39e50d(0x127)];
+        if (_0x2228f8 === "light") {
+          (_0x3aac5e[_0x39e50d(0x118)] = "#000000"),
+            _0x3aac5e["fillRect"](
+              _0x19f457[_0x2ea2d4]["x"],
+              _0x19f457[_0x2ea2d4]["y"],
+              _0x19f457[_0x2ea2d4]["width"],
+              _0x19f457[_0x2ea2d4][_0x39e50d(0x13d)]
+            ),
+            (_0x3aac5e["fillStyle"] = _0x39e50d(0x13e)),
+            (_0x3aac5e[_0x39e50d(0x12a)] = "18px\x20Helvetica"),
+            _0x3aac5e["f"];
+          var _0x5ba2d4 = _0x3aac5e[_0x39e50d(0x158)](
+            _0x19f457[_0x2ea2d4][_0x39e50d(0x15e)]
           );
-
-          // Check if the swap made a cluster
-          findClusters();
-          if (clusters.length > 0) {
-            // Valid swap, found one or more clusters
-            // Prepare animation states
-            animationstate = 0;
-            animationtime = 0;
-            gamestate = gamestates.resolve;
-          } else {
-            // Invalid swap, Rewind swapping animation
-            animationstate = 3;
-            animationtime = 0;
-          }
-
-          // Update moves and clusters
-          findMoves();
-          findClusters();
-        }
-      } else if (animationstate == 3) {
-        // Rewind swapping animation
-        if (animationtime > animationtimetotal) {
-          // Invalid swap, swap back
-          swap(
-            currentmove.column1,
-            currentmove.row1,
-            currentmove.column2,
-            currentmove.row2
+          _0x3aac5e["fillText"](
+            _0x19f457[_0x2ea2d4][_0x39e50d(0x15e)],
+            _0x19f457[_0x2ea2d4]["x"] +
+              (_0x19f457[_0x2ea2d4][_0x39e50d(0x13a)] -
+                _0x5ba2d4[_0x39e50d(0x13a)]) /
+                0x2,
+            _0x19f457[_0x2ea2d4]["y"] + 0x1e
           );
-
-          // Animation complete
-          gamestate = gamestates.ready;
-        }
-      }
-
-      // Update moves and clusters
-      findMoves();
-      findClusters();
-    }
-  }
-
-  function updateFps(dt) {
-    // Increase time and framecount
-    fpstime += dt;
-    framecount++;
-  }
-
-  // Draw text that is centered
-  function drawCenterText(text, x, y, width) {
-    var textdim = context.measureText(text);
-    context.fillText(text, x + (width - textdim.width) / 2, y);
-  }
-
-  // Render the game
-  function render() {
-    // Draw the frame
-    drawFrame();
-    // Depends of dark or light mode
-    let election = select.value;
-
-    // Light mode else Dark mode
-    if (election === "light") {
-      // PC mode
-      if (screenWidth > 450) {
-        // Draw score
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Score", 180, level.y + 370, 150);
-        drawCenterText(score, 180, level.y + 395, 150);
-
-        // Draw moves left
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Moves left", 0, level.y + 370, 150);
-        drawCenterText(countmoves, 0, level.y + 395, 150);
-
-        // Draw temp
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Time left", 500, level.y + 370, 150);
-        drawCenterText(seconds, 505, level.y + 395, 150);
-
-        // Draw high score
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Max score", 350, level.y + 370, 150);
-        drawCenterText(highScore, 350, level.y + 395, 150);
-
-        // Big devices
-      } else if (screenWidth <= 450 && screenWidth > 400) {
-        // Draw score
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Score", 490, level.y + 230, 150);
-        drawCenterText(score, 490, level.y + 255, 150);
-        // Draw moves left
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Moves left", 490, level.y + 290, 150);
-        drawCenterText(countmoves, 490, level.y + 315, 150);
-        // Draw high score
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Max score", 490, level.y + 350, 150);
-        drawCenterText(highScore, 490, level.y + 375, 150);
-        // Draw temp
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Time left", 490, level.y + 410, 150);
-        drawCenterText(seconds, 490, level.y + 435, 150);
-        // Small devices
-      } else {
-        // Draw score
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Score", 480, level.y + 230, 150);
-        drawCenterText(score, 480, level.y + 255, 150);
-        // Draw moves left
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Moves left", 480, level.y + 290, 150);
-        drawCenterText(countmoves, 480, level.y + 315, 150);
-        // Draw high score
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Max score", 480, level.y + 350, 150);
-        drawCenterText(highScore, 480, level.y + 375, 150);
-        // Draw temp
-        context.fillStyle = "#000000";
-        context.font = "24px Helvetica";
-        drawCenterText("Time left", 480, level.y + 410, 150);
-        drawCenterText(seconds, 480, level.y + 435, 150);
-      }
-    } else {
-      // PC mode
-      if (screenWidth > 450) {
-        // Draw score
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Score", 180, level.y + 370, 150);
-        drawCenterText(score, 180, level.y + 395, 150);
-
-        // Draw moves left
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Moves left", 0, level.y + 370, 150);
-        drawCenterText(countmoves, 0, level.y + 395, 150);
-
-        // Draw temp
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Time left", 500, level.y + 370, 150);
-        drawCenterText(seconds, 505, level.y + 395, 150);
-
-        // Draw high score
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Max score", 350, level.y + 370, 150);
-        drawCenterText(highScore, 350, level.y + 395, 150);
-
-        // Big devices
-      } else if (screenWidth <= 450 && screenWidth > 400) {
-        // Draw score
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Score", 490, level.y + 230, 150);
-        drawCenterText(score, 490, level.y + 255, 150);
-        // Draw moves left
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Moves left", 490, level.y + 290, 150);
-        drawCenterText(countmoves, 490, level.y + 315, 150);
-        // Draw high score
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Max score", 490, level.y + 350, 150);
-        drawCenterText(highScore, 490, level.y + 375, 150);
-        // Draw temp
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Time left", 490, level.y + 410, 150);
-        drawCenterText(seconds, 490, level.y + 435, 150);
-        // Small devices
-      } else {
-        // Draw score
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Score", 480, level.y + 230, 150);
-        drawCenterText(score, 480, level.y + 255, 150);
-        // Draw moves left
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Moves left", 480, level.y + 290, 150);
-        drawCenterText(countmoves, 480, level.y + 315, 150);
-        // Draw high score
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Max score", 480, level.y + 350, 150);
-        drawCenterText(highScore, 480, level.y + 375, 150);
-        // Draw temp
-        context.fillStyle = "#dde2c1";
-        context.font = "24px Helvetica";
-        drawCenterText("Time left", 480, level.y + 410, 150);
-        drawCenterText(seconds, 480, level.y + 435, 150);
-      }
-    }
-
-    // Draw buttons
-    drawButtons();
-
-    // Draw level background
-    var levelwidth = level.columns * level.tilewidth;
-    var levelheight = level.rows * level.tileheight;
-    context.fillStyle = "#000000";
-    context.fillRect(level.x - 4, level.y - 4, levelwidth + 8, levelheight + 8);
-
-    // Render tiles
-    renderTiles();
-    // Render clusters
-    renderClusters();
-
-    // Render moves, when there are no clusters
-    if (showmoves && clusters.length <= 0 && gamestate == gamestates.ready) {
-      renderMoves();
-    }
-    // Game Over overlay
-    if (gameover) {
-      context.fillStyle = "rgba(0, 0, 0, 0.8)";
-      context.fillRect(level.x, level.y, levelwidth, levelheight);
-
-      context.fillStyle = "#ffffff";
-      context.font = "24px Helvetica";
-      drawCenterText(
-        "Game Over!",
-        level.x,
-        level.y + levelheight / 2 + 10,
-        levelwidth
-      );
-    }
-  }
-
-  let select = document.querySelector("select");
-  select.addEventListener("change", drawFrame);
-
-  // Draw a frame with a border
-  function drawFrame() {
-    let election = select.value;
-    if (election === "light") {
-      // PC mode
-      if (screenWidth > 450) {
-        // Color Background
-        context.fillStyle = "#ffffff";
-        context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-        // Draw header
-        context.fillStyle = "#808080";
-        context.fillRect(0, 0, canvas.width, 50);
-        // Draw header-2
-        context.fillStyle = "#808080";
-        context.fillRect(0, 430, canvas.width, 50);
-
-        // Big devices
-      } else if (screenWidth <= 450 && screenWidth > 400) {
-        // Color Background
-        context.fillStyle = "#ffffff";
-        context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-        // Draw header
-        context.fillStyle = "#808080";
-        context.fillRect(400, 0, canvas.width, 448);
-        // Draw header-2
-        context.fillStyle = "#FFFFFF";
-        context.fillRect(-150, 0, canvas.width, 448);
-        // Draw header-3
-        context.fillStyle = "#FFFFFF";
-        context.fillRect(0, 190, canvas.width, 20);
-        // Small devices
-      } else {
-        // Color Background
-        context.fillStyle = "#ffffff";
-        context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-        // Draw header
-        context.fillStyle = "#808080";
-        context.fillRect(400, 0, canvas.width, 448);
-        // Draw header-2
-        context.fillStyle = "#FFFFFF";
-        context.fillRect(-170, 0, canvas.width, 448);
-        // Draw header-3
-        context.fillStyle = "#FFFFFF";
-        context.fillRect(0, 190, canvas.width, 20);
-      }
-    } else {
-      // PC mode
-      if (screenWidth > 450) {
-        // Color Background
-        context.fillStyle = "#183943";
-        context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-        // Draw header
-        context.fillStyle = "#677f72";
-        context.fillRect(0, 0, canvas.width, 50);
-        // Draw header-2
-        context.fillStyle = "#677f72";
-        context.fillRect(0, 430, canvas.width, 50);
-
-        // Big devices
-      } else if (screenWidth <= 450 && screenWidth > 400) {
-        // Color Background
-        context.fillStyle = "#183943";
-        context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-        // Draw header
-        context.fillStyle = "#677f72";
-        context.fillRect(400, 0, canvas.width, 448);
-        // Draw header-2
-        context.fillStyle = "#183943";
-        context.fillRect(-150, 0, canvas.width, 448);
-        // Draw header-3
-        context.fillStyle = "#183943";
-        context.fillRect(0, 190, canvas.width, 20);
-        // Small devices
-      } else {
-        // Color Background
-        context.fillStyle = "#183943";
-        context.fillRect(1, 1, canvas.width - 2, canvas.height - 2);
-        // Draw header
-        context.fillStyle = "#677f72";
-        context.fillRect(400, 0, canvas.width, 448);
-        // Draw header-2
-        context.fillStyle = "#183943";
-        context.fillRect(-170, 0, canvas.width, 448);
-        // Draw header-3
-        context.fillStyle = "#183943";
-        context.fillRect(0, 190, canvas.width, 20);
-      }
-    }
-  }
-
-  // Draw buttons
-  function drawButtons() {
-    for (var i = 0; i < buttons.length; i++) {
-      let election = select.value;
-      if (election === "light") {
-        // Draw button shape
-        context.fillStyle = "#000000";
-        context.fillRect(
-          buttons[i].x,
-          buttons[i].y,
-          buttons[i].width,
-          buttons[i].height
-        );
-        // Draw button text
-        context.fillStyle = "#ffffff";
-        context.font = "18px Helvetica";
-        context.f;
-        var textdim = context.measureText(buttons[i].text);
-        context.fillText(
-          buttons[i].text,
-          buttons[i].x + (buttons[i].width - textdim.width) / 2,
-          buttons[i].y + 30
-        );
-      } else {
-        // Draw button shape
-        context.fillStyle = "#223c3e";
-        context.fillRect(
-          buttons[i].x,
-          buttons[i].y,
-          buttons[i].width,
-          buttons[i].height
-        );
-        // Draw button text
-        context.fillStyle = "#dde2c1";
-        context.font = "18px Helvetica";
-        context.f;
-        var textdim = context.measureText(buttons[i].text);
-        context.fillText(
-          buttons[i].text,
-          buttons[i].x + (buttons[i].width - textdim.width) / 2,
-          buttons[i].y + 30
-        );
-      }
-    }
-  }
-
-  // Render tiles
-  function renderTiles() {
-    for (var i = 0; i < level.columns; i++) {
-      for (var j = 0; j < level.rows; j++) {
-        // Get the shift of the tile for animation
-        var shift = level.tiles[i][j].shift;
-
-        // Calculate the tile coordinates
-        var coord = getTileCoordinate(
-          i,
-          j,
-          0,
-          (animationtime / animationtimetotal) * shift
-        );
-
-        // Check if there is a tile present
-        if (level.tiles[i][j].type >= 0) {
-          // Get the color of the tile
-          var col = tilecolors[level.tiles[i][j].type];
-
-          // Draw the tile using the color
-          drawTile(coord.tilex, coord.tiley, col[0], col[1], col[2]);
-        }
-
-        // Draw the selected tile
-        if (level.selectedtile.selected) {
-          if (level.selectedtile.column == i && level.selectedtile.row == j) {
-            // Draw a red tile
-            drawTile(coord.tilex, coord.tiley, 255, 0, 0);
-          }
-        }
-      }
-    }
-
-    // Render the swap animation
-    if (
-      gamestate == gamestates.resolve &&
-      (animationstate == 2 || animationstate == 3)
-    ) {
-      // Calculate the x and y shift
-      var shiftx = currentmove.column2 - currentmove.column1;
-      var shifty = currentmove.row2 - currentmove.row1;
-
-      // First tile
-      var coord1 = getTileCoordinate(
-        currentmove.column1,
-        currentmove.row1,
-        0,
-        0
-      );
-      var coord1shift = getTileCoordinate(
-        currentmove.column1,
-        currentmove.row1,
-        (animationtime / animationtimetotal) * shiftx,
-        (animationtime / animationtimetotal) * shifty
-      );
-      var col1 =
-        tilecolors[level.tiles[currentmove.column1][currentmove.row1].type];
-
-      // Second tile
-      var coord2 = getTileCoordinate(
-        currentmove.column2,
-        currentmove.row2,
-        0,
-        0
-      );
-      var coord2shift = getTileCoordinate(
-        currentmove.column2,
-        currentmove.row2,
-        (animationtime / animationtimetotal) * -shiftx,
-        (animationtime / animationtimetotal) * -shifty
-      );
-      var col2 =
-        tilecolors[level.tiles[currentmove.column2][currentmove.row2].type];
-
-      // Draw a black background
-      drawTile(coord1.tilex, coord1.tiley, 0, 0, 0);
-      drawTile(coord2.tilex, coord2.tiley, 0, 0, 0);
-
-      // Change the order, depending on the animation state
-      if (animationstate == 2) {
-        // Draw the tiles
-        drawTile(
-          coord1shift.tilex,
-          coord1shift.tiley,
-          col1[0],
-          col1[1],
-          col1[2]
-        );
-        drawTile(
-          coord2shift.tilex,
-          coord2shift.tiley,
-          col2[0],
-          col2[1],
-          col2[2]
-        );
-      } else {
-        // Draw the tiles
-        drawTile(
-          coord2shift.tilex,
-          coord2shift.tiley,
-          col2[0],
-          col2[1],
-          col2[2]
-        );
-        drawTile(
-          coord1shift.tilex,
-          coord1shift.tiley,
-          col1[0],
-          col1[1],
-          col1[2]
-        );
-      }
-    }
-  }
-
-  // Get the tile coordinate
-  function getTileCoordinate(column, row, columnoffset, rowoffset) {
-    var tilex = level.x + (column + columnoffset) * level.tilewidth;
-    var tiley = level.y + (row + rowoffset) * level.tileheight;
-    return { tilex: tilex, tiley: tiley };
-  }
-
-  // Draw a tile with a color
-  function drawTile(x, y, r, g, b) {
-    context.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-    context.fillRect(x + 2, y + 2, level.tilewidth - 4, level.tileheight - 4);
-  }
-
-  // Render clusters
-  function renderClusters() {
-    for (var i = 0; i < clusters.length; i++) {
-      // Calculate the tile coordinates
-      var coord = getTileCoordinate(clusters[i].column, clusters[i].row, 0, 0);
-
-      if (clusters[i].horizontal) {
-        // Draw a horizontal line
-        context.fillStyle = "#00ff00";
-        context.fillRect(
-          coord.tilex + level.tilewidth / 2,
-          coord.tiley + level.tileheight / 2 - 4,
-          (clusters[i].length - 1) * level.tilewidth,
-          8
-        );
-      } else {
-        // Draw a vertical line
-        context.fillStyle = "#0000ff";
-        context.fillRect(
-          coord.tilex + level.tilewidth / 2 - 4,
-          coord.tiley + level.tileheight / 2,
-          8,
-          (clusters[i].length - 1) * level.tileheight
-        );
-      }
-    }
-  }
-
-  // Render moves
-  function renderMoves() {
-    for (var i = 0; i < moves.length; i++) {
-      // Calculate coordinates of tile 1 and 2
-      var coord1 = getTileCoordinate(moves[i].column1, moves[i].row1, 0, 0);
-      var coord2 = getTileCoordinate(moves[i].column2, moves[i].row2, 0, 0);
-
-      // Draw a line from tile 1 to tile 2
-      context.strokeStyle = "#ff0000";
-      context.beginPath();
-      context.moveTo(
-        coord1.tilex + level.tilewidth / 2,
-        coord1.tiley + level.tileheight / 2
-      );
-      context.lineTo(
-        coord2.tilex + level.tilewidth / 2,
-        coord2.tiley + level.tileheight / 2
-      );
-      context.stroke();
-    }
-  }
-
-  // Save in highScore the max score
-  function highScores() {
-    highScore = highScore > score ? highScore : score;
-    localStorage.setItem("highScore", highScore);
-  }
-
-  function getInputSeconds() {
-    // Get the input element
-    var input = document.getElementById("seconds");
-
-    // Get the value entered in the input field
-    var inputValue = input.value;
-
-    // You can now use the "inputValue" variable in your code to do whatever you want with it
-    seconds = inputValue;
-
-    // Adding a limit
-    if (seconds < 10) seconds = 10;
-    if (seconds > 500) seconds = 500;
-  }
-
-  function getInputMoves() {
-    // Get the input element
-    var input = document.getElementById("moves");
-
-    // Get the value entered in the input field
-    var inputValue = input.value;
-
-    // You can now use the "inputValue" variable in your code to do whatever you want with it
-    countmoves = inputValue;
-
-    // Adding a limit
-    if (countmoves < 10) countmoves = 10;
-    if (countmoves > 500) countmoves = 500;
-  }
-
-  // Start a new game
-  function newGame() {
-    // Save high score data
-    highScores();
-
-    // Reset score
-    score = 0;
-
-    // Reset moves
-    getInputMoves();
-    movesleft = true;
-
-    // Reset seconds
-    getInputSeconds();
-
-    // Set the gamestate to ready
-    gamestate = gamestates.ready;
-
-    // Reset game over
-    gameover = false;
-
-    // Create the level
-    createLevel();
-
-    // Set timer
-    startTimer();
-
-    // Find initial clusters and moves
-    findMoves();
-    findClusters();
-  }
-
-  // Create a random level
-  function createLevel() {
-    var done = false;
-
-    // Keep generating levels until it is correct
-    while (!done) {
-      // Create a level with random tiles
-      for (var i = 0; i < level.columns; i++) {
-        for (var j = 0; j < level.rows; j++) {
-          level.tiles[i][j].type = getRandomTile();
-        }
-      }
-
-      // Resolve the clusters
-      resolveClusters();
-
-      // Check if there are valid moves
-      findMoves();
-
-      // Done when there is a valid move
-      if (moves.length > 0) {
-        done = true;
-      }
-    }
-  }
-
-  // Get a random tile
-  function getRandomTile() {
-    return Math.floor(Math.random() * tilecolors.length);
-  }
-
-  // Remove clusters and insert tiles
-  function resolveClusters() {
-    // Check for clusters
-    findClusters();
-
-    // While there are clusters left
-    while (clusters.length > 0) {
-      // Remove clusters
-      removeClusters();
-
-      // Shift tiles
-      shiftTiles();
-
-      // Check if there are clusters left
-      findClusters();
-    }
-  }
-
-  // Find clusters in the level
-  function findClusters() {
-    // Reset clusters
-    clusters = [];
-
-    // Find horizontal clusters
-    for (var j = 0; j < level.rows; j++) {
-      // Start with a single tile, cluster of 1
-      var matchlength = 1;
-      for (var i = 0; i < level.columns; i++) {
-        var checkcluster = false;
-
-        if (i == level.columns - 1) {
-          // Last tile
-          checkcluster = true;
         } else {
-          // Check the type of the next tile
+          (_0x3aac5e[_0x39e50d(0x118)] = _0x39e50d(0x12b)),
+            _0x3aac5e["fillRect"](
+              _0x19f457[_0x2ea2d4]["x"],
+              _0x19f457[_0x2ea2d4]["y"],
+              _0x19f457[_0x2ea2d4]["width"],
+              _0x19f457[_0x2ea2d4]["height"]
+            ),
+            (_0x3aac5e[_0x39e50d(0x118)] = "#dde2c1"),
+            (_0x3aac5e[_0x39e50d(0x12a)] = _0x39e50d(0x109)),
+            _0x3aac5e["f"];
+          var _0x5ba2d4 = _0x3aac5e["measureText"](
+            _0x19f457[_0x2ea2d4]["text"]
+          );
+          _0x3aac5e[_0x39e50d(0x10c)](
+            _0x19f457[_0x2ea2d4][_0x39e50d(0x15e)],
+            _0x19f457[_0x2ea2d4]["x"] +
+              (_0x19f457[_0x2ea2d4][_0x39e50d(0x13a)] -
+                _0x5ba2d4[_0x39e50d(0x13a)]) /
+                0x2,
+            _0x19f457[_0x2ea2d4]["y"] + 0x1e
+          );
+        }
+      }
+    }
+    function _0x488ca0() {
+      var _0xe081c4 = _0x15e955;
+      for (
+        var _0x39da00 = 0x0;
+        _0x39da00 < _0x169a7a[_0xe081c4(0x101)];
+        _0x39da00++
+      ) {
+        for (var _0x25ccb2 = 0x0; _0x25ccb2 < _0x169a7a["rows"]; _0x25ccb2++) {
+          var _0xf61eea = _0x169a7a["tiles"][_0x39da00][_0x25ccb2]["shift"],
+            _0x5e9095 = _0x1aa49d(
+              _0x39da00,
+              _0x25ccb2,
+              0x0,
+              (_0x1b671c / _0x4b24cc) * _0xf61eea
+            );
           if (
-            level.tiles[i][j].type == level.tiles[i + 1][j].type &&
-            level.tiles[i][j].type != -1
+            _0x169a7a[_0xe081c4(0x153)][_0x39da00][_0x25ccb2][
+              _0xe081c4(0x12d)
+            ] >= 0x0
           ) {
-            // Same type as the previous tile, increase matchlength
-            matchlength += 1;
-          } else {
-            // Different type
-            checkcluster = true;
+            var _0x2d94ac =
+              _0x26ecfc[
+                _0x169a7a["tiles"][_0x39da00][_0x25ccb2][_0xe081c4(0x12d)]
+              ];
+            _0x41add1(
+              _0x5e9095[_0xe081c4(0x11e)],
+              _0x5e9095[_0xe081c4(0x141)],
+              _0x2d94ac[0x0],
+              _0x2d94ac[0x1],
+              _0x2d94ac[0x2]
+            );
+          }
+          _0x169a7a["selectedtile"][_0xe081c4(0x14c)] &&
+            _0x169a7a[_0xe081c4(0x151)][_0xe081c4(0x105)] == _0x39da00 &&
+            _0x169a7a[_0xe081c4(0x151)][_0xe081c4(0x15f)] == _0x25ccb2 &&
+            _0x41add1(
+              _0x5e9095["tilex"],
+              _0x5e9095[_0xe081c4(0x141)],
+              0xff,
+              0x0,
+              0x0
+            );
+        }
+      }
+      if (
+        _0x35dc3e == _0x45db39[_0xe081c4(0x10e)] &&
+        (_0x54c8ef == 0x2 || _0x54c8ef == 0x3)
+      ) {
+        var _0x104393 =
+            _0x2f0df2[_0xe081c4(0x139)] - _0x2f0df2[_0xe081c4(0x116)],
+          _0x4aa4d7 = _0x2f0df2[_0xe081c4(0x150)] - _0x2f0df2["row1"],
+          _0x458d29 = _0x1aa49d(
+            _0x2f0df2["column1"],
+            _0x2f0df2[_0xe081c4(0x15d)],
+            0x0,
+            0x0
+          ),
+          _0xf29d4c = _0x1aa49d(
+            _0x2f0df2[_0xe081c4(0x116)],
+            _0x2f0df2[_0xe081c4(0x15d)],
+            (_0x1b671c / _0x4b24cc) * _0x104393,
+            (_0x1b671c / _0x4b24cc) * _0x4aa4d7
+          ),
+          _0x272ce9 =
+            _0x26ecfc[
+              _0x169a7a[_0xe081c4(0x153)][_0x2f0df2[_0xe081c4(0x116)]][
+                _0x2f0df2[_0xe081c4(0x15d)]
+              ][_0xe081c4(0x12d)]
+            ],
+          _0x485e12 = _0x1aa49d(
+            _0x2f0df2[_0xe081c4(0x139)],
+            _0x2f0df2[_0xe081c4(0x150)],
+            0x0,
+            0x0
+          ),
+          _0x19bc78 = _0x1aa49d(
+            _0x2f0df2[_0xe081c4(0x139)],
+            _0x2f0df2[_0xe081c4(0x150)],
+            (_0x1b671c / _0x4b24cc) * -_0x104393,
+            (_0x1b671c / _0x4b24cc) * -_0x4aa4d7
+          ),
+          _0x4eba21 =
+            _0x26ecfc[
+              _0x169a7a[_0xe081c4(0x153)][_0x2f0df2[_0xe081c4(0x139)]][
+                _0x2f0df2[_0xe081c4(0x150)]
+              ]["type"]
+            ];
+        _0x41add1(
+          _0x458d29[_0xe081c4(0x11e)],
+          _0x458d29[_0xe081c4(0x141)],
+          0x0,
+          0x0,
+          0x0
+        ),
+          _0x41add1(
+            _0x485e12["tilex"],
+            _0x485e12[_0xe081c4(0x141)],
+            0x0,
+            0x0,
+            0x0
+          ),
+          _0x54c8ef == 0x2
+            ? (_0x41add1(
+                _0xf29d4c[_0xe081c4(0x11e)],
+                _0xf29d4c[_0xe081c4(0x141)],
+                _0x272ce9[0x0],
+                _0x272ce9[0x1],
+                _0x272ce9[0x2]
+              ),
+              _0x41add1(
+                _0x19bc78[_0xe081c4(0x11e)],
+                _0x19bc78["tiley"],
+                _0x4eba21[0x0],
+                _0x4eba21[0x1],
+                _0x4eba21[0x2]
+              ))
+            : (_0x41add1(
+                _0x19bc78[_0xe081c4(0x11e)],
+                _0x19bc78["tiley"],
+                _0x4eba21[0x0],
+                _0x4eba21[0x1],
+                _0x4eba21[0x2]
+              ),
+              _0x41add1(
+                _0xf29d4c["tilex"],
+                _0xf29d4c[_0xe081c4(0x141)],
+                _0x272ce9[0x0],
+                _0x272ce9[0x1],
+                _0x272ce9[0x2]
+              ));
+      }
+    }
+    function _0x1aa49d(_0x527b9b, _0x465c96, _0x5ac73e, _0x3ecced) {
+      var _0x2fdc9f = _0x15e955,
+        _0x437cd8 =
+          _0x169a7a["x"] + (_0x527b9b + _0x5ac73e) * _0x169a7a[_0x2fdc9f(0xfe)],
+        _0xb0c644 =
+          _0x169a7a["y"] + (_0x465c96 + _0x3ecced) * _0x169a7a["tileheight"];
+      return { tilex: _0x437cd8, tiley: _0xb0c644 };
+    }
+    function _0x41add1(_0x4c9d67, _0x70026b, _0x1ce0c2, _0x3b3fa9, _0xb10604) {
+      var _0x5e814d = _0x15e955;
+      (_0x3aac5e[_0x5e814d(0x118)] =
+        _0x5e814d(0x143) + _0x1ce0c2 + "," + _0x3b3fa9 + "," + _0xb10604 + ")"),
+        _0x3aac5e[_0x5e814d(0x130)](
+          _0x4c9d67 + 0x2,
+          _0x70026b + 0x2,
+          _0x169a7a[_0x5e814d(0xfe)] - 0x4,
+          _0x169a7a["tileheight"] - 0x4
+        );
+    }
+    function _0x5d81a5() {
+      var _0x489b64 = _0x15e955;
+      for (var _0x14c0e4 = 0x0; _0x14c0e4 < _0x8f4bb1["length"]; _0x14c0e4++) {
+        var _0x504bf4 = _0x1aa49d(
+          _0x8f4bb1[_0x14c0e4][_0x489b64(0x105)],
+          _0x8f4bb1[_0x14c0e4][_0x489b64(0x15f)],
+          0x0,
+          0x0
+        );
+        _0x8f4bb1[_0x14c0e4]["horizontal"]
+          ? ((_0x3aac5e[_0x489b64(0x118)] = _0x489b64(0x144)),
+            _0x3aac5e["fillRect"](
+              _0x504bf4[_0x489b64(0x11e)] + _0x169a7a["tilewidth"] / 0x2,
+              _0x504bf4["tiley"] + _0x169a7a["tileheight"] / 0x2 - 0x4,
+              (_0x8f4bb1[_0x14c0e4]["length"] - 0x1) *
+                _0x169a7a[_0x489b64(0xfe)],
+              0x8
+            ))
+          : ((_0x3aac5e[_0x489b64(0x118)] = "#0000ff"),
+            _0x3aac5e[_0x489b64(0x130)](
+              _0x504bf4[_0x489b64(0x11e)] +
+                _0x169a7a[_0x489b64(0xfe)] / 0x2 -
+                0x4,
+              _0x504bf4[_0x489b64(0x141)] + _0x169a7a[_0x489b64(0x14f)] / 0x2,
+              0x8,
+              (_0x8f4bb1[_0x14c0e4][_0x489b64(0x155)] - 0x1) *
+                _0x169a7a[_0x489b64(0x14f)]
+            ));
+      }
+    }
+    function _0x3c53af() {
+      var _0xf86b60 = _0x15e955;
+      for (
+        var _0x454f52 = 0x0;
+        _0x454f52 < _0x2dc60f[_0xf86b60(0x155)];
+        _0x454f52++
+      ) {
+        var _0x4471d2 = _0x1aa49d(
+            _0x2dc60f[_0x454f52][_0xf86b60(0x116)],
+            _0x2dc60f[_0x454f52][_0xf86b60(0x15d)],
+            0x0,
+            0x0
+          ),
+          _0xa37c53 = _0x1aa49d(
+            _0x2dc60f[_0x454f52]["column2"],
+            _0x2dc60f[_0x454f52][_0xf86b60(0x150)],
+            0x0,
+            0x0
+          );
+        (_0x3aac5e[_0xf86b60(0x137)] = "#ff0000"),
+          _0x3aac5e["beginPath"](),
+          _0x3aac5e[_0xf86b60(0x120)](
+            _0x4471d2[_0xf86b60(0x11e)] + _0x169a7a["tilewidth"] / 0x2,
+            _0x4471d2[_0xf86b60(0x141)] + _0x169a7a[_0xf86b60(0x14f)] / 0x2
+          ),
+          _0x3aac5e["lineTo"](
+            _0xa37c53[_0xf86b60(0x11e)] + _0x169a7a[_0xf86b60(0xfe)] / 0x2,
+            _0xa37c53[_0xf86b60(0x141)] + _0x169a7a[_0xf86b60(0x14f)] / 0x2
+          ),
+          _0x3aac5e[_0xf86b60(0x10b)]();
+      }
+    }
+    function _0x5d20da() {
+      var _0x586f53 = _0x15e955;
+      (_0x17fb52 = _0x17fb52 > _0x1edecb ? _0x17fb52 : _0x1edecb),
+        localStorage[_0x586f53(0x103)](_0x586f53(0x114), _0x17fb52);
+    }
+    function _0x45e2e8() {
+      var _0x336634 = _0x15e955,
+        _0x8e125e = document["getElementById"](_0x336634(0x110)),
+        _0x58f372 = _0x8e125e[_0x336634(0x127)];
+      _0x1b5e89 = _0x58f372;
+      if (_0x1b5e89 < 0xa) _0x1b5e89 = 0xa;
+      if (_0x1b5e89 > 0x1f4) _0x1b5e89 = 0x1f4;
+    }
+    function _0x38d687() {
+      var _0x1f75c0 = _0x15e955,
+        _0x4bc610 = document[_0x1f75c0(0x14d)]("moves"),
+        _0x49b9a0 = _0x4bc610[_0x1f75c0(0x127)];
+      _0x3fd541 = _0x49b9a0;
+      if (_0x3fd541 < 0xa) _0x3fd541 = 0xa;
+      if (_0x3fd541 > 0x1f4) _0x3fd541 = 0x1f4;
+    }
+    function _0x44ceb8() {
+      var _0x22f857 = _0x15e955;
+      _0x5d20da(),
+        (_0x1edecb = 0x0),
+        _0x38d687(),
+        (_0x20cbdc = !![]),
+        _0x45e2e8(),
+        (_0x35dc3e = _0x45db39[_0x22f857(0x14a)]),
+        (_0x2a3635 = ![]),
+        _0x22f334(),
+        _0x44850c(),
+        _0x59a143(),
+        _0x4643c6();
+    }
+    function _0x22f334() {
+      var _0x1f11f8 = _0x15e955,
+        _0x9a252 = ![];
+      while (!_0x9a252) {
+        for (
+          var _0x3e1f2d = 0x0;
+          _0x3e1f2d < _0x169a7a[_0x1f11f8(0x101)];
+          _0x3e1f2d++
+        ) {
+          for (
+            var _0x4fdcbe = 0x0;
+            _0x4fdcbe < _0x169a7a[_0x1f11f8(0x12c)];
+            _0x4fdcbe++
+          ) {
+            _0x169a7a[_0x1f11f8(0x153)][_0x3e1f2d][_0x4fdcbe][
+              _0x1f11f8(0x12d)
+            ] = _0x145527();
           }
         }
-
-        // Check if there was a cluster
-        if (checkcluster) {
-          if (matchlength >= 3) {
-            // Found a horizontal cluster
-            clusters.push({
-              column: i + 1 - matchlength,
-              row: j,
-              length: matchlength,
-              horizontal: true,
-            });
-          }
-
-          matchlength = 1;
+        _0x43a601(),
+          _0x59a143(),
+          _0x2dc60f["length"] > 0x0 && (_0x9a252 = !![]);
+      }
+    }
+    function _0x145527() {
+      var _0x27c4e4 = _0x15e955;
+      return Math[_0x27c4e4(0x152)](
+        Math[_0x27c4e4(0x119)]() * _0x26ecfc[_0x27c4e4(0x155)]
+      );
+    }
+    function _0x43a601() {
+      _0x4643c6();
+      while (_0x8f4bb1["length"] > 0x0) {
+        _0x554d27(), _0x323218(), _0x4643c6();
+      }
+    }
+    function _0x4643c6() {
+      var _0x55f04f = _0x15e955;
+      _0x8f4bb1 = [];
+      for (var _0x5d55e1 = 0x0; _0x5d55e1 < _0x169a7a["rows"]; _0x5d55e1++) {
+        var _0xbbd7c0 = 0x1;
+        for (
+          var _0x3a738e = 0x0;
+          _0x3a738e < _0x169a7a["columns"];
+          _0x3a738e++
+        ) {
+          var _0x2ac02d = ![];
+          _0x3a738e == _0x169a7a[_0x55f04f(0x101)] - 0x1
+            ? (_0x2ac02d = !![])
+            : _0x169a7a[_0x55f04f(0x153)][_0x3a738e][_0x5d55e1][
+                _0x55f04f(0x12d)
+              ] ==
+                _0x169a7a[_0x55f04f(0x153)][_0x3a738e + 0x1][_0x5d55e1][
+                  _0x55f04f(0x12d)
+                ] && _0x169a7a["tiles"][_0x3a738e][_0x5d55e1]["type"] != -0x1
+            ? (_0xbbd7c0 += 0x1)
+            : (_0x2ac02d = !![]),
+            _0x2ac02d &&
+              (_0xbbd7c0 >= 0x3 &&
+                _0x8f4bb1[_0x55f04f(0x15a)]({
+                  column: _0x3a738e + 0x1 - _0xbbd7c0,
+                  row: _0x5d55e1,
+                  length: _0xbbd7c0,
+                  horizontal: !![],
+                }),
+              (_0xbbd7c0 = 0x1));
+        }
+      }
+      for (
+        var _0x3a738e = 0x0;
+        _0x3a738e < _0x169a7a[_0x55f04f(0x101)];
+        _0x3a738e++
+      ) {
+        var _0xbbd7c0 = 0x1;
+        for (
+          var _0x5d55e1 = 0x0;
+          _0x5d55e1 < _0x169a7a[_0x55f04f(0x12c)];
+          _0x5d55e1++
+        ) {
+          var _0x2ac02d = ![];
+          _0x5d55e1 == _0x169a7a["rows"] - 0x1
+            ? (_0x2ac02d = !![])
+            : _0x169a7a[_0x55f04f(0x153)][_0x3a738e][_0x5d55e1][
+                _0x55f04f(0x12d)
+              ] ==
+                _0x169a7a[_0x55f04f(0x153)][_0x3a738e][_0x5d55e1 + 0x1][
+                  "type"
+                ] &&
+              _0x169a7a["tiles"][_0x3a738e][_0x5d55e1][_0x55f04f(0x12d)] != -0x1
+            ? (_0xbbd7c0 += 0x1)
+            : (_0x2ac02d = !![]),
+            _0x2ac02d &&
+              (_0xbbd7c0 >= 0x3 &&
+                _0x8f4bb1[_0x55f04f(0x15a)]({
+                  column: _0x3a738e,
+                  row: _0x5d55e1 + 0x1 - _0xbbd7c0,
+                  length: _0xbbd7c0,
+                  horizontal: ![],
+                }),
+              (_0xbbd7c0 = 0x1));
         }
       }
     }
-
-    // Find vertical clusters
-    for (var i = 0; i < level.columns; i++) {
-      // Start with a single tile, cluster of 1
-      var matchlength = 1;
-      for (var j = 0; j < level.rows; j++) {
-        var checkcluster = false;
-
-        if (j == level.rows - 1) {
-          // Last tile
-          checkcluster = true;
-        } else {
-          // Check the type of the next tile
+    function _0x59a143() {
+      var _0x3194e2 = _0x15e955;
+      _0x2dc60f = [];
+      for (
+        var _0x17f7f5 = 0x0;
+        _0x17f7f5 < _0x169a7a[_0x3194e2(0x12c)];
+        _0x17f7f5++
+      ) {
+        for (
+          var _0x21e99a = 0x0;
+          _0x21e99a < _0x169a7a[_0x3194e2(0x101)] - 0x1;
+          _0x21e99a++
+        ) {
+          _0x52c45f(_0x21e99a, _0x17f7f5, _0x21e99a + 0x1, _0x17f7f5),
+            _0x4643c6(),
+            _0x52c45f(_0x21e99a, _0x17f7f5, _0x21e99a + 0x1, _0x17f7f5),
+            _0x8f4bb1[_0x3194e2(0x155)] > 0x0 &&
+              _0x2dc60f[_0x3194e2(0x15a)]({
+                column1: _0x21e99a,
+                row1: _0x17f7f5,
+                column2: _0x21e99a + 0x1,
+                row2: _0x17f7f5,
+              });
+        }
+      }
+      for (
+        var _0x21e99a = 0x0;
+        _0x21e99a < _0x169a7a[_0x3194e2(0x101)];
+        _0x21e99a++
+      ) {
+        for (
+          var _0x17f7f5 = 0x0;
+          _0x17f7f5 < _0x169a7a[_0x3194e2(0x12c)] - 0x1;
+          _0x17f7f5++
+        ) {
+          _0x52c45f(_0x21e99a, _0x17f7f5, _0x21e99a, _0x17f7f5 + 0x1),
+            _0x4643c6(),
+            _0x52c45f(_0x21e99a, _0x17f7f5, _0x21e99a, _0x17f7f5 + 0x1),
+            _0x8f4bb1[_0x3194e2(0x155)] > 0x0 &&
+              _0x2dc60f[_0x3194e2(0x15a)]({
+                column1: _0x21e99a,
+                row1: _0x17f7f5,
+                column2: _0x21e99a,
+                row2: _0x17f7f5 + 0x1,
+              });
+        }
+      }
+      _0x8f4bb1 = [];
+    }
+    function _0x26aa36(_0x50d778) {
+      var _0xbb74ea = _0x15e955;
+      for (
+        var _0x326c89 = 0x0;
+        _0x326c89 < _0x8f4bb1[_0xbb74ea(0x155)];
+        _0x326c89++
+      ) {
+        var _0x11c38d = _0x8f4bb1[_0x326c89],
+          _0x1c06ff = 0x0,
+          _0x5a35e3 = 0x0;
+        for (
+          var _0x56e825 = 0x0;
+          _0x56e825 < _0x11c38d[_0xbb74ea(0x155)];
+          _0x56e825++
+        ) {
+          _0x50d778(
+            _0x326c89,
+            _0x11c38d["column"] + _0x1c06ff,
+            _0x11c38d[_0xbb74ea(0x15f)] + _0x5a35e3,
+            _0x11c38d
+          ),
+            _0x11c38d[_0xbb74ea(0x154)] ? _0x1c06ff++ : _0x5a35e3++;
+        }
+      }
+    }
+    function _0x554d27() {
+      var _0x4d0b6e = _0x15e955;
+      _0x26aa36(function (_0x16dece, _0x2e690d, _0x6b46e5, _0x51d2f7) {
+        var _0x5a31d9 = _0x3bed;
+        _0x169a7a[_0x5a31d9(0x153)][_0x2e690d][_0x6b46e5][_0x5a31d9(0x12d)] =
+          -0x1;
+      });
+      for (
+        var _0x3890d6 = 0x0;
+        _0x3890d6 < _0x169a7a[_0x4d0b6e(0x101)];
+        _0x3890d6++
+      ) {
+        var _0x56e7ae = 0x0;
+        for (
+          var _0x28479c = _0x169a7a[_0x4d0b6e(0x12c)] - 0x1;
+          _0x28479c >= 0x0;
+          _0x28479c--
+        ) {
+          _0x169a7a["tiles"][_0x3890d6][_0x28479c][_0x4d0b6e(0x12d)] == -0x1
+            ? (_0x56e7ae++,
+              (_0x169a7a[_0x4d0b6e(0x153)][_0x3890d6][_0x28479c][
+                _0x4d0b6e(0x15c)
+              ] = 0x0))
+            : (_0x169a7a[_0x4d0b6e(0x153)][_0x3890d6][_0x28479c][
+                _0x4d0b6e(0x15c)
+              ] = _0x56e7ae);
+        }
+      }
+    }
+    function _0x323218() {
+      var _0x5312d0 = _0x15e955;
+      for (
+        var _0x295b97 = 0x0;
+        _0x295b97 < _0x169a7a[_0x5312d0(0x101)];
+        _0x295b97++
+      ) {
+        for (
+          var _0x29e35b = _0x169a7a["rows"] - 0x1;
+          _0x29e35b >= 0x0;
+          _0x29e35b--
+        ) {
           if (
-            level.tiles[i][j].type == level.tiles[i][j + 1].type &&
-            level.tiles[i][j].type != -1
-          ) {
-            // Same type as the previous tile, increase matchlength
-            matchlength += 1;
-          } else {
-            // Different type
-            checkcluster = true;
+            _0x169a7a["tiles"][_0x295b97][_0x29e35b][_0x5312d0(0x12d)] == -0x1
+          )
+            _0x169a7a[_0x5312d0(0x153)][_0x295b97][_0x29e35b]["type"] =
+              _0x145527();
+          else {
+            var _0x20972e =
+              _0x169a7a[_0x5312d0(0x153)][_0x295b97][_0x29e35b]["shift"];
+            _0x20972e > 0x0 &&
+              _0x52c45f(_0x295b97, _0x29e35b, _0x295b97, _0x29e35b + _0x20972e);
+          }
+          _0x169a7a[_0x5312d0(0x153)][_0x295b97][_0x29e35b][
+            _0x5312d0(0x15c)
+          ] = 0x0;
+        }
+      }
+    }
+    function _0x4171f3(_0x1d7b5a) {
+      var _0x4025e1 = _0x15e955,
+        _0x5e9b38 = Math[_0x4025e1(0x152)](
+          (_0x1d7b5a["x"] - _0x169a7a["x"]) / _0x169a7a[_0x4025e1(0xfe)]
+        ),
+        _0x21ae4b = Math["floor"](
+          (_0x1d7b5a["y"] - _0x169a7a["y"]) / _0x169a7a[_0x4025e1(0x14f)]
+        );
+      if (
+        _0x5e9b38 >= 0x0 &&
+        _0x5e9b38 < _0x169a7a["columns"] &&
+        _0x21ae4b >= 0x0 &&
+        _0x21ae4b < _0x169a7a["rows"]
+      )
+        return { valid: !![], x: _0x5e9b38, y: _0x21ae4b };
+      return { valid: ![], x: 0x0, y: 0x0 };
+    }
+    function _0xf52974(_0x4a8317, _0x4137f5, _0x310e14, _0xfa47b2) {
+      var _0x1a4e8f = _0x15e955;
+      if (
+        (Math["abs"](_0x4a8317 - _0x310e14) == 0x1 && _0x4137f5 == _0xfa47b2) ||
+        (Math[_0x1a4e8f(0x128)](_0x4137f5 - _0xfa47b2) == 0x1 &&
+          _0x4a8317 == _0x310e14)
+      )
+        return !![];
+      return ![];
+    }
+    function _0x52c45f(_0x22e582, _0xf7fad1, _0x3c1972, _0x383e08) {
+      var _0x262d15 = _0x15e955,
+        _0x315f76 = _0x169a7a["tiles"][_0x22e582][_0xf7fad1]["type"];
+      (_0x169a7a[_0x262d15(0x153)][_0x22e582][_0xf7fad1][_0x262d15(0x12d)] =
+        _0x169a7a["tiles"][_0x3c1972][_0x383e08]["type"]),
+        (_0x169a7a[_0x262d15(0x153)][_0x3c1972][_0x383e08][_0x262d15(0x12d)] =
+          _0x315f76);
+    }
+    function _0x1f474d(_0x32180c, _0x419227, _0x2c52c2, _0x51f84d) {
+      var _0x18c318 = _0x15e955;
+      (_0x2f0df2 = {
+        column1: _0x32180c,
+        row1: _0x419227,
+        column2: _0x2c52c2,
+        row2: _0x51f84d,
+      }),
+        (_0x169a7a[_0x18c318(0x151)]["selected"] = ![]),
+        (_0x54c8ef = 0x2),
+        (_0x1b671c = 0x0),
+        (_0x35dc3e = _0x45db39["resolve"]),
+        _0x315ad0();
+    }
+    function _0x1a1b3a(_0x1fe9a5) {
+      var _0x35d5f6 = _0x15e955,
+        _0xe0a768 = _0x38cc07(_0x50e22c, _0x1fe9a5);
+      _0x663bef &&
+        _0x169a7a[_0x35d5f6(0x151)][_0x35d5f6(0x14c)] &&
+        ((mt = _0x4171f3(_0xe0a768)),
+        mt[_0x35d5f6(0x157)] &&
+          _0xf52974(
+            mt["x"],
+            mt["y"],
+            _0x169a7a[_0x35d5f6(0x151)]["column"],
+            _0x169a7a[_0x35d5f6(0x151)][_0x35d5f6(0x15f)]
+          ) &&
+          _0x1f474d(
+            mt["x"],
+            mt["y"],
+            _0x169a7a[_0x35d5f6(0x151)]["column"],
+            _0x169a7a[_0x35d5f6(0x151)]["row"]
+          ));
+    }
+    function _0x126e5f(_0x43fb81) {
+      var _0x50c306 = _0x15e955,
+        _0xf6d6e0 = _0x38cc07(_0x50e22c, _0x43fb81);
+      if (!_0x663bef) {
+        mt = _0x4171f3(_0xf6d6e0);
+        if (mt["valid"]) {
+          var _0x2fb66e = ![];
+          if (_0x169a7a[_0x50c306(0x151)][_0x50c306(0x14c)]) {
+            if (
+              mt["x"] == _0x169a7a["selectedtile"][_0x50c306(0x105)] &&
+              mt["y"] == _0x169a7a[_0x50c306(0x151)][_0x50c306(0x15f)]
+            ) {
+              (_0x169a7a[_0x50c306(0x151)][_0x50c306(0x14c)] = ![]),
+                (_0x663bef = !![]);
+              return;
+            } else
+              _0xf52974(
+                mt["x"],
+                mt["y"],
+                _0x169a7a[_0x50c306(0x151)]["column"],
+                _0x169a7a["selectedtile"][_0x50c306(0x15f)]
+              ) &&
+                (_0x1f474d(
+                  mt["x"],
+                  mt["y"],
+                  _0x169a7a[_0x50c306(0x151)][_0x50c306(0x105)],
+                  _0x169a7a[_0x50c306(0x151)]["row"]
+                ),
+                (_0x2fb66e = !![]));
+          }
+          !_0x2fb66e &&
+            ((_0x169a7a[_0x50c306(0x151)][_0x50c306(0x105)] = mt["x"]),
+            (_0x169a7a[_0x50c306(0x151)]["row"] = mt["y"]),
+            (_0x169a7a["selectedtile"][_0x50c306(0x14c)] = !![]));
+        } else _0x169a7a[_0x50c306(0x151)]["selected"] = ![];
+        _0x663bef = !![];
+      }
+      for (
+        var _0x2c323f = 0x0;
+        _0x2c323f < _0x19f457[_0x50c306(0x155)];
+        _0x2c323f++
+      ) {
+        if (
+          _0xf6d6e0["x"] >= _0x19f457[_0x2c323f]["x"] &&
+          _0xf6d6e0["x"] <
+            _0x19f457[_0x2c323f]["x"] + _0x19f457[_0x2c323f]["width"] &&
+          _0xf6d6e0["y"] >= _0x19f457[_0x2c323f]["y"] &&
+          _0xf6d6e0["y"] <
+            _0x19f457[_0x2c323f]["y"] + _0x19f457[_0x2c323f][_0x50c306(0x13d)]
+        ) {
+          if (_0x2c323f == 0x0) _0x44ceb8();
+          else {
+            if (_0x2c323f == 0x1)
+              (_0x376bbd = !_0x376bbd),
+                (_0x19f457[_0x2c323f][_0x50c306(0x15e)] =
+                  (_0x376bbd ? _0x50c306(0x11f) : _0x50c306(0x10d)) +
+                  _0x50c306(0x100));
+            else
+              _0x2c323f == 0x2 &&
+                ((_0x36fb99 = !_0x36fb99),
+                (_0x19f457[_0x2c323f][_0x50c306(0x15e)] =
+                  (_0x36fb99 ? _0x50c306(0x138) : "Enable") +
+                  _0x50c306(0x131)));
           }
         }
-
-        // Check if there was a cluster
-        if (checkcluster) {
-          if (matchlength >= 3) {
-            // Found a vertical cluster
-            clusters.push({
-              column: i,
-              row: j + 1 - matchlength,
-              length: matchlength,
-              horizontal: false,
-            });
-          }
-
-          matchlength = 1;
-        }
       }
     }
-  }
-
-  // Find available moves
-  function findMoves() {
-    // Reset moves
-    moves = [];
-
-    // Check horizontal swaps
-    for (var j = 0; j < level.rows; j++) {
-      for (var i = 0; i < level.columns - 1; i++) {
-        // Swap, find clusters and swap back
-        swap(i, j, i + 1, j);
-        findClusters();
-        swap(i, j, i + 1, j);
-
-        // Check if the swap made a cluster
-        if (clusters.length > 0) {
-          // Found a move
-          moves.push({ column1: i, row1: j, column2: i + 1, row2: j });
-        }
-      }
+    function _0x315ad0() {
+      var _0x1a01c1 = _0x15e955;
+      _0x20cbdc == !![] &&
+        (_0x3fd541 == 0x0
+          ? ((_0x2a3635 = !![]), (_0x35dc3e = _0x45db39[_0x1a01c1(0x14a)]))
+          : _0x3fd541--);
     }
-
-    // Check vertical swaps
-    for (var i = 0; i < level.columns; i++) {
-      for (var j = 0; j < level.rows - 1; j++) {
-        // Swap, find clusters and swap back
-        swap(i, j, i, j + 1);
-        findClusters();
-        swap(i, j, i, j + 1);
-
-        // Check if the swap made a cluster
-        if (clusters.length > 0) {
-          // Found a move
-          moves.push({ column1: i, row1: j, column2: i, row2: j + 1 });
-        }
-      }
+    function _0x5c40c8() {
+      _0x1b5e89--,
+        (_0x46af79 = setTimeout(_0x5c40c8, 0x3e8)),
+        _0x1b5e89 == 0x0 &&
+          (_0x364cc1(),
+          (_0x20cbdc = ![]),
+          (_0x2a3635 = !![]),
+          (_0x35dc3e = _0x45db39["ready"]));
     }
-
-    // Reset clusters
-    clusters = [];
-  }
-
-  // Loop over the cluster tiles and execute a function
-  function loopClusters(func) {
-    for (var i = 0; i < clusters.length; i++) {
-      //  { column, row, length, horizontal }
-      var cluster = clusters[i];
-      var coffset = 0;
-      var roffset = 0;
-      for (var j = 0; j < cluster.length; j++) {
-        func(i, cluster.column + coffset, cluster.row + roffset, cluster);
-
-        if (cluster.horizontal) {
-          coffset++;
-        } else {
-          roffset++;
-        }
-      }
+    function _0x44850c() {
+      !_0x1b4725 && ((_0x1b4725 = 0x1), _0x5c40c8());
     }
-  }
-
-  // Remove the clusters
-  function removeClusters() {
-    // Change the type of the tiles to -1, indicating a removed tile
-    loopClusters(function (index, column, row, cluster) {
-      level.tiles[column][row].type = -1;
-    });
-
-    // Calculate how much a tile should be shifted downwards
-    for (var i = 0; i < level.columns; i++) {
-      var shift = 0;
-      for (var j = level.rows - 1; j >= 0; j--) {
-        // Loop from bottom to top
-        if (level.tiles[i][j].type == -1) {
-          // Tile is removed, increase shift
-          shift++;
-          level.tiles[i][j].shift = 0;
-        } else {
-          // Set the shift
-          level.tiles[i][j].shift = shift;
-        }
-      }
+    function _0x364cc1() {
+      clearTimeout(_0x46af79), (_0x1b4725 = 0x0);
     }
-  }
-
-  // Shift tiles and insert new tiles
-  function shiftTiles() {
-    // Shift tiles
-    for (var i = 0; i < level.columns; i++) {
-      for (var j = level.rows - 1; j >= 0; j--) {
-        // Loop from bottom to top
-        if (level.tiles[i][j].type == -1) {
-          // Insert new random tile
-          level.tiles[i][j].type = getRandomTile();
-        } else {
-          // Swap tile to shift it
-          var shift = level.tiles[i][j].shift;
-          if (shift > 0) {
-            swap(i, j, i, j + shift);
-          }
-        }
-
-        // Reset shift
-        level.tiles[i][j].shift = 0;
-      }
+    function _0x1e25a0(_0xc6dece) {
+      _0x663bef = ![];
     }
-  }
-
-  // Get the tile under the mouse
-  function getMouseTile(pos) {
-    // Calculate the index of the tile
-    var tx = Math.floor((pos.x - level.x) / level.tilewidth);
-    var ty = Math.floor((pos.y - level.y) / level.tileheight);
-
-    // Check if the tile is valid
-    if (tx >= 0 && tx < level.columns && ty >= 0 && ty < level.rows) {
-      // Tile is valid
+    function _0x3191d3(_0x4b9dfe) {
+      _0x663bef = ![];
+    }
+    function _0x38cc07(_0x5ad9f6, _0x712580) {
+      var _0x136f4e = _0x15e955,
+        _0x59204c = _0x5ad9f6[_0x136f4e(0x10a)]();
       return {
-        valid: true,
-        x: tx,
-        y: ty,
+        x: Math["round"](
+          ((_0x712580[_0x136f4e(0x108)] - _0x59204c[_0x136f4e(0x125)]) /
+            (_0x59204c[_0x136f4e(0x11a)] - _0x59204c[_0x136f4e(0x125)])) *
+            _0x5ad9f6[_0x136f4e(0x13a)]
+        ),
+        y: Math[_0x136f4e(0x145)](
+          ((_0x712580[_0x136f4e(0x104)] - _0x59204c["top"]) /
+            (_0x59204c[_0x136f4e(0x146)] - _0x59204c[_0x136f4e(0x12e)])) *
+            _0x5ad9f6[_0x136f4e(0x13d)]
+        ),
       };
     }
-
-    // No valid tile
-    return {
-      valid: false,
-      x: 0,
-      y: 0,
-    };
-  }
-
-  // Check if two tiles can be swapped
-  function canSwap(x1, y1, x2, y2) {
-    // Check if the tile is a direct neighbor of the selected tile
-    if (
-      (Math.abs(x1 - x2) == 1 && y1 == y2) ||
-      (Math.abs(y1 - y2) == 1 && x1 == x2)
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  // Swap two tiles in the level
-  function swap(x1, y1, x2, y2) {
-    var typeswap = level.tiles[x1][y1].type;
-    level.tiles[x1][y1].type = level.tiles[x2][y2].type;
-    level.tiles[x2][y2].type = typeswap;
-  }
-
-  // Swap two tiles as a player action
-  function mouseSwap(c1, r1, c2, r2) {
-    // Save the current move
-    currentmove = { column1: c1, row1: r1, column2: c2, row2: r2 };
-
-    // Deselect
-    level.selectedtile.selected = false;
-
-    // Start animation
-    animationstate = 2;
-    animationtime = 0;
-    gamestate = gamestates.resolve;
-
-    // setMoves
-    setMoves();
-  }
-
-  // On mouse movement
-  function onMouseMove(e) {
-    // Get the mouse position
-    var pos = getMousePos(canvas, e);
-
-    // Check if we are dragging with a tile selected
-    if (drag && level.selectedtile.selected) {
-      // Get the tile under the mouse
-      mt = getMouseTile(pos);
-      if (mt.valid) {
-        // Valid tile
-
-        // Check if the tiles can be swapped
-        if (
-          canSwap(mt.x, mt.y, level.selectedtile.column, level.selectedtile.row)
-        ) {
-          // Swap the tiles
-          mouseSwap(
-            mt.x,
-            mt.y,
-            level.selectedtile.column,
-            level.selectedtile.row
-          );
-        }
-      }
-    }
-  }
-
-  // On mouse button click
-  function onMouseDown(e) {
-    // Get the mouse position
-    var pos = getMousePos(canvas, e);
-
-    // Start dragging
-    if (!drag) {
-      // Get the tile under the mouse
-      mt = getMouseTile(pos);
-
-      if (mt.valid) {
-        // Valid tile
-        var swapped = false;
-        if (level.selectedtile.selected) {
-          if (
-            mt.x == level.selectedtile.column &&
-            mt.y == level.selectedtile.row
-          ) {
-            // Same tile selected, deselect
-            level.selectedtile.selected = false;
-            drag = true;
-            return;
-          } else if (
-            canSwap(
-              mt.x,
-              mt.y,
-              level.selectedtile.column,
-              level.selectedtile.row
-            )
-          ) {
-            // Tiles can be swapped, swap the tiles
-            mouseSwap(
-              mt.x,
-              mt.y,
-              level.selectedtile.column,
-              level.selectedtile.row
-            );
-            swapped = true;
-          }
-        }
-
-        if (!swapped) {
-          // Set the new selected tile
-          level.selectedtile.column = mt.x;
-          level.selectedtile.row = mt.y;
-          level.selectedtile.selected = true;
-        }
-      } else {
-        // Invalid tile
-        level.selectedtile.selected = false;
-      }
-
-      // Start dragging
-      drag = true;
-    }
-
-    // Check if a button was clicked
-    for (var i = 0; i < buttons.length; i++) {
-      if (
-        pos.x >= buttons[i].x &&
-        pos.x < buttons[i].x + buttons[i].width &&
-        pos.y >= buttons[i].y &&
-        pos.y < buttons[i].y + buttons[i].height
-      ) {
-        // Button i was clicked
-        if (i == 0) {
-          // New Game
-          newGame();
-        } else if (i == 1) {
-          // Show Moves
-          showmoves = !showmoves;
-          buttons[i].text = (showmoves ? "Hide" : "Show") + " Moves";
-        } else if (i == 2) {
-          // AI Bot
-          aibot = !aibot;
-          buttons[i].text = (aibot ? "Disable" : "Enable") + " AI Bot";
-        }
-      }
-    }
-  }
-
-  // Decrease moves to 0
-  function setMoves() {
-    if (movesleft == true) {
-      if (countmoves == 0) {
-        // Display gameover
-        gameover = true;
-        // Set the gamestate to ready
-        gamestate = gamestates.ready;
-      } else {
-        // If you make a move it will decrease
-        countmoves--;
-      }
-    }
-  }
-
-  // Decrease seconds to 0
-  function timedCount() {
-    // Decrease seconds
-    seconds--;
-    timeout = setTimeout(timedCount, 1000);
-
-    if (seconds == 0) {
-      stopTimer();
-      movesleft = false;
-      gameover = true;
-      gamestate = gamestates.ready;
-    }
-  }
-
-  // Start timer
-  function startTimer() {
-    if (!timer_on) {
-      timer_on = 1;
-      timedCount();
-    }
-  }
-
-  // Stop timer
-  function stopTimer() {
-    clearTimeout(timeout);
-    timer_on = 0;
-  }
-
-  function onMouseUp(e) {
-    // Reset dragging
-    drag = false;
-  }
-
-  function onMouseOut(e) {
-    // Reset dragging
-    drag = false;
-  }
-
-  // Get the mouse position
-  function getMousePos(canvas, e) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: Math.round(
-        ((e.clientX - rect.left) / (rect.right - rect.left)) * canvas.width
-      ),
-      y: Math.round(
-        ((e.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height
-      ),
-    };
-  }
-
-  // Call init to start the game
-  init();
-};
+    _0x1f1aee();
+  });
+function _0x52de() {
+  var _0x219744 = [
+    "column",
+    "285SqXpOw",
+    "mousemove",
+    "clientX",
+    "18px\x20Helvetica",
+    "getBoundingClientRect",
+    "stroke",
+    "fillText",
+    "Show",
+    "resolve",
+    "51790860zAupAl",
+    "seconds",
+    "1321674qIEZsj",
+    "#000000",
+    "#808080",
+    "highScore",
+    "mousedown",
+    "column1",
+    "querySelector",
+    "fillStyle",
+    "random",
+    "right",
+    "7553016GknlZm",
+    "getContext",
+    "18RLToMQ",
+    "tilex",
+    "Hide",
+    "moveTo",
+    "mouseup",
+    "change",
+    "select",
+    "Game\x20Over!",
+    "left",
+    "5588385mPPSuX",
+    "value",
+    "abs",
+    "835541BJkCcC",
+    "font",
+    "#223c3e",
+    "rows",
+    "type",
+    "top",
+    "rgba(0,\x200,\x200,\x200.8)",
+    "fillRect",
+    "\x20AI\x20Bot",
+    "requestAnimationFrame",
+    "innerWidth",
+    "onload",
+    "#dde2c1",
+    "Moves\x20left",
+    "strokeStyle",
+    "Disable",
+    "column2",
+    "width",
+    "mouseout",
+    "17778arEzPY",
+    "height",
+    "#ffffff",
+    "Max\x20score",
+    "Time\x20left",
+    "tiley",
+    "1904640jaPcQi",
+    "rgb(",
+    "#00ff00",
+    "round",
+    "bottom",
+    "#677f72",
+    "Show\x20Moves",
+    "light",
+    "ready",
+    "#183943",
+    "selected",
+    "getElementById",
+    "Score",
+    "tileheight",
+    "row2",
+    "selectedtile",
+    "floor",
+    "tiles",
+    "horizontal",
+    "length",
+    "getItem",
+    "valid",
+    "measureText",
+    "24px\x20Helvetica",
+    "push",
+    "#FFFFFF",
+    "shift",
+    "row1",
+    "text",
+    "row",
+    "tilewidth",
+    "viewport",
+    "\x20Moves",
+    "columns",
+    "addEventListener",
+    "setItem",
+    "clientY",
+  ];
+  _0x52de = function () {
+    return _0x219744;
+  };
+  return _0x52de();
+}
