@@ -200,7 +200,7 @@ colores {
   #settings-content {
     margin: 0 auto;
     position: relative;
-    bottom: 598px;
+    bottom: 477px;
     left: 60px;
     display: none;
     width: 250px;
@@ -209,13 +209,15 @@ colores {
   }
 
   .set-seconds,
-  .set-moves {
+  .set-moves,
+  .set-music {
     padding: 20px;
     height: 20px;
   }
 
   .set-seconds:hover,
-  .set-moves:hover {
+  .set-moves:hover,
+  .set-music:hover {
     background-color: var(--background-content-a);
     border-radius: 10px;
   }
@@ -238,14 +240,27 @@ colores {
   .set-seconds button:focus,
   .set-moves button:hover,
   .set-moves button:focus {
-    background-color: var(--background-color);
-    border-radius: 100%;
+    background-color: rgba(128, 128, 128, 0.3);
   }
 
   .check-button {
     position: relative;
     right: 6px;
     bottom: 1.3px;
+    background-color: white;
+    border-radius: 100%;
+  }
+
+  #play-button {
+    position: relative;
+    left: 109px;
+    background-color: white;
+    border-radius: 100%;
+  }
+  
+  .set-music > label {
+    position: relative;
+    bottom: 7px;
   }
 
   input {
@@ -280,17 +295,12 @@ colores {
   /* GAME */
   .game {
     width: 380px;
-    height: 600px;
-    margin: 0 auto;
+    height: 480px;
     position: relative;
-    bottom: -80px;
+    bottom: -40px;
   }
 
-  canvas {
-    margin: 0 auto;
-  }
-
-  .game #viewport {
+  #viewport {
     width: 380px;
     height: 480px;
   }
@@ -368,7 +378,8 @@ colores {
     border-radius: 10px;
   }
 
-  .mode-blog, .mode-about {
+  .mode-blog,
+  .mode-about {
     width: 55px;
     height: 45px;
     position: relative;
@@ -376,7 +387,8 @@ colores {
     left: 320px;
   }
 
-  .mode-blog #selTheme, .mode-about #selTheme {
+  .mode-blog #selTheme,
+  .mode-about #selTheme {
     position: relative;
     left: 1px;
     bottom: 25px;
@@ -544,13 +556,6 @@ colores {
     100% {
       transform: rotate3d(1, 1, 0, -360deg);
     }
-  }
-
-  .how-game {
-    width: 185px;
-    margin: 0 auto;
-    position: relative;
-    left: -5px;
   }
 }
 
@@ -749,7 +754,7 @@ colores {
   #settings-content {
     margin: 0 auto;
     position: relative;
-    bottom: 598px;
+    bottom: 477px;
     left: 10%;
     display: none;
     width: 250px;
@@ -758,13 +763,15 @@ colores {
   }
 
   .set-seconds,
-  .set-moves {
+  .set-moves,
+  .set-music {
     padding: 20px;
     height: 20px;
   }
 
   .set-seconds:hover,
-  .set-moves:hover {
+  .set-moves:hover,
+  .set-music:hover {
     background-color: var(--background-content-a);
     border-radius: 10px;
   }
@@ -787,14 +794,27 @@ colores {
   .set-seconds button:focus,
   .set-moves button:hover,
   .set-moves button:focus {
-    background-color: var(--background-color);
-    border-radius: 100%;
+    background-color: rgba(128, 128, 128, 0.3);
   }
 
   .check-button {
     position: relative;
     right: 6px;
     bottom: 1.3px;
+    background-color: white;
+    border-radius: 100%;
+  }
+
+  #play-button {
+    position: relative;
+    left: 109px;
+    background-color: white;
+    border-radius: 100%;
+  }
+  
+  .set-music > label {
+    position: relative;
+    bottom: 7px;
   }
 
   input {
@@ -828,20 +848,19 @@ colores {
 
   /* GAME */
   .game {
-    width: 380px;
-    height: 600px;
+    width: 320px;
+    height: 450px;
     margin: 0 auto;
     position: relative;
-    bottom: -80px;
+    bottom: -20px;
+    /* border: solid wheat; */
   }
 
-  canvas {
+  #viewport {
     margin: 0 auto;
-  }
-
-  .game #viewport {
-    width: 380px;
-    height: 480px;
+    width: 320px;
+    height: 450px;
+    /* border: solid red; */
   }
 
   /* OTHERS */
@@ -917,7 +936,8 @@ colores {
     border-radius: 10px;
   }
 
-  .mode-blog, .mode-about {
+  .mode-blog,
+  .mode-about {
     width: 55px;
     height: 45px;
     position: relative;
@@ -925,7 +945,8 @@ colores {
     left: 80%;
   }
 
-  .mode-blog #selTheme, .mode-about #selTheme {
+  .mode-blog #selTheme,
+  .mode-about #selTheme {
     position: relative;
     left: 1px;
     bottom: 25px;
@@ -1093,12 +1114,5 @@ colores {
     100% {
       transform: rotate3d(1, 1, 0, -360deg);
     }
-  }
-
-  .how-game {
-    width: 185px;
-    margin: 0 auto;
-    position: relative;
-    left: -5px;
   }
 }
