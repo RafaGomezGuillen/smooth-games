@@ -21,7 +21,7 @@ colores {
     --dark-match-3-button-a: #dde2c1;
     --dark-blog-content: #dde2c1;
   }
-
+  
   body.theme-dark {
     /* Set dark mode variables */
     --background-color: var(--dark-background-color);
