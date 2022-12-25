@@ -424,7 +424,8 @@ colores {
     height: 55px;
   }
 
-  .fa-paypal {
+  .fa-paypal, 
+  #credits-music {
     left: 295px;
   }
 

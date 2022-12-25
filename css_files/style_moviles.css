@@ -437,7 +437,8 @@ colores {
     height: 55px;
   }
 
-  .fa-paypal {
+  .fa-paypal,
+  #credits-music {
     position: relative;
     left: 85px;
   }
@@ -995,7 +996,8 @@ colores {
     height: 55px;
   }
 
-  .fa-paypal {
+  .fa-paypal,
+  #credits-music {
     position: relative;
     left: 85px;
   }
