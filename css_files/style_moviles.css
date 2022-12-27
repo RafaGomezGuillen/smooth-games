@@ -563,7 +563,7 @@ colores {
     margin: 0 auto;
     width: 30px;
     color: var(--background-color);
-    font-size: 1px;
+    font-size: 0.1px;
   }
 }
 
@@ -1130,6 +1130,6 @@ colores {
     margin: 0 auto;
     width: 30px;
     color: var(--background-color);
-    font-size: 1px;
+    font-size: 0.1px;
   }
 }
