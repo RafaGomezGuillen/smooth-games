@@ -98,7 +98,7 @@ colores {
     position: relative;
   }
 
-  div.top-bar-name > p.top-bar-name-1 {
+  div.top-bar-name > .top-bar-name-1 {
     text-transform: uppercase;
     font-size: 18px;
     width: 170px;
@@ -108,7 +108,7 @@ colores {
     left: -7px;
   }
 
-  div.top-bar-name > p.top-bar-name-2 {
+  div.top-bar-name > .top-bar-name-2 {
     text-transform: uppercase;
     color: grey;
     font-size: 13px;
@@ -558,6 +558,13 @@ colores {
       transform: rotate3d(1, 1, 0, -360deg);
     }
   }
+
+  .description {
+    margin: 0 auto;
+    width: 30px;
+    color: var(--background-color);
+    font-size: 1px;
+  }
 }
 
 /* small devices */
@@ -652,7 +659,7 @@ colores {
     position: relative;
   }
 
-  div.top-bar-name > p.top-bar-name-1 {
+  div.top-bar-name > .top-bar-name-1 {
     text-transform: uppercase;
     margin: 0 auto;
     font-size: 12px;
@@ -662,7 +669,7 @@ colores {
     left: -8px;
   }
 
-  div.top-bar-name > p.top-bar-name-2 {
+  div.top-bar-name > .top-bar-name-2 {
     text-transform: uppercase;
     margin: 0 auto;
     color: grey;
@@ -1117,5 +1124,12 @@ colores {
     100% {
       transform: rotate3d(1, 1, 0, -360deg);
     }
+  }
+
+  .description {
+    margin: 0 auto;
+    width: 30px;
+    color: var(--background-color);
+    font-size: 1px;
   }
 }

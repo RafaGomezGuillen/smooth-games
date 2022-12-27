@@ -97,7 +97,7 @@ colores {
     text-align: center;
   }
 
-  div.top-bar-name > p.top-bar-name-1 {
+  div.top-bar-name > .top-bar-name-1 {
     text-transform: uppercase;
     margin: 0 auto;
     font-size: 20px;
@@ -105,7 +105,7 @@ colores {
     height: 25px;
   }
 
-  div.top-bar-name > p.top-bar-name-2 {
+  div.top-bar-name > .top-bar-name-2 {
     text-transform: uppercase;
     margin: 0 auto;
     color: grey;
@@ -553,4 +553,11 @@ colores {
       transform: rotate3d(1, 1, 0, -360deg);
     }
   }
+}
+
+.description {
+  margin: 0 auto;
+  width: 30px;
+  color: var(--background-color);
+  font-size: 1px;
 }
