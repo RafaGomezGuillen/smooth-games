@@ -7,12 +7,10 @@
   <meta name="copyright" content="smoothmatch3.com">
   <meta name="author" content="Rafael Gomez Guillen">
   <meta name="audience" content="all">
-  <meta name="description" content="The only match 3 game puzzle on internet without ads or purchases.">
-  <meta name="keywords" content="smooth match 3, match 3, no ads">
   <meta name="viewport" content="width=device, initial-scale=1, maximum-scale=1">
   <meta name="category" content="games">
-  <link rel="icon" type="image/icon" href="image_files/icon.jpg">
-  <title> Smooth Match 3 </title>
+  <link rel="icon" type="image/icon" href="../image_files/icon.jpg">
+  <title> About the game </title>
   <link rel="stylesheet" href="../css_files/style.css" />
   <link rel="stylesheet" href="../css_files/style_moviles.css"/>
   <script src="../javascript_files/script.js"> </script>
@@ -21,15 +19,18 @@
 <body>
   <div class="top-bar">
     <div class="top-bar-name">
-      <p class="top-bar-name-1"> Smooth Match 3</p>
-      <p class="top-bar-name-2"> about the game </p>
+      <p class="top-bar-name-1"> about the game</p>
+      <p class="top-bar-name-2"> Version beta </p>
     </div>
     <div class="menu">
       <button onclick="displayMenu()" class="menu-button"> </button>
       <img class="bars" width="20px" src="../image_files/bars.svg">
       <div id="my_menu" class="menu-content">
-        <a href="../index.html">Game</a>
+        <a href="../index.html">Smooth Match 3</a>
+        <a href="smooth-2048.html">Smooth 2048</a>
+        <hr>
         <a href="blog.html">Blog</a>
+        <a href="about.html">About the game</a>
         <a href="contact.html">Contact & donations</a>
       </div>
     </div>
@@ -42,6 +43,7 @@
     </div>
   </div>
   <div class="about-content">
+    <h1> Smooth Match 3</h1>
     <p>
       Smooth Match 3 is a game based on match 3 games puzzles. I create this webpage just for fun, not monetary purposes,
       obviously any kind of donation is great for me, but you are not forced to. <br><br>
@@ -50,7 +52,14 @@
       and adapted it to this page. I wanted to try a minimalist desing as well as the Worlde game. <br><br>
 
       The whole code is not made for me, I would like to thank <a href="https://github.com/rembound">Rembound</a> for his match 3 game code on
-      Github. I added some functions such as moves left, countdown, high score, etc... But I want to emphasize that the whole merit is for Rembound.
+      Github. I added some functions such as <strong>moves left, countdown, high score, etc...</strong>  But I want to emphasize that the whole merit is for Rembound.
+    </p>
+    <h1> Smooth 2048</h1>
+    <p>
+      Then we have Smooth 2048. It is the same as Smooth match 3... I love 2048 games and just decided to add it on my page as well. <br><br>
+
+      The whole code is not made for me, I would like to thank <a href="https://github.com/alokmenghrajani">Alok Menghrajani</a> for his 2048 game code on
+      Github. I added some functions such as <strong>Set undos.</strong> But I want to emphasize that the whole merit is for Alok Menghrajani.
     </p>
     <h1> Data and privacy </h1>
     <p>
@@ -59,10 +68,9 @@
       You are free to do whatever you want with this page.
     </p>
     <h1> Ready to play?</h1>
-    <div class="match-3-game-button">
-      <a href="../index.html">Smooth Match 3</a>
-    </div>
-  </div>
+    <br>
+    <a id="button-play-color" class="button-play" href="../index.html">Smooth Match 3</a>
+    <a id="button-play-color" class="button-play" href="smooth-2048.html">Smooth 2048</a>
 </body>
 
 </html>

@@ -146,9 +146,13 @@ colores {
   .menu-content {
     display: none;
     position: absolute;
-    bottom: -84px;
+    top: 5px;
     min-width: 200px;
-    z-index: 1;
+    z-index: 3;
+  }
+
+  hr {
+    border: solid var(--background-color);
   }
 
   .menu-content a {
@@ -193,7 +197,7 @@ colores {
   .settings-img {
     position: relative;
     bottom: 153px;
-    left: 242px;
+    left: 243px;
     width: 22px;
   }
 
@@ -205,7 +209,12 @@ colores {
     display: none;
     width: 250px;
     color: var(--content-a);
-    z-index: 1;
+    z-index: 3;
+  }
+
+  .game-2048 + #settings-content {
+    position: relative;
+    bottom: 356px;
   }
 
   .set-seconds,
@@ -305,6 +314,24 @@ colores {
     height: 480px;
   }
 
+  /* GAME 2048 */
+  .game-2048 {
+    width: 380px;
+    height: 480;
+    margin: 0 auto;
+    position: relative;
+    bottom: -20px;
+  }
+
+  h1.title {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+    display: block;
+    float: left;
+    color: var(--top-bar-name-color);
+  }
+
   /* OTHERS */
   .settings-button:hover,
   .settings-button:focus,
@@ -317,7 +344,6 @@ colores {
   .menu-content a,
   .how-to-play,
   #selTheme,
-  .match-3-game-button,
   .mode,
   .mode-blog,
   .mode-about {
@@ -327,14 +353,11 @@ colores {
   /* BLOG */
   .blog-content p,
   .blog-content a,
+  .blog-content ul,
   .about-content p,
   .about-content a,
   .how-content {
     color: var(--blog-content);
-  }
-
-  .match-3-game-button a {
-    color: var(--match-3-button-a);
   }
 
   .blog-content,
@@ -347,6 +370,7 @@ colores {
 
   .blog-content p,
   .about-content p,
+  .blog-content ul,
   .how-content p {
     padding-left: 50px;
     padding-right: 50px;
@@ -358,24 +382,41 @@ colores {
     text-align: center;
   }
 
-  /* match-3-game-button */
-  .match-3-game-button {
-    margin: 0 auto;
-    margin-top: 40px;
-    width: 300px;
-    height: 50px;
-  }
-
-  .match-3-game-button a {
+  /* button-play */
+  .button-play {
     padding: 20px;
     background-color: var(--background-match-3-button);
     text-align: center;
     position: relative;
-    left: 45px;
+    left: 50px;
     width: 50px;
-    font-size: 22px;
+    font-size: 15px;
     text-decoration: none;
     border-radius: 10px;
+  }
+
+  #button-play-color {
+    color: var(--match-3-button-a);
+  }
+
+  .donation-buttons > .button-play {
+    padding: 20px;
+    background-color: var(--background-match-3-button);
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    font-size: 15px;
+    text-decoration: none;
+    border-radius: 10px;
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    bottom: 25px;
+  }
+
+  .how-to-buttons > .button-play {
+    position: relative;
+    left: 40px;
   }
 
   .mode-blog,
@@ -444,7 +485,7 @@ colores {
   }
 
   .fa:hover,
-  .match-3-game-button:hover {
+  .button-play:hover {
     opacity: 0.7;
   }
 
@@ -458,7 +499,7 @@ colores {
     border-radius: 10px;
   }
 
-  /* how-to-play */
+  /* how-to-play match 3*/
   .how-content {
     width: 380px;
     margin: 0 auto;
@@ -542,7 +583,7 @@ colores {
   }
 
   .title-04 {
-    width: 380px;
+    width: 370px;
     margin: 0 auto;
     padding: 10px;
   }
@@ -556,6 +597,94 @@ colores {
     }
     100% {
       transform: rotate3d(1, 1, 0, -360deg);
+    }
+  }
+
+  /* how to play 2048 */
+  .row-01-2048 {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    float: left;
+    margin: 10px;
+  }
+
+  .row-01-2048 p {
+    text-align: center;
+    font-size: 20px;
+    margin: auto;
+    padding: 15px;
+  }
+
+  .row-01-2048 {
+    animation: row-01-2048 0.8s 1s 2 both;
+  }
+
+  .title-02-2048 {
+    width: 260px;
+    margin: 0 auto;
+  }
+
+  .row-02-2048 {
+    width: 155px;
+    height: 55px;
+    animation: row-01-2048 0.8s 1s 2 both;
+    margin: 15px;
+  }
+
+  .row-02-2048 p {
+    text-align: center;
+    font-size: 18px;
+    margin: auto;
+    padding: 15px;
+    color: var(--content-a);
+  }
+
+  #letter-01-2048 {
+    background-color: #EEE4DA;
+  }
+
+  #letter-02-2048 {
+    background-color: #EDE0C8;
+  }
+
+  #letter-03-2048 {
+    background-color: #F2B179;
+  }
+
+  #letter-04-2048 {
+    background-color: #F67C5F;
+  }
+
+  #letter-05-2048 {
+    background-color: #EDCF72;
+  }
+
+  #letter-06-2048 {
+    background-color: #CDC1B4;
+  }
+
+  @keyframes row-01-2048 {
+    0% {
+      transform: skew(0deg 0deg);
+    }
+    30% {
+      transform: skew(25deg 25deg);
+    }
+    40% {
+      transform: skew(-15deg, -15deg);
+    }
+    50% {
+      transform: skew(15deg, 15deg);
+    }
+    65% {
+      transform: skew(-5deg, -5deg);
+    }
+    75% {
+      transform: skew(5deg, 5deg);
+    }
+    100% {
+      transform: skew(0deg 0deg);
     }
   }
 
@@ -708,9 +837,13 @@ colores {
   .menu-content {
     display: none;
     position: absolute;
-    bottom: -84px;
+    top: 5px;
     min-width: 200px;
-    z-index: 1;
+    z-index: 3;
+  }
+
+  hr {
+    border: solid var(--background-color);
   }
 
   .menu-content a {
@@ -755,7 +888,7 @@ colores {
   .settings-img {
     position: relative;
     bottom: 153px;
-    left: 56.5%;
+    left: 55.5%;
     width: 22px;
   }
 
@@ -767,7 +900,12 @@ colores {
     display: none;
     width: 250px;
     color: var(--content-a);
-    z-index: 1;
+    z-index: 3;
+  }
+
+  .game-2048 + #settings-content {
+    position: relative;
+    bottom: 448px;
   }
 
   .set-seconds,
@@ -861,14 +999,30 @@ colores {
     margin: 0 auto;
     position: relative;
     bottom: -20px;
-    /* border: solid wheat; */
   }
 
   #viewport {
     margin: 0 auto;
     width: 320px;
     height: 450px;
-    /* border: solid red; */
+  }
+
+  /* GAME 2048 */
+  .game-2048 {
+    width: 320px;
+    height: 450px;
+    margin: 0 auto;
+    position: relative;
+    bottom: -20px;
+  }
+
+  h1.title {
+    font-size: 80px;
+    font-weight: bold;
+    margin: 0;
+    display: block;
+    float: left;
+    color: var(--top-bar-name-color);
   }
 
   /* OTHERS */
@@ -883,7 +1037,6 @@ colores {
   .menu-content a,
   .how-to-play,
   #selTheme,
-  .match-3-game-button,
   .mode,
   .mode-blog,
   .mode-about {
@@ -893,14 +1046,11 @@ colores {
   /* BLOG */
   .blog-content p,
   .blog-content a,
+  .blog-content ul,
   .about-content p,
   .about-content a,
   .how-content {
     color: var(--blog-content);
-  }
-
-  .match-3-game-button a {
-    color: var(--match-3-button-a);
   }
 
   .blog-content,
@@ -924,24 +1074,41 @@ colores {
     text-align: center;
   }
 
-  /* match-3-game-button */
-  .match-3-game-button {
-    margin: 0 auto;
-    margin-top: 40px;
-    width: 300px;
-    height: 50px;
-  }
-
-  .match-3-game-button a {
+  /* button-play */
+  .button-play {
     padding: 20px;
     background-color: var(--background-match-3-button);
     text-align: center;
     position: relative;
-    left: 45px;
+    left: 10px;
     width: 50px;
-    font-size: 22px;
+    font-size: 15px;
     text-decoration: none;
     border-radius: 10px;
+  }
+
+  .how-to-buttons > .button-play {
+    position: relative;
+    left: 45px;
+  }
+
+  #button-play-color {
+    color: var(--match-3-button-a);
+  }
+
+  .donation-buttons > .button-play {
+    padding: 20px;
+    background-color: var(--background-match-3-button);
+    text-align: center;
+    width: 50px;
+    font-size: 15px;
+    text-decoration: none;
+    border-radius: 10px;
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    bottom: 25px;
+    left: 40px;
   }
 
   .mode-blog,
@@ -1011,7 +1178,7 @@ colores {
 
   
   .fa:hover,
-  .match-3-game-button:hover {
+  .button-play:hover {
     opacity: 0.7;
   }
 
@@ -1123,6 +1290,94 @@ colores {
     }
     100% {
       transform: rotate3d(1, 1, 0, -360deg);
+    }
+  }
+
+  /* how to play 2048 */
+  .row-01-2048 {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    float: left;
+    margin: 10px;
+  }
+
+  .row-01-2048 p {
+    text-align: center;
+    font-size: 20px;
+    margin: auto;
+    padding: 15px;
+  }
+
+  .row-01-2048 {
+    animation: row-01-2048 0.8s 1s 2 both;
+  }
+
+  .title-02-2048 {
+    width: 260px;
+    margin: 0 auto;
+  }
+
+  .row-02-2048 {
+    width: 155px;
+    height: 55px;
+    animation: row-01-2048 0.8s 1s 2 both;
+    margin: 15px;
+  }
+
+  .row-02-2048 p {
+    text-align: center;
+    font-size: 18px;
+    margin: auto;
+    padding: 15px;
+    color: var(--content-a);
+  }
+
+  #letter-01-2048 {
+    background-color: #EEE4DA;
+  }
+
+  #letter-02-2048 {
+    background-color: #EDE0C8;
+  }
+
+  #letter-03-2048 {
+    background-color: #F2B179;
+  }
+
+  #letter-04-2048 {
+    background-color: #F67C5F;
+  }
+
+  #letter-05-2048 {
+    background-color: #EDCF72;
+  }
+
+  #letter-06-2048 {
+    background-color: #CDC1B4;
+  }
+
+  @keyframes row-01-2048 {
+    0% {
+      transform: skew(0deg 0deg);
+    }
+    30% {
+      transform: skew(25deg 25deg);
+    }
+    40% {
+      transform: skew(-15deg, -15deg);
+    }
+    50% {
+      transform: skew(15deg, 15deg);
+    }
+    65% {
+      transform: skew(-5deg, -5deg);
+    }
+    75% {
+      transform: skew(5deg, 5deg);
+    }
+    100% {
+      transform: skew(0deg 0deg);
     }
   }
 
