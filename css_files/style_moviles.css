@@ -266,6 +266,13 @@ colores {
     background-color: white;
     border-radius: 100%;
   }
+
+  #play-button-2048 {
+    position: relative;
+    left: 108px;
+    background-color: white;
+    border-radius: 100%;
+  }
   
   .set-music > label {
     position: relative;
@@ -954,6 +961,13 @@ colores {
   #play-button {
     position: relative;
     left: 103px;
+    background-color: white;
+    border-radius: 100%;
+  }
+
+  #play-button-2048 {
+    position: relative;
+    left: 108px;
     background-color: white;
     border-radius: 100%;
   }

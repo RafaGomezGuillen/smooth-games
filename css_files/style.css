@@ -250,7 +250,8 @@ colores {
     border-radius: 100%;
   }
 
-  #play-button {
+  #play-button, 
+  #play-button-2048 {
     position: relative;
     left: 103px;
     background-color: white;
