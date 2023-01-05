@@ -9,37 +9,47 @@
 
 <url>
   <loc>https://game.smoothmatch3.com/</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://game.smoothmatch3.com/html_files/smooth-2048.html</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://game.smoothmatch3.com/html_files/smooth-tetris.html</loc>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://game.smoothmatch3.com/html_files/blog.html</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://game.smoothmatch3.com/html_files/contact.html</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://game.smoothmatch3.com/html_files/how-to-play.html</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
-  <priority>0.80</priority>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://game.smoothmatch3.com/html_files/about.html</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 <url>
   <loc>https://game.smoothmatch3.com/html_files/how-to-play-2048.html</loc>
-  <lastmod>2022-12-31T11:35:33+00:00</lastmod>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://game.smoothmatch3.com/html_files/how-to-play-tetris.html</loc>
+  <lastmod>2023-01-05T18:00:52+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
