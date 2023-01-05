@@ -143,12 +143,12 @@
     padding: 20px;
     background-color: var(--background-match-3-button);
     text-align: center;
-    position: relative;
-    left: 50px;
     width: 50px;
-    font-size: 15px;
-    text-decoration: none;
+    font-size: 12px;
+    text-decoration: none; 
     border-radius: 10px;
+    position: relative;
+    left: 150px;
   }
 
   .donation-buttons > .button-play {
@@ -447,15 +447,15 @@
 
   /* button-play */
   .button-play {
-    padding: 20px;
+    padding: 16.2px;
     background-color: var(--background-match-3-button);
     text-align: center;
-    position: relative;
-    left: 10px;
     width: 50px;
-    font-size: 15px;
-    text-decoration: none;
+    font-size: 12px;
+    text-decoration: none; 
     border-radius: 10px;
+    position: relative;
+    left: 150px;
   }
 
   .how-to-buttons > .button-play {

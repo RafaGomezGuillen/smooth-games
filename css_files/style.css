@@ -1,11 +1,19 @@
-/* DARK COLORS */
 colores {
   color: #dde2c1;
   color: #b7c0a6;
   color: #677f72;
   color: #183943;
   color: #223c3e;
+
+  color: #ff8080;
+  color: #008080;
+  color: #8080ff;
+  color: #ffff80;
+  color: #ff00ff;
+  color: #80ffff;
+  color: #808080;
 }
+
 /* COLORS SECTION */
 :root {
   /* Dark mode variables */
@@ -18,6 +26,8 @@ colores {
   --dark-background-match-3-button: #677f72;
   --dark-match-3-button-a: #dde2c1;
   --dark-blog-content: #dde2c1;
+  --dark-titles-tetris: #223c3e;
+  --dark-background-tetris: #677f72;
 }
 
 body.theme-dark {
@@ -31,6 +41,8 @@ body.theme-dark {
   --background-match-3-button: var(--dark-background-match-3-button);
   --match-3-button-a: var(--dark-match-3-button-a);
   --blog-content: var(--dark-blog-content);
+  --titles-tetris: var(--dark-titles-tetris);
+  --background-tetris: var(--dark-background-tetris);
 }
 
 body {
@@ -44,6 +56,8 @@ body {
   --background-match-3-button: black;
   --match-3-button-a: white;
   --blog-content: black;
+  --titles-tetris: black;
+  --background-tetris: grey;
 
   background-color: var(--background-color);
   font-family: Helvetica, Arial, sans-serif;
@@ -222,7 +236,8 @@ h1.title {
 #selTheme,
 .mode,
 .mode-blog,
-.mode-about {
+.mode-about,
+.game-board {
   border-radius: 10px;
 }
 
@@ -407,6 +422,12 @@ h1.title {
   font-size: 0.1px;
 }
 
+.ready-to-play {
+  margin: 0 auto;
+  position: relative;
+  right: 150px;
+}
+
 @media only screen and (min-width: 451px) {
   /* TOP BAR */
   div.top-bar {
@@ -511,7 +532,7 @@ h1.title {
     bottom: -80px;
   }
 
-  canvas {
+  canvas.match-3 {
     width: 700px;
     margin: 0 auto;
   }

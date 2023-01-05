@@ -7,21 +7,22 @@
   <meta name="copyright" content="smoothmatch3.com">
   <meta name="author" content="Rafael Gomez Guillen">
   <meta name="audience" content="all">
-  <meta name="description" content="2048 game without ads or purchases.">
-  <meta name="keywords" content="2048, 2048 game, no ads">
+  <meta name="description" content="Tetris game without ads or purchases.">
+  <meta name="keywords" content="tetris, tetris game, no ads">
   <meta name="viewport" content="width=device, initial-scale=1, maximum-scale=1">
   <meta name="category" content="games">
   <link rel="icon" type="image/icon" href="../image_files/icon.jpg">
-  <title> Smooth 2048 </title>
+  <title> Smooth Tetris </title>
   <link rel="stylesheet" href="../css_files/style.css" />
   <link rel="stylesheet" href="../css_files/style_moviles.css" />
+  <link rel="stylesheet" href="../css_files/style_tetris.css" />
   <script src="../javascript_files/script.js"> </script>
 </head>
 
 <body>
   <div class="top-bar">
     <div class="top-bar-name">
-      <p class="top-bar-name-1"> Smooth 2048</p>
+      <p class="top-bar-name-1"> Smooth Tetris</p>
       <p class="top-bar-name-2"> How to play </p>
     </div>
     <div class="menu">
@@ -66,47 +67,51 @@
       <p> H </p>
     </div>
   </div>
-  <div class="title-02-2048">
+  <div class="title-01">
     <div id="letter-01-2048" class="row-01-2048">
-      <p> 2 </p>
+      <p> T </p>
     </div>
     <div id="letter-02-2048" class="row-01-2048">
-      <p> 0 </p>
+      <p> E </p>
     </div>
     <div id="letter-03-2048" class="row-01-2048">
-      <p> 4 </p>
+      <p> T </p>
     </div>
     <div id="letter-04-2048" class="row-01-2048">
-      <p> 8 </p>
+      <p> R </p>
     </div>
+    <div id="letter-05-2048" class="row-01-2048">
+      <p> I </p>
+    </div>
+    <div id="letter-06-2048" class="row-01-2048">
+      <p> S </p>
+    </div>
+  </div>
+
   </div>
   <div class="how-content">
     <br>
     <p style="text-align: center;">
-      The goal of this game is simple, join the tiles and get to 2048.
+      I mean... It is Tetris, you know how to play it.
     </p>
-    <h1> Buttons</h1>
 
-    <p style="text-align: center;">Use your arrow or WASD keys to move the tiles. If you want to undo press <strong><ins>Z</ins></strong> 
-      or the button <strong><ins>Undo</ins></strong> 
-    </p>
     <h1> Titles </h1>
     <div class="title-01">
       <table>
         <tr>
           <td>
             <div id="buttons" class="row-02-2048">
-              <p> UNDO</p>
+              <p> Best score</p>
             </div>
           </td>
           <td>
-            If you want to undo press <strong><ins>Z</ins></strong> or the button <strong><ins>Undo</ins></strong> 
+            Best score tells you the higher points that you have ever scored.
           </td>
         </tr>
         <tr>
           <td>
             <div id="buttons" class="row-02-2048">
-              <p> SCORE </p>
+              <p> Score </p>
             </div>
           </td>
           <td>
@@ -116,11 +121,21 @@
         <tr>
           <td>
             <div id="buttons" class="row-02-2048">
-              <p> BEST </p>
+              <p> Lines </p>
             </div>
           </td>
           <td>
-            BEST tells you the higher points that you have ever scored.
+            Lines tells you how many lines you have cleared.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02-2048">
+              <p> Level </p>
+            </div>
+          </td>
+          <td>
+            Level tells you the actual level.
           </td>
         </tr>
       </table>
@@ -131,13 +146,13 @@
         <tr>
           <td>
             <div id="buttons" class="row-02-2048">
-              <p> Set undos</p>
+              <p> Set Level</p>
             </div>
           </td>
           <td>
-            If you want to set a particular number of undos, introduce the value and press
-            <img width="20" src="../image_files/check-button.svg">. It will be set in the new game.
-            Minimum: 5 and maximum: 500.
+            If you want to set a particular number of level, introduce the value and press
+            <img width="20" src="../image_files/check-button.svg">. It will be set in a new game.
+            Minimum: 1 and maximum: 20.
           </td>
         </tr>
         <tr>
@@ -149,6 +164,62 @@
           <td>
             If you want to play music or pause, press <img width="20" src="../image_files/play-button.svg"> or
             <img width="20" src="../image_files/play-stop.svg"> respectively.
+          </td>
+        </tr>
+      </table>
+    </div>
+    <h1> Buttons (Movile version)</h1>
+
+    <div class="title-01">
+      <table>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02-2048">
+              <p> Left</p>
+            </div>
+          </td>
+          <td>
+            Turn the piece to the left.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02-2048">
+              <p> Down </p>
+            </div>
+          </td>
+          <td>
+            Roll the piece down.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02-2048">
+              <p> Right </p>
+            </div>
+          </td>
+          <td>
+            Turn the piece to the right.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02-2048">
+              <p> Rotate </p>
+            </div>
+          </td>
+          <td>
+            Rotate the piece.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="buttons" class="row-02-2048">
+              <p> Space </p>
+            </div>
+          </td>
+          <td>
+            Roll the piece drastically down.
           </td>
         </tr>
       </table>
