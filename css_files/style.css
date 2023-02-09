@@ -494,8 +494,7 @@ h1.title {
     width: 22px;
   }
 
-  #play-button,
-  #play-button-2048 {
+  #play-button {
     position: relative;
     left: 103px;
     background-color: white;
