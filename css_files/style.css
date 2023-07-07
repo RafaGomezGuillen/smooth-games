@@ -1,4 +1,4 @@
-colores {
+colors {
   color: #dde2c1;
   color: #b7c0a6;
   color: #677f72;
@@ -62,6 +62,7 @@ body {
   background-color: var(--background-color);
   font-family: Helvetica, Arial, sans-serif;
 }
+
 .menu-content,
 #selTheme,
 #settings-content {
@@ -426,6 +427,7 @@ h1.title {
   margin: 0 auto;
   position: relative;
   right: 150px;
+  margin-bottom: 50px;
 }
 
 @media only screen and (min-width: 451px) {

@@ -1,1086 +1,958 @@
-var _0x6c7a1e = _0x4982;
-(function (_0x43a851, _0x41b338) {
-  var _0x50e44f = _0x4982,
-    _0x14f924 = _0x43a851();
-  while (!![]) {
-    try {
-      var _0x115555 =
-        (-parseInt(_0x50e44f(0x1c8)) / 0x1) *
-          (-parseInt(_0x50e44f(0x210)) / 0x2) +
-        (-parseInt(_0x50e44f(0x1e5)) / 0x3) *
-          (parseInt(_0x50e44f(0x18a)) / 0x4) +
-        parseInt(_0x50e44f(0x1c5)) / 0x5 +
-        (parseInt(_0x50e44f(0x1cc)) / 0x6) *
-          (parseInt(_0x50e44f(0x1b7)) / 0x7) +
-        (parseInt(_0x50e44f(0x202)) / 0x8) *
-          (-parseInt(_0x50e44f(0x206)) / 0x9) +
-        parseInt(_0x50e44f(0x1d9)) / 0xa +
-        -parseInt(_0x50e44f(0x1eb)) / 0xb;
-      if (_0x115555 === _0x41b338) break;
-      else _0x14f924["push"](_0x14f924["shift"]());
-    } catch (_0x4cfef1) {
-      _0x14f924["push"](_0x14f924["shift"]());
-    }
-  }
-})(_0x4bae, 0xa0e68),
-  window["requestAnimationFrame"](function () {
-    game_manager = new GameManager(
-      0x4,
-      KeyboardInputManager,
-      HTMLActuator,
-      LocalScoreManager
-    );
-  });
-function _0x4982(_0x2a69bc, _0x4847f7) {
-  var _0x4baeb8 = _0x4bae();
-  return (
-    (_0x4982 = function (_0x498293, _0x243ce4) {
-      _0x498293 = _0x498293 - 0x180;
-      var _0x3c0c85 = _0x4baeb8[_0x498293];
-      return _0x3c0c85;
-    }),
-    _0x4982(_0x2a69bc, _0x4847f7)
+// Wait till the browser is ready to render the game (avoids glitches)
+window.requestAnimationFrame(function () {
+  game_manager = new GameManager(
+    4,
+    KeyboardInputManager,
+    HTMLActuator,
+    LocalScoreManager
   );
-}
-var counterUndos = 0x5,
-  counter = 0x0;
+});
+
+var counterUndos = 5;
+var counter = 0;
+
 function getInputUndos() {
-  var _0x5568a0 = _0x4982,
-    _0xe41bb3 = document[_0x5568a0(0x1c1)](_0x5568a0(0x1ae)),
-    _0x1e78d2 = _0xe41bb3[_0x5568a0(0x183)];
-  counterUndos = _0x1e78d2;
-  if (counterUndos < 0x5) counterUndos = 0x5;
-  if (counterUndos > 0x1f4) counterUndos = 0x1f4;
+  // Get the input element
+  var input = document.getElementById("counterUndos");
+
+  // Get the value entered in the input field
+  var inputValue = input.value;
+
+  // You can now use the "inputValue" variable in your code to do whatever you want with it
+  counterUndos = inputValue;
+
+  // Adding a limit
+  if (counterUndos < 5) counterUndos = 5;
+  if (counterUndos > 500) counterUndos = 500;
 }
+
 function handle_undo() {
-  var _0x5097e0 = _0x4982;
-  counter++, counter < counterUndos && game_manager[_0x5097e0(0x198)](-0x1);
+  counter++;
+
+  if (counter < counterUndos) {
+    game_manager.move(-1);
+  }
 }
-function GameManager(_0x50b94b, _0x2ec863, _0x5422c2, _0x4555c8) {
-  var _0x38b36c = _0x4982;
-  (this[_0x38b36c(0x1a5)] = _0x50b94b),
-    (this[_0x38b36c(0x1e8)] = new _0x2ec863()),
-    (this[_0x38b36c(0x194)] = new _0x4555c8()),
-    (this["actuator"] = new _0x5422c2()),
-    (this[_0x38b36c(0x1f7)] = 0x2),
-    this[_0x38b36c(0x1e8)]["on"](
-      _0x38b36c(0x198),
-      this[_0x38b36c(0x198)][_0x38b36c(0x215)](this)
-    ),
-    this["inputManager"]["on"](
-      _0x38b36c(0x1d0),
-      this[_0x38b36c(0x1d0)]["bind"](this)
-    ),
-    this["inputManager"]["on"](
-      _0x38b36c(0x213),
-      this[_0x38b36c(0x213)]["bind"](this)
-    ),
-    (this[_0x38b36c(0x19e)] = []),
-    this[_0x38b36c(0x184)]();
+
+function GameManager(size, InputManager, Actuator, ScoreManager) {
+  this.size = size; // Size of the grid
+  this.inputManager = new InputManager();
+  this.scoreManager = new ScoreManager();
+  this.actuator = new Actuator();
+
+  this.startTiles = 2;
+
+  this.inputManager.on("move", this.move.bind(this));
+  this.inputManager.on("restart", this.restart.bind(this));
+  this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
+
+  this.undoStack = [];
+
+  this.setup();
 }
-(GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1d0)] = function () {
-  var _0xea285d = _0x6c7a1e;
-  this[_0xea285d(0x1e2)][_0xea285d(0x1e7)](), this[_0xea285d(0x184)]();
-}),
-  (GameManager["prototype"][_0x6c7a1e(0x213)] = function () {
-    var _0x547e97 = _0x6c7a1e;
-    (this[_0x547e97(0x213)] = !![]), this[_0x547e97(0x1e2)]["continue"]();
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x219)] = function () {
-    var _0xb9bc64 = _0x6c7a1e;
-    return this[_0xb9bc64(0x1bc)] ||
-      (this[_0xb9bc64(0x1b2)] && !this[_0xb9bc64(0x213)])
-      ? !![]
-      : ![];
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x184)] = function () {
-    var _0x4002cd = _0x6c7a1e;
-    (this[_0x4002cd(0x1e9)] = new Grid(this[_0x4002cd(0x1a5)])),
-      (this[_0x4002cd(0x1a3)] = 0x0),
-      (this[_0x4002cd(0x1bc)] = ![]),
-      (this[_0x4002cd(0x1b2)] = ![]),
-      (this[_0x4002cd(0x213)] = ![]),
-      (this["seed"] = Math[_0x4002cd(0x1bf)]()),
-      this[_0x4002cd(0x1ff)](),
-      this[_0x4002cd(0x200)]();
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1ff)] = function () {
-    for (var _0x33402e = 0x0; _0x33402e < this["startTiles"]; _0x33402e++) {
-      this["addRandomTile"]();
+
+// Restart the game
+GameManager.prototype.restart = function () {
+  this.actuator.continue();
+  this.setup();
+};
+
+// Keep playing after winning
+GameManager.prototype.keepPlaying = function () {
+  this.keepPlaying = true;
+  this.actuator.continue();
+};
+
+GameManager.prototype.isGameTerminated = function () {
+  if (this.over || (this.won && !this.keepPlaying)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// Set up the game
+GameManager.prototype.setup = function () {
+  this.grid = new Grid(this.size);
+
+  this.score = 0;
+  this.over = false;
+  this.won = false;
+  this.keepPlaying = false;
+  this.seed = Math.random();
+
+  // Add the initial tiles
+  this.addStartTiles();
+
+  // Update the actuator
+  this.actuate();
+};
+
+// Set up the initial tiles to start the game with
+GameManager.prototype.addStartTiles = function () {
+  for (var i = 0; i < this.startTiles; i++) {
+    this.addRandomTile();
+  }
+};
+
+// Adds a tile in a random position
+GameManager.prototype.addRandomTile = function () {
+  if (this.grid.cellsAvailable()) {
+    Math.seedrandom(this.seed);
+    for (var i = 0; i < this.score; i++) {
+      Math.random();
     }
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1e3)] = function () {
-    var _0x4fd582 = _0x6c7a1e;
-    if (this[_0x4fd582(0x1e9)][_0x4fd582(0x208)]()) {
-      Math["seedrandom"](this[_0x4fd582(0x187)]);
-      for (var _0x420262 = 0x0; _0x420262 < this["score"]; _0x420262++) {
-        Math[_0x4fd582(0x1bf)]();
-      }
-      var _0xab4dfb = Math[_0x4fd582(0x1bf)]() < 0.9 ? 0x2 : 0x4,
-        _0x58662b = new Tile(
-          this[_0x4fd582(0x1e9)]["randomAvailableCell"](),
-          _0xab4dfb
-        );
-      this[_0x4fd582(0x1e9)][_0x4fd582(0x1a7)](_0x58662b);
-    }
-  }),
-  (GameManager[_0x6c7a1e(0x216)]["actuate"] = function () {
-    var _0x351002 = _0x6c7a1e;
-    this[_0x351002(0x194)][_0x351002(0x1db)]() < this[_0x351002(0x1a3)] &&
-      this[_0x351002(0x194)][_0x351002(0x1c7)](this["score"]),
-      this[_0x351002(0x1e2)][_0x351002(0x200)](this["grid"], {
-        score: this["score"],
-        over: this[_0x351002(0x1bc)],
-        won: this[_0x351002(0x1b2)],
-        bestScore: this[_0x351002(0x194)][_0x351002(0x1db)](),
-        terminated: this["isGameTerminated"](),
-      });
-  }),
-  (GameManager[_0x6c7a1e(0x216)]["prepareTiles"] = function () {
-    var _0x417eaf = _0x6c7a1e;
-    this["grid"][_0x417eaf(0x18f)](function (_0x162e2c, _0x2d5927, _0x1721bb) {
-      var _0x55d421 = _0x417eaf;
-      _0x1721bb &&
-        ((_0x1721bb[_0x55d421(0x1cb)] = null), _0x1721bb[_0x55d421(0x18c)]());
-    });
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x193)] = function (
-    _0x57bfb5,
-    _0x2723c9
-  ) {
-    var _0x2dd9fb = _0x6c7a1e;
-    (this[_0x2dd9fb(0x1e9)][_0x2dd9fb(0x180)][_0x57bfb5["x"]][_0x57bfb5["y"]] =
-      null),
-      (this["grid"][_0x2dd9fb(0x180)][_0x2723c9["x"]][_0x2723c9["y"]] =
-        _0x57bfb5),
-      _0x57bfb5[_0x2dd9fb(0x1d7)](_0x2723c9);
-  }),
-  (GameManager[_0x6c7a1e(0x216)]["move"] = function (_0x1415c6) {
-    var _0x1c4310 = _0x6c7a1e,
-      _0x50bacc = this;
-    if (_0x1415c6 == -0x1) {
-      if (this[_0x1c4310(0x19e)][_0x1c4310(0x1f9)] > 0x0) {
-        var _0x514ae3 = this[_0x1c4310(0x19e)][_0x1c4310(0x1f0)]();
-        this[_0x1c4310(0x1e9)][_0x1c4310(0x1dd)](),
-          (this["score"] = _0x514ae3[_0x1c4310(0x1a3)]);
-        for (var _0x2d2cf1 in _0x514ae3["tiles"]) {
-          var _0x16b78c = _0x514ae3[_0x1c4310(0x1ee)][_0x2d2cf1],
-            _0x8cc07b = new Tile(
-              { x: _0x16b78c["x"], y: _0x16b78c["y"] },
-              _0x16b78c["value"]
-            );
-          (_0x8cc07b[_0x1c4310(0x20f)] = {
-            x: _0x16b78c[_0x1c4310(0x20f)]["x"],
-            y: _0x16b78c[_0x1c4310(0x20f)]["y"],
-          }),
-            (this[_0x1c4310(0x1e9)][_0x1c4310(0x180)][_0x8cc07b["x"]][
-              _0x8cc07b["y"]
-            ] = _0x8cc07b);
-        }
-        (this[_0x1c4310(0x1bc)] = ![]),
-          (this[_0x1c4310(0x1b2)] = ![]),
-          (this[_0x1c4310(0x213)] = ![]),
-          this[_0x1c4310(0x1e2)][_0x1c4310(0x1e7)](),
-          this[_0x1c4310(0x200)]();
-      }
-      return;
-    }
-    if (this[_0x1c4310(0x219)]()) return;
-    var _0x3c9063,
-      _0x8cc07b,
-      _0x53132 = this[_0x1c4310(0x1b8)](_0x1415c6),
-      _0xa35ee9 = this[_0x1c4310(0x1fc)](_0x53132),
-      _0x1b5bdd = ![],
-      _0x21b2a0 = { score: this[_0x1c4310(0x1a3)], tiles: [] };
-    this[_0x1c4310(0x190)](),
-      _0xa35ee9["x"][_0x1c4310(0x1b1)](function (_0x454008) {
-        var _0x110dd2 = _0x1c4310;
-        _0xa35ee9["y"][_0x110dd2(0x1b1)](function (_0x4a7582) {
-          var _0x1f0488 = _0x110dd2;
-          (_0x3c9063 = { x: _0x454008, y: _0x4a7582 }),
-            (_0x8cc07b = _0x50bacc["grid"][_0x1f0488(0x192)](_0x3c9063));
-          if (_0x8cc07b) {
-            var _0x433b6c = _0x50bacc["findFarthestPosition"](
-                _0x3c9063,
-                _0x53132
-              ),
-              _0x39961b = _0x50bacc[_0x1f0488(0x1e9)][_0x1f0488(0x192)](
-                _0x433b6c[_0x1f0488(0x1d5)]
-              );
-            if (
-              _0x39961b &&
-              _0x39961b["value"] === _0x8cc07b[_0x1f0488(0x183)] &&
-              !_0x39961b[_0x1f0488(0x1cb)]
-            ) {
-              _0x21b2a0["tiles"][_0x1f0488(0x1fb)](
-                _0x8cc07b["save"](_0x433b6c["next"])
-              );
-              var _0x1c9db0 = new Tile(
-                _0x433b6c["next"],
-                _0x8cc07b[_0x1f0488(0x183)] * 0x2
-              );
-              (_0x1c9db0[_0x1f0488(0x1cb)] = [_0x8cc07b, _0x39961b]),
-                _0x50bacc[_0x1f0488(0x1e9)][_0x1f0488(0x1a7)](_0x1c9db0),
-                _0x50bacc["grid"][_0x1f0488(0x1b0)](_0x8cc07b),
-                _0x8cc07b[_0x1f0488(0x1d7)](_0x433b6c[_0x1f0488(0x1d5)]),
-                (_0x50bacc[_0x1f0488(0x1a3)] += _0x1c9db0[_0x1f0488(0x183)]);
-              if (_0x1c9db0[_0x1f0488(0x183)] === 0x800)
-                _0x50bacc[_0x1f0488(0x1b2)] = !![];
-            } else
-              _0x21b2a0[_0x1f0488(0x1ee)][_0x1f0488(0x1fb)](
-                _0x8cc07b[_0x1f0488(0x1d2)](_0x433b6c[_0x1f0488(0x1f2)])
-              ),
-                _0x50bacc[_0x1f0488(0x193)](
-                  _0x8cc07b,
-                  _0x433b6c[_0x1f0488(0x1f2)]
-                );
-            !_0x50bacc[_0x1f0488(0x1ab)](_0x3c9063, _0x8cc07b) &&
-              (_0x1b5bdd = !![]);
-          }
-        });
-      }),
-      _0x1b5bdd &&
-        (this["addRandomTile"](),
-        !this[_0x1c4310(0x1be)]() && (this["over"] = !![]),
-        this[_0x1c4310(0x19e)][_0x1c4310(0x1fb)](_0x21b2a0),
-        this[_0x1c4310(0x200)]());
-  }),
-  (GameManager[_0x6c7a1e(0x216)]["getVector"] = function (_0x57f1a0) {
-    var _0x444815 = {
-      0x0: { x: 0x0, y: -0x1 },
-      0x1: { x: 0x1, y: 0x0 },
-      0x2: { x: 0x0, y: 0x1 },
-      0x3: { x: -0x1, y: 0x0 },
-    };
-    return _0x444815[_0x57f1a0];
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1fc)] = function (_0x9742be) {
-    var _0x36ff29 = _0x6c7a1e,
-      _0x613523 = { x: [], y: [] };
-    for (var _0xe501f9 = 0x0; _0xe501f9 < this["size"]; _0xe501f9++) {
-      _0x613523["x"][_0x36ff29(0x1fb)](_0xe501f9),
-        _0x613523["y"][_0x36ff29(0x1fb)](_0xe501f9);
-    }
-    if (_0x9742be["x"] === 0x1)
-      _0x613523["x"] = _0x613523["x"][_0x36ff29(0x1ed)]();
-    if (_0x9742be["y"] === 0x1)
-      _0x613523["y"] = _0x613523["y"][_0x36ff29(0x1ed)]();
-    return _0x613523;
-  }),
-  (GameManager["prototype"]["findFarthestPosition"] = function (
-    _0x2f3344,
-    _0x3ec1a4
-  ) {
-    var _0x408e36 = _0x6c7a1e,
-      _0x5a95f5;
-    do {
-      (_0x5a95f5 = _0x2f3344),
-        (_0x2f3344 = {
-          x: _0x5a95f5["x"] + _0x3ec1a4["x"],
-          y: _0x5a95f5["y"] + _0x3ec1a4["y"],
-        });
-    } while (
-      this[_0x408e36(0x1e9)][_0x408e36(0x1f4)](_0x2f3344) &&
-      this[_0x408e36(0x1e9)]["cellAvailable"](_0x2f3344)
-    );
-    return { farthest: _0x5a95f5, next: _0x2f3344 };
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1be)] = function () {
-    var _0x135055 = _0x6c7a1e;
-    return (
-      this[_0x135055(0x1e9)]["cellsAvailable"]() ||
-      this["tileMatchesAvailable"]()
-    );
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1ef)] = function () {
-    var _0xfe461e = _0x6c7a1e,
-      _0x45b7ce = this,
-      _0xebac15;
-    for (var _0x351d7b = 0x0; _0x351d7b < this[_0xfe461e(0x1a5)]; _0x351d7b++) {
-      for (
-        var _0x21cbc4 = 0x0;
-        _0x21cbc4 < this[_0xfe461e(0x1a5)];
-        _0x21cbc4++
-      ) {
-        _0xebac15 = this[_0xfe461e(0x1e9)][_0xfe461e(0x192)]({
-          x: _0x351d7b,
-          y: _0x21cbc4,
-        });
-        if (_0xebac15)
-          for (var _0x4ded39 = 0x0; _0x4ded39 < 0x4; _0x4ded39++) {
-            var _0x561662 = _0x45b7ce["getVector"](_0x4ded39),
-              _0x39b184 = {
-                x: _0x351d7b + _0x561662["x"],
-                y: _0x21cbc4 + _0x561662["y"],
-              },
-              _0x74f53f =
-                _0x45b7ce[_0xfe461e(0x1e9)][_0xfe461e(0x192)](_0x39b184);
-            if (
-              _0x74f53f &&
-              _0x74f53f[_0xfe461e(0x183)] === _0xebac15[_0xfe461e(0x183)]
-            )
-              return !![];
-          }
-      }
-    }
-    return ![];
-  }),
-  (GameManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1ab)] = function (
-    _0x4d41a9,
-    _0x2a00e6
-  ) {
-    return (
-      _0x4d41a9["x"] === _0x2a00e6["x"] && _0x4d41a9["y"] === _0x2a00e6["y"]
-    );
+    var value = Math.random() < 0.9 ? 2 : 4;
+    var tile = new Tile(this.grid.randomAvailableCell(), value);
+
+    this.grid.insertTile(tile);
+  }
+};
+
+// Sends the updated grid to the actuator
+GameManager.prototype.actuate = function () {
+  if (this.scoreManager.get() < this.score) {
+    this.scoreManager.set(this.score);
+  }
+
+  this.actuator.actuate(this.grid, {
+    score: this.score,
+    over: this.over,
+    won: this.won,
+    bestScore: this.scoreManager.get(),
+    terminated: this.isGameTerminated(),
   });
-function Grid(_0x465e5f) {
-  var _0x3ce962 = _0x6c7a1e;
-  (this[_0x3ce962(0x1a5)] = _0x465e5f),
-    (this[_0x3ce962(0x180)] = []),
-    this[_0x3ce962(0x1dd)]();
-}
-function _0x4bae() {
-  var _0x2a4e39 = [
-    "test",
-    "cellContent",
-    "moveTile",
-    "scoreManager",
-    "object",
-    "clearContainer",
-    "setAttribute",
-    "move",
-    "amd",
-    "preventDefault",
-    "addTile",
-    "touchmove",
-    "add",
-    "undoStack",
-    ".tile-container",
-    "game-won",
-    "tileContainer",
-    "changedTouches",
-    "score",
-    "firstChild",
-    "size",
-    "messageContainer",
-    "insertTile",
-    "shiftKey",
-    ".score-container",
-    "updateScore",
-    "positionsEqual",
-    "You\x20win!",
-    "floor",
-    "counterUndos",
-    "pow",
-    "removeTile",
-    "forEach",
-    "won",
-    "scoreContainer",
-    "cellOccupied",
-    ".best-container",
-    "game-over",
-    "1076887PqwUkt",
-    "getVector",
-    "crypto",
-    "querySelector",
-    "textContent",
-    "over",
-    "getItem",
-    "movesAvailable",
-    "random",
-    "events",
-    "getElementById",
-    "localStorage",
-    "clearMessage",
-    "game-container",
-    "4743865NvoxYV",
-    "abs",
-    "set",
-    "1067UzQGdD",
-    "classList",
-    "keydown",
-    "mergedFrom",
-    "6KMVFYN",
-    "key",
-    "positionClass",
-    "bestScore",
-    "restart",
-    "getElementsByClassName",
-    "save",
-    "getRandomValues",
-    "navigator",
-    "next",
-    "screen",
-    "updatePosition",
-    "tile-inner",
-    "10614500XlLEvH",
-    "tile",
-    "get",
-    "score-addition",
-    "build",
-    "altKey",
-    "_data",
-    "normalizePosition",
-    "availableCells",
-    "actuator",
-    "addRandomTile",
-    "fromCharCode",
-    "6681sECRJf",
-    "message",
-    "continue",
-    "inputManager",
-    "grid",
-    "fakeStorage",
-    "7297796lgOCdc",
-    "max",
-    "reverse",
-    "tiles",
-    "tileMatchesAvailable",
-    "pop",
-    "exports",
-    "farthest",
-    "function",
-    "withinBounds",
-    "getElementsByTagName",
-    "tile-new",
-    "startTiles",
-    ".retry-button",
-    "length",
-    "which",
-    "push",
-    "buildTraversals",
-    "requestAnimationFrame",
-    "hasOwnProperty",
-    "addStartTiles",
-    "actuate",
-    "addEventListener",
-    "128GQbpjN",
-    "removeItem",
-    "click",
-    "touchend",
-    "492498VKhphC",
-    "clientX",
-    "cellsAvailable",
-    "tile-super",
-    "string",
-    "bestContainer",
-    "storage",
-    "tile-position-",
-    "apply",
-    "previousPosition",
-    "694feYhXG",
-    "touches",
-    "ctrlKey",
-    "keepPlaying",
-    "randomAvailableCell",
-    "bind",
-    "prototype",
-    "setItem",
-    "localStorageSupported",
-    "isGameTerminated",
-    "cells",
-    "tile-",
-    "emit",
-    "value",
-    "setup",
-    "applyClasses",
-    "terminated",
-    "seed",
-    "updateBestScore",
-    "createElement",
-    "604IpZGoe",
-    "div",
-    "savePosition",
-    "cellAvailable",
-    "appendChild",
-    "eachCell",
-    "prepareTiles",
-  ];
-  _0x4bae = function () {
-    return _0x2a4e39;
+};
+
+// Save all tile positions and remove merger info
+GameManager.prototype.prepareTiles = function () {
+  this.grid.eachCell(function (x, y, tile) {
+    if (tile) {
+      tile.mergedFrom = null;
+      tile.savePosition();
+    }
+  });
+};
+
+// Move a tile and its representation
+GameManager.prototype.moveTile = function (tile, cell) {
+  this.grid.cells[tile.x][tile.y] = null;
+  this.grid.cells[cell.x][cell.y] = tile;
+  tile.updatePosition(cell);
+};
+
+// Move tiles on the grid in the specified direction
+GameManager.prototype.move = function (direction) {
+  // 0: up, 1: right, 2:down, 3: left, -1: undo
+  var self = this;
+
+  if (direction == -1) {
+    if (this.undoStack.length > 0) {
+      var prev = this.undoStack.pop();
+
+      this.grid.build();
+      this.score = prev.score;
+      for (var i in prev.tiles) {
+        var t = prev.tiles[i];
+        var tile = new Tile({ x: t.x, y: t.y }, t.value);
+        tile.previousPosition = {
+          x: t.previousPosition.x,
+          y: t.previousPosition.y,
+        };
+        this.grid.cells[tile.x][tile.y] = tile;
+      }
+      this.over = false;
+      this.won = false;
+      this.keepPlaying = false;
+      this.actuator.continue();
+      this.actuate();
+    }
+    return;
+  }
+
+  if (this.isGameTerminated()) return; // Don't do anything if the game's over
+
+  var cell, tile;
+
+  var vector = this.getVector(direction);
+  var traversals = this.buildTraversals(vector);
+  var moved = false;
+  var undo = { score: this.score, tiles: [] };
+
+  // Save the current tile positions and remove merger information
+  this.prepareTiles();
+
+  // Traverse the grid in the right direction and move tiles
+  traversals.x.forEach(function (x) {
+    traversals.y.forEach(function (y) {
+      cell = { x: x, y: y };
+      tile = self.grid.cellContent(cell);
+
+      if (tile) {
+        var positions = self.findFarthestPosition(cell, vector);
+        var next = self.grid.cellContent(positions.next);
+
+        // Only one merger per row traversal?
+        if (next && next.value === tile.value && !next.mergedFrom) {
+          // We need to save tile since it will get removed
+          undo.tiles.push(tile.save(positions.next));
+
+          var merged = new Tile(positions.next, tile.value * 2);
+          merged.mergedFrom = [tile, next];
+
+          self.grid.insertTile(merged);
+          self.grid.removeTile(tile);
+
+          // Converge the two tiles' positions
+          tile.updatePosition(positions.next);
+
+          // Update the score
+          self.score += merged.value;
+
+          // The mighty 2048 tile
+          if (merged.value === 2048) self.won = true;
+        } else {
+          // Save backup information
+          undo.tiles.push(tile.save(positions.farthest));
+          self.moveTile(tile, positions.farthest);
+        }
+
+        if (!self.positionsEqual(cell, tile)) {
+          moved = true; // The tile moved from its original cell!
+        }
+      }
+    });
+  });
+
+  if (moved) {
+    this.addRandomTile();
+
+    if (!this.movesAvailable()) {
+      this.over = true; // Game over!
+    }
+
+    // Save state
+    this.undoStack.push(undo);
+
+    this.actuate();
+  }
+};
+
+// Get the vector representing the chosen direction
+GameManager.prototype.getVector = function (direction) {
+  // Vectors representing tile movement
+  var map = {
+    0: { x: 0, y: -1 }, // up
+    1: { x: 1, y: 0 }, // right
+    2: { x: 0, y: 1 }, // down
+    3: { x: -1, y: 0 }, // left
   };
-  return _0x4bae();
-}
-(Grid[_0x6c7a1e(0x216)]["build"] = function () {
-  var _0x9c9861 = _0x6c7a1e;
-  for (var _0x5c5a24 = 0x0; _0x5c5a24 < this[_0x9c9861(0x1a5)]; _0x5c5a24++) {
-    var _0x32bd2c = (this[_0x9c9861(0x180)][_0x5c5a24] = []);
-    for (var _0x767514 = 0x0; _0x767514 < this[_0x9c9861(0x1a5)]; _0x767514++) {
-      _0x32bd2c[_0x9c9861(0x1fb)](null);
+
+  return map[direction];
+};
+
+// Build a list of positions to traverse in the right order
+GameManager.prototype.buildTraversals = function (vector) {
+  var traversals = { x: [], y: [] };
+
+  for (var pos = 0; pos < this.size; pos++) {
+    traversals.x.push(pos);
+    traversals.y.push(pos);
+  }
+
+  // Always traverse from the farthest cell in the chosen direction
+  if (vector.x === 1) traversals.x = traversals.x.reverse();
+  if (vector.y === 1) traversals.y = traversals.y.reverse();
+
+  return traversals;
+};
+
+GameManager.prototype.findFarthestPosition = function (cell, vector) {
+  var previous;
+
+  // Progress towards the vector direction until an obstacle is found
+  do {
+    previous = cell;
+    cell = { x: previous.x + vector.x, y: previous.y + vector.y };
+  } while (this.grid.withinBounds(cell) && this.grid.cellAvailable(cell));
+
+  return {
+    farthest: previous,
+    next: cell, // Used to check if a merge is required
+  };
+};
+
+GameManager.prototype.movesAvailable = function () {
+  return this.grid.cellsAvailable() || this.tileMatchesAvailable();
+};
+
+// Check for available matches between tiles (more expensive check)
+GameManager.prototype.tileMatchesAvailable = function () {
+  var self = this;
+
+  var tile;
+
+  for (var x = 0; x < this.size; x++) {
+    for (var y = 0; y < this.size; y++) {
+      tile = this.grid.cellContent({ x: x, y: y });
+
+      if (tile) {
+        for (var direction = 0; direction < 4; direction++) {
+          var vector = self.getVector(direction);
+          var cell = { x: x + vector.x, y: y + vector.y };
+
+          var other = self.grid.cellContent(cell);
+
+          if (other && other.value === tile.value) {
+            return true; // These two tiles can be merged
+          }
+        }
+      }
     }
   }
-}),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x214)] = function () {
-    var _0x20219d = _0x6c7a1e,
-      _0x11eb3f = this["availableCells"]();
-    if (_0x11eb3f[_0x20219d(0x1f9)])
-      return _0x11eb3f[
-        Math[_0x20219d(0x1ad)](Math["random"]() * _0x11eb3f[_0x20219d(0x1f9)])
-      ];
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x1e1)] = function () {
-    var _0x58ef50 = [];
-    return (
-      this["eachCell"](function (_0x40be9e, _0x15cdae, _0x3aa076) {
-        var _0xb132b9 = _0x4982;
-        !_0x3aa076 &&
-          _0x58ef50[_0xb132b9(0x1fb)]({ x: _0x40be9e, y: _0x15cdae });
-      }),
-      _0x58ef50
-    );
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x18f)] = function (_0x5939d8) {
-    var _0x474b3d = _0x6c7a1e;
-    for (var _0xe79891 = 0x0; _0xe79891 < this[_0x474b3d(0x1a5)]; _0xe79891++) {
-      for (
-        var _0x1b27e1 = 0x0;
-        _0x1b27e1 < this[_0x474b3d(0x1a5)];
-        _0x1b27e1++
-      ) {
-        _0x5939d8(
-          _0xe79891,
-          _0x1b27e1,
-          this[_0x474b3d(0x180)][_0xe79891][_0x1b27e1]
-        );
-      }
-    }
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x208)] = function () {
-    var _0x5b9d87 = _0x6c7a1e;
-    return !!this[_0x5b9d87(0x1e1)]()["length"];
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x18d)] = function (_0x1467de) {
-    var _0x450733 = _0x6c7a1e;
-    return !this[_0x450733(0x1b4)](_0x1467de);
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x1b4)] = function (_0x3b0aa4) {
-    var _0x102224 = _0x6c7a1e;
-    return !!this[_0x102224(0x192)](_0x3b0aa4);
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x192)] = function (_0x5b8ce8) {
-    var _0x3ddcbc = _0x6c7a1e;
-    return this["withinBounds"](_0x5b8ce8)
-      ? this[_0x3ddcbc(0x180)][_0x5b8ce8["x"]][_0x5b8ce8["y"]]
-      : null;
-  }),
-  (Grid[_0x6c7a1e(0x216)]["insertTile"] = function (_0x5eabcb) {
-    var _0x19476d = _0x6c7a1e;
-    this[_0x19476d(0x180)][_0x5eabcb["x"]][_0x5eabcb["y"]] = _0x5eabcb;
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x1b0)] = function (_0xb9be76) {
-    var _0x51462b = _0x6c7a1e;
-    this[_0x51462b(0x180)][_0xb9be76["x"]][_0xb9be76["y"]] = null;
-  }),
-  (Grid[_0x6c7a1e(0x216)][_0x6c7a1e(0x1f4)] = function (_0x87961c) {
-    var _0x172a31 = _0x6c7a1e;
-    return (
-      _0x87961c["x"] >= 0x0 &&
-      _0x87961c["x"] < this[_0x172a31(0x1a5)] &&
-      _0x87961c["y"] >= 0x0 &&
-      _0x87961c["y"] < this[_0x172a31(0x1a5)]
-    );
-  });
-function HTMLActuator() {
-  var _0x1f7524 = _0x6c7a1e;
-  (this[_0x1f7524(0x1a1)] = document[_0x1f7524(0x1ba)](_0x1f7524(0x19f))),
-    (this[_0x1f7524(0x1b3)] = document[_0x1f7524(0x1ba)](_0x1f7524(0x1a9))),
-    (this[_0x1f7524(0x20b)] = document["querySelector"](_0x1f7524(0x1b5))),
-    (this[_0x1f7524(0x1a6)] = document[_0x1f7524(0x1ba)](".game-message")),
-    (this["score"] = 0x0);
+
+  return false;
+};
+
+GameManager.prototype.positionsEqual = function (first, second) {
+  return first.x === second.x && first.y === second.y;
+};
+
+function Grid(size) {
+  this.size = size;
+
+  this.cells = [];
+
+  this.build();
 }
-(HTMLActuator["prototype"][_0x6c7a1e(0x200)] = function (_0x7a51b, _0x3070bb) {
-  var _0x186d3c = _0x6c7a1e,
-    _0x48bef2 = this;
-  window[_0x186d3c(0x1fd)](function () {
-    var _0xb5cc90 = _0x186d3c;
-    _0x48bef2[_0xb5cc90(0x196)](_0x48bef2[_0xb5cc90(0x1a1)]),
-      _0x7a51b[_0xb5cc90(0x180)][_0xb5cc90(0x1b1)](function (_0xe0c3fe) {
-        var _0x4fcc5d = _0xb5cc90;
-        _0xe0c3fe[_0x4fcc5d(0x1b1)](function (_0xd548d) {
-          var _0x2b6851 = _0x4fcc5d;
-          _0xd548d && _0x48bef2[_0x2b6851(0x19b)](_0xd548d);
-        });
-      }),
-      _0x48bef2[_0xb5cc90(0x1aa)](_0x3070bb[_0xb5cc90(0x1a3)]),
-      _0x48bef2[_0xb5cc90(0x188)](_0x3070bb["bestScore"]);
-    if (_0x3070bb[_0xb5cc90(0x186)]) {
-      if (_0x3070bb[_0xb5cc90(0x1bc)]) _0x48bef2[_0xb5cc90(0x1e6)](![]);
-      else _0x3070bb[_0xb5cc90(0x1b2)] && _0x48bef2[_0xb5cc90(0x1e6)](!![]);
+
+// Build a grid of the specified size
+Grid.prototype.build = function () {
+  for (var x = 0; x < this.size; x++) {
+    var row = (this.cells[x] = []);
+
+    for (var y = 0; y < this.size; y++) {
+      row.push(null);
     }
-  });
-}),
-  (HTMLActuator[_0x6c7a1e(0x216)][_0x6c7a1e(0x1e7)] = function () {
-    var _0x3192f8 = _0x6c7a1e;
-    this[_0x3192f8(0x1c3)]();
-  }),
-  (HTMLActuator["prototype"][_0x6c7a1e(0x196)] = function (_0x40776a) {
-    var _0x5082fb = _0x6c7a1e;
-    while (_0x40776a[_0x5082fb(0x1a4)]) {
-      _0x40776a["removeChild"](_0x40776a["firstChild"]);
-    }
-  }),
-  (HTMLActuator[_0x6c7a1e(0x216)][_0x6c7a1e(0x19b)] = function (_0x310274) {
-    var _0x2d458e = _0x6c7a1e,
-      _0x3e10c6 = this,
-      _0x2615d1 = document[_0x2d458e(0x189)](_0x2d458e(0x18b)),
-      _0x533ca7 = document["createElement"](_0x2d458e(0x18b)),
-      _0x583ae4 = _0x310274[_0x2d458e(0x20f)] || {
-        x: _0x310274["x"],
-        y: _0x310274["y"],
-      },
-      _0x46251c = this[_0x2d458e(0x1ce)](_0x583ae4),
-      _0x21b855 = [
-        _0x2d458e(0x1da),
-        _0x2d458e(0x181) + _0x310274[_0x2d458e(0x183)],
-        _0x46251c,
-      ];
-    if (_0x310274[_0x2d458e(0x183)] > 0x800)
-      _0x21b855[_0x2d458e(0x1fb)](_0x2d458e(0x209));
-    this[_0x2d458e(0x185)](_0x2615d1, _0x21b855),
-      _0x533ca7[_0x2d458e(0x1c9)][_0x2d458e(0x19d)](_0x2d458e(0x1d8)),
-      (_0x533ca7[_0x2d458e(0x1bb)] = _0x310274[_0x2d458e(0x183)]);
-    if (_0x310274[_0x2d458e(0x20f)])
-      window[_0x2d458e(0x1fd)](function () {
-        (_0x21b855[0x2] = _0x3e10c6["positionClass"]({
-          x: _0x310274["x"],
-          y: _0x310274["y"],
-        })),
-          _0x3e10c6["applyClasses"](_0x2615d1, _0x21b855);
-      });
-    else
-      _0x310274[_0x2d458e(0x1cb)]
-        ? (_0x21b855[_0x2d458e(0x1fb)]("tile-merged"),
-          this[_0x2d458e(0x185)](_0x2615d1, _0x21b855),
-          _0x310274[_0x2d458e(0x1cb)][_0x2d458e(0x1b1)](function (_0x4bc051) {
-            var _0x280cd4 = _0x2d458e;
-            _0x3e10c6[_0x280cd4(0x19b)](_0x4bc051);
-          }))
-        : (_0x21b855[_0x2d458e(0x1fb)](_0x2d458e(0x1f6)),
-          this[_0x2d458e(0x185)](_0x2615d1, _0x21b855));
-    _0x2615d1["appendChild"](_0x533ca7),
-      this[_0x2d458e(0x1a1)][_0x2d458e(0x18e)](_0x2615d1);
-  }),
-  (HTMLActuator["prototype"][_0x6c7a1e(0x185)] = function (
-    _0x1aa396,
-    _0x2242f8
-  ) {
-    var _0x360767 = _0x6c7a1e;
-    _0x1aa396[_0x360767(0x197)]("class", _0x2242f8["join"]("\x20"));
-  }),
-  (HTMLActuator[_0x6c7a1e(0x216)][_0x6c7a1e(0x1e0)] = function (_0x56a997) {
-    return { x: _0x56a997["x"] + 0x1, y: _0x56a997["y"] + 0x1 };
-  }),
-  (HTMLActuator["prototype"][_0x6c7a1e(0x1ce)] = function (_0xd7ddfa) {
-    var _0x4ff8bf = _0x6c7a1e;
-    return (
-      (_0xd7ddfa = this["normalizePosition"](_0xd7ddfa)),
-      _0x4ff8bf(0x20d) + _0xd7ddfa["x"] + "-" + _0xd7ddfa["y"]
-    );
-  }),
-  (HTMLActuator[_0x6c7a1e(0x216)]["updateScore"] = function (_0x1b1a43) {
-    var _0x4d4c04 = _0x6c7a1e;
-    this[_0x4d4c04(0x196)](this["scoreContainer"]);
-    var _0x4f25d4 = _0x1b1a43 - this["score"];
-    (this[_0x4d4c04(0x1a3)] = _0x1b1a43),
-      (this[_0x4d4c04(0x1b3)][_0x4d4c04(0x1bb)] = this[_0x4d4c04(0x1a3)]);
-    if (_0x4f25d4 > 0x0) {
-      var _0x590980 = document[_0x4d4c04(0x189)]("div");
-      _0x590980[_0x4d4c04(0x1c9)][_0x4d4c04(0x19d)](_0x4d4c04(0x1dc)),
-        (_0x590980[_0x4d4c04(0x1bb)] = "+" + _0x4f25d4),
-        this["scoreContainer"][_0x4d4c04(0x18e)](_0x590980);
-    }
-  }),
-  (HTMLActuator["prototype"][_0x6c7a1e(0x188)] = function (_0x221e77) {
-    var _0x350134 = _0x6c7a1e;
-    this[_0x350134(0x20b)][_0x350134(0x1bb)] = _0x221e77;
-  }),
-  (HTMLActuator["prototype"][_0x6c7a1e(0x1e6)] = function (_0xad77e4) {
-    var _0x1686a7 = _0x6c7a1e,
-      _0x4ab8d8 = _0xad77e4 ? "game-won" : _0x1686a7(0x1b6),
-      _0x1ceac4 = _0xad77e4 ? _0x1686a7(0x1ac) : "Game\x20over!";
-    this[_0x1686a7(0x1a6)]["classList"][_0x1686a7(0x19d)](_0x4ab8d8),
-      (this[_0x1686a7(0x1a6)][_0x1686a7(0x1f5)]("p")[0x0][_0x1686a7(0x1bb)] =
-        _0x1ceac4);
-  }),
-  (HTMLActuator[_0x6c7a1e(0x216)]["clearMessage"] = function () {
-    var _0x37a643 = _0x6c7a1e;
-    this[_0x37a643(0x1a6)][_0x37a643(0x1c9)]["remove"](_0x37a643(0x1a0)),
-      this[_0x37a643(0x1a6)][_0x37a643(0x1c9)]["remove"](_0x37a643(0x1b6));
-  });
-function KeyboardInputManager() {
-  var _0x5c87d9 = _0x6c7a1e;
-  (this[_0x5c87d9(0x1c0)] = {}), this["listen"]();
-}
-(KeyboardInputManager[_0x6c7a1e(0x216)]["on"] = function (
-  _0x4c9c46,
-  _0x1200be
-) {
-  var _0x2db970 = _0x6c7a1e;
-  !this[_0x2db970(0x1c0)][_0x4c9c46] &&
-    (this[_0x2db970(0x1c0)][_0x4c9c46] = []),
-    this["events"][_0x4c9c46][_0x2db970(0x1fb)](_0x1200be);
-}),
-  (KeyboardInputManager["prototype"]["emit"] = function (_0x35ef24, _0x54da1c) {
-    var _0x2e1f18 = _0x6c7a1e,
-      _0x21ab2c = this["events"][_0x35ef24];
-    _0x21ab2c &&
-      _0x21ab2c[_0x2e1f18(0x1b1)](function (_0x5073a6) {
-        _0x5073a6(_0x54da1c);
-      });
-  }),
-  (KeyboardInputManager[_0x6c7a1e(0x216)]["listen"] = function () {
-    var _0x26f291 = _0x6c7a1e,
-      _0x37ae57 = this,
-      _0x7f9cf0 = {
-        0x26: 0x0,
-        0x27: 0x1,
-        0x28: 0x2,
-        0x25: 0x3,
-        0x4b: 0x0,
-        0x4c: 0x1,
-        0x4a: 0x2,
-        0x48: 0x3,
-        0x57: 0x0,
-        0x44: 0x1,
-        0x53: 0x2,
-        0x41: 0x3,
-        0x5a: -0x1,
-      };
-    document[_0x26f291(0x201)](_0x26f291(0x1ca), function (_0x53dc50) {
-      var _0x210f23 = _0x26f291,
-        _0xe3b04d =
-          _0x53dc50[_0x210f23(0x1de)] ||
-          _0x53dc50[_0x210f23(0x212)] ||
-          _0x53dc50["metaKey"] ||
-          _0x53dc50[_0x210f23(0x1a8)],
-        _0x46f2f9 = _0x7f9cf0[_0x53dc50[_0x210f23(0x1fa)]];
-      if (!_0xe3b04d) {
-        _0x46f2f9 !== undefined &&
-          (_0x53dc50[_0x210f23(0x19a)](),
-          _0x37ae57["emit"](_0x210f23(0x198), _0x46f2f9));
-        if (_0x53dc50[_0x210f23(0x1fa)] === 0x20)
-          _0x37ae57[_0x210f23(0x1d0)][_0x210f23(0x215)](_0x37ae57)(_0x53dc50);
-      }
-    });
-    var _0x437a72 = document[_0x26f291(0x1ba)](_0x26f291(0x1f8));
-    _0x437a72[_0x26f291(0x201)](
-      _0x26f291(0x204),
-      this[_0x26f291(0x1d0)][_0x26f291(0x215)](this)
-    ),
-      _0x437a72[_0x26f291(0x201)](
-        "touchend",
-        this[_0x26f291(0x1d0)][_0x26f291(0x215)](this)
-      );
-    var _0x210f2b = document["querySelector"](".keep-playing-button");
-    _0x210f2b[_0x26f291(0x201)](
-      _0x26f291(0x204),
-      this[_0x26f291(0x213)][_0x26f291(0x215)](this)
-    ),
-      _0x210f2b[_0x26f291(0x201)](
-        "touchend",
-        this[_0x26f291(0x213)]["bind"](this)
-      );
-    var _0x29dad6,
-      _0x4863c3,
-      _0x47eb61 = document[_0x26f291(0x1d1)](_0x26f291(0x1c4))[0x0];
-    _0x47eb61[_0x26f291(0x201)]("touchstart", function (_0x30ce71) {
-      var _0x3e9911 = _0x26f291;
-      if (_0x30ce71[_0x3e9911(0x211)]["length"] > 0x1) return;
-      (_0x29dad6 = _0x30ce71[_0x3e9911(0x211)][0x0][_0x3e9911(0x207)]),
-        (_0x4863c3 = _0x30ce71[_0x3e9911(0x211)][0x0]["clientY"]),
-        _0x30ce71[_0x3e9911(0x19a)]();
-    }),
-      _0x47eb61[_0x26f291(0x201)](_0x26f291(0x19c), function (_0x13c5cc) {
-        var _0x31ea74 = _0x26f291;
-        _0x13c5cc[_0x31ea74(0x19a)]();
-      }),
-      _0x47eb61["addEventListener"](_0x26f291(0x205), function (_0x54ae9b) {
-        var _0x56cf6f = _0x26f291;
-        if (_0x54ae9b["touches"][_0x56cf6f(0x1f9)] > 0x0) return;
-        var _0x229d01 = _0x54ae9b[_0x56cf6f(0x1a2)][0x0]["clientX"] - _0x29dad6,
-          _0x164359 = Math["abs"](_0x229d01),
-          _0xf8406f = _0x54ae9b[_0x56cf6f(0x1a2)][0x0]["clientY"] - _0x4863c3,
-          _0x1c9cfd = Math[_0x56cf6f(0x1c6)](_0xf8406f);
-        Math[_0x56cf6f(0x1ec)](_0x164359, _0x1c9cfd) > 0xa &&
-          _0x37ae57[_0x56cf6f(0x182)](
-            _0x56cf6f(0x198),
-            _0x164359 > _0x1c9cfd
-              ? _0x229d01 > 0x0
-                ? 0x1
-                : 0x3
-              : _0xf8406f > 0x0
-              ? 0x2
-              : 0x0
-          );
-      });
-  }),
-  (KeyboardInputManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1d0)] = function (
-    _0x494c99
-  ) {
-    var _0x23f16a = _0x6c7a1e;
-    _0x494c99[_0x23f16a(0x19a)](), this["emit"](_0x23f16a(0x1d0));
-  }),
-  (KeyboardInputManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x213)] = function (
-    _0x396509
-  ) {
-    var _0xd04d79 = _0x6c7a1e;
-    _0x396509[_0xd04d79(0x19a)](), this["emit"]("keepPlaying");
-  }),
-  (window[_0x6c7a1e(0x1ea)] = {
-    _data: {},
-    setItem: function (_0x565ae4, _0x151c6f) {
-      return (this["_data"][_0x565ae4] = String(_0x151c6f));
-    },
-    getItem: function (_0x151a31) {
-      var _0x58f6f2 = _0x6c7a1e;
-      return this["_data"][_0x58f6f2(0x1fe)](_0x151a31)
-        ? this[_0x58f6f2(0x1df)][_0x151a31]
-        : undefined;
-    },
-    removeItem: function (_0x355930) {
-      var _0x2a3dab = _0x6c7a1e;
-      return delete this[_0x2a3dab(0x1df)][_0x355930];
-    },
-    clear: function () {
-      return (this["_data"] = {});
-    },
-  });
-function LocalScoreManager() {
-  var _0x2b7de8 = _0x6c7a1e;
-  this[_0x2b7de8(0x1cd)] = _0x2b7de8(0x1cf);
-  var _0x5766ec = this[_0x2b7de8(0x218)]();
-  this[_0x2b7de8(0x20c)] = _0x5766ec
-    ? window[_0x2b7de8(0x1c2)]
-    : window[_0x2b7de8(0x1ea)];
-}
-(LocalScoreManager["prototype"][_0x6c7a1e(0x218)] = function () {
-  var _0x8ad171 = _0x6c7a1e,
-    _0x59c2c4 = _0x8ad171(0x191),
-    _0x29dee7 = window["localStorage"];
-  try {
-    return (
-      _0x29dee7[_0x8ad171(0x217)](_0x59c2c4, "1"),
-      _0x29dee7[_0x8ad171(0x203)](_0x59c2c4),
-      !![]
-    );
-  } catch (_0x41b690) {
-    return ![];
   }
-}),
-  (LocalScoreManager[_0x6c7a1e(0x216)][_0x6c7a1e(0x1db)] = function () {
-    var _0x78dff6 = _0x6c7a1e;
-    return this[_0x78dff6(0x20c)][_0x78dff6(0x1bd)](this["key"]) || 0x0;
-  }),
-  (LocalScoreManager["prototype"][_0x6c7a1e(0x1c7)] = function (_0x6865ba) {
-    var _0x2c0e46 = _0x6c7a1e;
-    this["storage"][_0x2c0e46(0x217)](this["key"], _0x6865ba);
-  }),
-  (function (
-    _0x2c4736,
-    _0x58342c,
-    _0x1afef0,
-    _0x3d8159,
-    _0x26dc4f,
-    _0xc5c327,
-    _0x341c82,
-    _0x225c12,
-    _0x4a1e99
-  ) {
-    var _0x3b9161 = _0x6c7a1e,
-      _0x4f4e4d = _0x1afef0[_0x3b9161(0x1af)](_0x3d8159, _0x26dc4f),
-      _0x4e97b2 = _0x1afef0["pow"](0x2, _0xc5c327),
-      _0x343740 = _0x4e97b2 * 0x2,
-      _0x127978 = _0x3d8159 - 0x1,
-      _0x53ae63 = (_0x1afef0["seed" + _0x4a1e99] = function (
-        _0xff501e,
-        _0x535d54,
-        _0x16b436
-      ) {
-        var _0x89a764 = [],
-          _0x2aef18 = _0x22fb07(
-            _0x43dbb8(
-              _0x535d54
-                ? [_0xff501e, _0x30882c(_0x58342c)]
-                : _0xff501e == null
-                ? _0x567fbb()
-                : _0xff501e,
-              0x3
-            ),
-            _0x89a764
-          ),
-          _0x5e5e25 = new _0x2a2bf6(_0x89a764);
-        return (
-          _0x22fb07(_0x30882c(_0x5e5e25["S"]), _0x58342c),
-          (
-            _0x16b436 ||
-            function (_0x5df259, _0x556b36, _0x2fc3af) {
-              if (_0x2fc3af)
-                return (_0x1afef0[_0x4a1e99] = _0x5df259), _0x556b36;
-              else return _0x5df259;
-            }
-          )(
-            function () {
-              var _0x2f3221 = _0x5e5e25["g"](_0x26dc4f),
-                _0x14fb66 = _0x4f4e4d,
-                _0x1ae44b = 0x0;
-              while (_0x2f3221 < _0x4e97b2) {
-                (_0x2f3221 = (_0x2f3221 + _0x1ae44b) * _0x3d8159),
-                  (_0x14fb66 *= _0x3d8159),
-                  (_0x1ae44b = _0x5e5e25["g"](0x1));
-              }
-              while (_0x2f3221 >= _0x343740) {
-                (_0x2f3221 /= 0x2), (_0x14fb66 /= 0x2), (_0x1ae44b >>>= 0x1);
-              }
-              return (_0x2f3221 + _0x1ae44b) / _0x14fb66;
-            },
-            _0x2aef18,
-            this == _0x1afef0
-          )
-        );
-      });
-    function _0x2a2bf6(_0x7e8193) {
-      var _0x30abbf = _0x3b9161,
-        _0x39f85e,
-        _0x1ac7fd = _0x7e8193[_0x30abbf(0x1f9)],
-        _0x465da1 = this,
-        _0x22d317 = 0x0,
-        _0x23b9bf = (_0x465da1["i"] = _0x465da1["j"] = 0x0),
-        _0xb62dcc = (_0x465da1["S"] = []);
-      !_0x1ac7fd && (_0x7e8193 = [_0x1ac7fd++]);
-      while (_0x22d317 < _0x3d8159) {
-        _0xb62dcc[_0x22d317] = _0x22d317++;
-      }
-      for (_0x22d317 = 0x0; _0x22d317 < _0x3d8159; _0x22d317++) {
-        (_0xb62dcc[_0x22d317] =
-          _0xb62dcc[
-            (_0x23b9bf =
-              _0x127978 &
-              (_0x23b9bf +
-                _0x7e8193[_0x22d317 % _0x1ac7fd] +
-                (_0x39f85e = _0xb62dcc[_0x22d317])))
-          ]),
-          (_0xb62dcc[_0x23b9bf] = _0x39f85e);
-      }
-      (_0x465da1["g"] = function (_0x28bf30) {
-        var _0x2734fd,
-          _0x16e773 = 0x0,
-          _0x2e7bdc = _0x465da1["i"],
-          _0x58f015 = _0x465da1["j"],
-          _0x11c7d6 = _0x465da1["S"];
-        while (_0x28bf30--) {
-          (_0x2734fd = _0x11c7d6[(_0x2e7bdc = _0x127978 & (_0x2e7bdc + 0x1))]),
-            (_0x16e773 =
-              _0x16e773 * _0x3d8159 +
-              _0x11c7d6[
-                _0x127978 &
-                  ((_0x11c7d6[_0x2e7bdc] =
-                    _0x11c7d6[
-                      (_0x58f015 = _0x127978 & (_0x58f015 + _0x2734fd))
-                    ]) +
-                    (_0x11c7d6[_0x58f015] = _0x2734fd))
-              ]);
-        }
-        return (
-          (_0x465da1["i"] = _0x2e7bdc), (_0x465da1["j"] = _0x58f015), _0x16e773
-        );
-      })(_0x3d8159);
+};
+
+// Find the first available random position
+Grid.prototype.randomAvailableCell = function () {
+  var cells = this.availableCells();
+
+  if (cells.length) {
+    return cells[Math.floor(Math.random() * cells.length)];
+  }
+};
+
+Grid.prototype.availableCells = function () {
+  var cells = [];
+
+  this.eachCell(function (x, y, tile) {
+    if (!tile) {
+      cells.push({ x: x, y: y });
     }
-    function _0x43dbb8(_0x5371fd, _0x298ba4) {
-      var _0x2a290c = _0x3b9161,
-        _0x4b53a6 = [],
-        _0x5b7a52 = typeof _0x5371fd,
-        _0x3f3c85;
-      if (_0x298ba4 && _0x5b7a52 == _0x2a290c(0x195))
-        for (_0x3f3c85 in _0x5371fd) {
-          try {
-            _0x4b53a6["push"](_0x43dbb8(_0x5371fd[_0x3f3c85], _0x298ba4 - 0x1));
-          } catch (_0x134466) {}
-        }
-      return _0x4b53a6[_0x2a290c(0x1f9)]
-        ? _0x4b53a6
-        : _0x5b7a52 == _0x2a290c(0x20a)
-        ? _0x5371fd
-        : _0x5371fd + "\x00";
+  });
+
+  return cells;
+};
+
+// Call callback for every cell
+Grid.prototype.eachCell = function (callback) {
+  for (var x = 0; x < this.size; x++) {
+    for (var y = 0; y < this.size; y++) {
+      callback(x, y, this.cells[x][y]);
     }
-    function _0x22fb07(_0x30070f, _0x28adf6) {
-      var _0x259413 = _0x3b9161,
-        _0x2262de = _0x30070f + "",
-        _0xc84951,
-        _0x2efc64 = 0x0;
-      while (_0x2efc64 < _0x2262de[_0x259413(0x1f9)]) {
-        _0x28adf6[_0x127978 & _0x2efc64] =
-          _0x127978 &
-          ((_0xc84951 ^= _0x28adf6[_0x127978 & _0x2efc64] * 0x13) +
-            _0x2262de["charCodeAt"](_0x2efc64++));
-      }
-      return _0x30882c(_0x28adf6);
-    }
-    function _0x567fbb(_0x5deec0) {
-      var _0x878ee = _0x3b9161;
-      try {
-        return (
-          _0x2c4736[_0x878ee(0x1b9)][_0x878ee(0x1d3)](
-            (_0x5deec0 = new Uint8Array(_0x3d8159))
-          ),
-          _0x30882c(_0x5deec0)
-        );
-      } catch (_0x4ce528) {
-        return [
-          +new Date(),
-          _0x2c4736,
-          (_0x5deec0 = _0x2c4736[_0x878ee(0x1d4)]) && _0x5deec0["plugins"],
-          _0x2c4736[_0x878ee(0x1d6)],
-          _0x30882c(_0x58342c),
-        ];
-      }
-    }
-    function _0x30882c(_0x34edbf) {
-      var _0x5a2fa3 = _0x3b9161;
-      return String[_0x5a2fa3(0x1e4)][_0x5a2fa3(0x20e)](0x0, _0x34edbf);
-    }
-    _0x22fb07(_0x1afef0[_0x4a1e99](), _0x58342c);
-    if (_0x341c82 && _0x341c82["exports"])
-      _0x341c82[_0x3b9161(0x1f1)] = _0x53ae63;
-    else
-      _0x225c12 &&
-        _0x225c12[_0x3b9161(0x199)] &&
-        _0x225c12(function () {
-          return _0x53ae63;
-        });
-  })(
-    this,
-    [],
-    Math,
-    0x100,
-    0x6,
-    0x34,
-    typeof module == _0x6c7a1e(0x195) && module,
-    typeof define == _0x6c7a1e(0x1f3) && define,
-    _0x6c7a1e(0x1bf)
+  }
+};
+
+// Check if there are any cells available
+Grid.prototype.cellsAvailable = function () {
+  return !!this.availableCells().length;
+};
+
+// Check if the specified cell is taken
+Grid.prototype.cellAvailable = function (cell) {
+  return !this.cellOccupied(cell);
+};
+
+Grid.prototype.cellOccupied = function (cell) {
+  return !!this.cellContent(cell);
+};
+
+Grid.prototype.cellContent = function (cell) {
+  if (this.withinBounds(cell)) {
+    return this.cells[cell.x][cell.y];
+  } else {
+    return null;
+  }
+};
+
+// Inserts a tile at its position
+Grid.prototype.insertTile = function (tile) {
+  this.cells[tile.x][tile.y] = tile;
+};
+
+Grid.prototype.removeTile = function (tile) {
+  this.cells[tile.x][tile.y] = null;
+};
+
+Grid.prototype.withinBounds = function (position) {
+  return (
+    position.x >= 0 &&
+    position.x < this.size &&
+    position.y >= 0 &&
+    position.y < this.size
   );
-function Tile(_0x29cf23, _0xfeb398) {
-  var _0xea489 = _0x6c7a1e;
-  (this["x"] = _0x29cf23["x"]),
-    (this["y"] = _0x29cf23["y"]),
-    (this["value"] = _0xfeb398 || 0x2),
-    (this[_0xea489(0x20f)] = null),
-    (this[_0xea489(0x1cb)] = null);
+};
+
+function HTMLActuator() {
+  this.tileContainer = document.querySelector(".tile-container");
+  this.scoreContainer = document.querySelector(".score-container");
+  this.bestContainer = document.querySelector(".best-container");
+  this.messageContainer = document.querySelector(".game-message");
+
+  this.score = 0;
 }
-(Tile["prototype"][_0x6c7a1e(0x18c)] = function () {
-  var _0x54704f = _0x6c7a1e;
-  this[_0x54704f(0x20f)] = { x: this["x"], y: this["y"] };
-}),
-  (Tile[_0x6c7a1e(0x216)][_0x6c7a1e(0x1d7)] = function (_0x48d849) {
-    (this["x"] = _0x48d849["x"]), (this["y"] = _0x48d849["y"]);
-  }),
-  (Tile["prototype"][_0x6c7a1e(0x1d2)] = function (_0x3ed041) {
-    var _0x4964c6 = _0x6c7a1e,
-      _0x407c7a = {};
-    return (
-      (_0x407c7a["x"] = this["x"]),
-      (_0x407c7a["y"] = this["y"]),
-      (_0x407c7a["value"] = this["value"]),
-      (_0x407c7a[_0x4964c6(0x20f)] = { x: _0x3ed041["x"], y: _0x3ed041["y"] }),
-      _0x407c7a
-    );
+
+HTMLActuator.prototype.actuate = function (grid, metadata) {
+  var self = this;
+
+  window.requestAnimationFrame(function () {
+    self.clearContainer(self.tileContainer);
+
+    grid.cells.forEach(function (column) {
+      column.forEach(function (cell) {
+        if (cell) {
+          self.addTile(cell);
+        }
+      });
+    });
+
+    self.updateScore(metadata.score);
+    self.updateBestScore(metadata.bestScore);
+
+    if (metadata.terminated) {
+      if (metadata.over) {
+        self.message(false); // You lose
+      } else if (metadata.won) {
+        self.message(true); // You win!
+      }
+    }
   });
+};
+
+// Continues the game (both restart and keep playing)
+HTMLActuator.prototype.continue = function () {
+  this.clearMessage();
+};
+
+HTMLActuator.prototype.clearContainer = function (container) {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+};
+
+HTMLActuator.prototype.addTile = function (tile) {
+  var self = this;
+
+  var wrapper = document.createElement("div");
+  var inner = document.createElement("div");
+  var position = tile.previousPosition || { x: tile.x, y: tile.y };
+  var positionClass = this.positionClass(position);
+
+  // We can't use classlist because it somehow glitches when replacing classes
+  var classes = ["tile", "tile-" + tile.value, positionClass];
+
+  if (tile.value > 2048) classes.push("tile-super");
+
+  this.applyClasses(wrapper, classes);
+
+  inner.classList.add("tile-inner");
+  inner.textContent = tile.value;
+
+  if (tile.previousPosition) {
+    // Make sure that the tile gets rendered in the previous position first
+    window.requestAnimationFrame(function () {
+      classes[2] = self.positionClass({ x: tile.x, y: tile.y });
+      self.applyClasses(wrapper, classes); // Update the position
+    });
+  } else if (tile.mergedFrom) {
+    classes.push("tile-merged");
+    this.applyClasses(wrapper, classes);
+
+    // Render the tiles that merged
+    tile.mergedFrom.forEach(function (merged) {
+      self.addTile(merged);
+    });
+  } else {
+    classes.push("tile-new");
+    this.applyClasses(wrapper, classes);
+  }
+
+  // Add the inner part of the tile to the wrapper
+  wrapper.appendChild(inner);
+
+  // Put the tile on the board
+  this.tileContainer.appendChild(wrapper);
+};
+
+HTMLActuator.prototype.applyClasses = function (element, classes) {
+  element.setAttribute("class", classes.join(" "));
+};
+
+HTMLActuator.prototype.normalizePosition = function (position) {
+  return { x: position.x + 1, y: position.y + 1 };
+};
+
+HTMLActuator.prototype.positionClass = function (position) {
+  position = this.normalizePosition(position);
+  return "tile-position-" + position.x + "-" + position.y;
+};
+
+HTMLActuator.prototype.updateScore = function (score) {
+  this.clearContainer(this.scoreContainer);
+
+  var difference = score - this.score;
+  this.score = score;
+
+  this.scoreContainer.textContent = this.score;
+
+  if (difference > 0) {
+    var addition = document.createElement("div");
+    addition.classList.add("score-addition");
+    addition.textContent = "+" + difference;
+
+    this.scoreContainer.appendChild(addition);
+  }
+};
+
+HTMLActuator.prototype.updateBestScore = function (bestScore) {
+  this.bestContainer.textContent = bestScore;
+};
+
+HTMLActuator.prototype.message = function (won) {
+  var type = won ? "game-won" : "game-over";
+  var message = won ? "You win!" : "Game over!";
+
+  this.messageContainer.classList.add(type);
+  this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+};
+
+HTMLActuator.prototype.clearMessage = function () {
+  // IE only takes one value to remove at a time.
+  this.messageContainer.classList.remove("game-won");
+  this.messageContainer.classList.remove("game-over");
+};
+
+function KeyboardInputManager() {
+  this.events = {};
+
+  this.listen();
+}
+
+KeyboardInputManager.prototype.on = function (event, callback) {
+  if (!this.events[event]) {
+    this.events[event] = [];
+  }
+  this.events[event].push(callback);
+};
+
+KeyboardInputManager.prototype.emit = function (event, data) {
+  var callbacks = this.events[event];
+  if (callbacks) {
+    callbacks.forEach(function (callback) {
+      callback(data);
+    });
+  }
+};
+
+KeyboardInputManager.prototype.listen = function () {
+  var self = this;
+
+  var map = {
+    38: 0, // Up
+    39: 1, // Right
+    40: 2, // Down
+    37: 3, // Left
+    75: 0, // vim keybindings
+    76: 1,
+    74: 2,
+    72: 3,
+    87: 0, // W
+    68: 1, // D
+    83: 2, // S
+    65: 3, // A
+    90: -1, // Z (undo)
+  };
+
+  document.addEventListener("keydown", function (event) {
+    var modifiers =
+      event.altKey || event.ctrlKey || event.metaKey || event.shiftKey;
+    var mapped = map[event.which];
+
+    if (!modifiers) {
+      if (mapped !== undefined) {
+        event.preventDefault();
+        self.emit("move", mapped);
+      }
+
+      if (event.which === 32) self.restart.bind(self)(event);
+    }
+  });
+
+  var retry = document.querySelector(".retry-button");
+  retry.addEventListener("click", this.restart.bind(this));
+  retry.addEventListener("touchend", this.restart.bind(this));
+
+  var keepPlaying = document.querySelector(".keep-playing-button");
+  keepPlaying.addEventListener("click", this.keepPlaying.bind(this));
+  keepPlaying.addEventListener("touchend", this.keepPlaying.bind(this));
+
+  // Listen to swipe events
+  var touchStartClientX, touchStartClientY;
+  var gameContainer = document.getElementsByClassName("game-container")[0];
+
+  gameContainer.addEventListener("touchstart", function (event) {
+    if (event.touches.length > 1) return;
+
+    touchStartClientX = event.touches[0].clientX;
+    touchStartClientY = event.touches[0].clientY;
+    event.preventDefault();
+  });
+
+  gameContainer.addEventListener("touchmove", function (event) {
+    event.preventDefault();
+  });
+
+  gameContainer.addEventListener("touchend", function (event) {
+    if (event.touches.length > 0) return;
+
+    var dx = event.changedTouches[0].clientX - touchStartClientX;
+    var absDx = Math.abs(dx);
+
+    var dy = event.changedTouches[0].clientY - touchStartClientY;
+    var absDy = Math.abs(dy);
+
+    if (Math.max(absDx, absDy) > 10) {
+      // (right : left) : (down : up)
+      self.emit("move", absDx > absDy ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0);
+    }
+  });
+};
+
+KeyboardInputManager.prototype.restart = function (event) {
+  event.preventDefault();
+  this.emit("restart");
+};
+
+KeyboardInputManager.prototype.keepPlaying = function (event) {
+  event.preventDefault();
+  this.emit("keepPlaying");
+};
+
+window.fakeStorage = {
+  _data: {},
+
+  setItem: function (id, val) {
+    return (this._data[id] = String(val));
+  },
+
+  getItem: function (id) {
+    return this._data.hasOwnProperty(id) ? this._data[id] : undefined;
+  },
+
+  removeItem: function (id) {
+    return delete this._data[id];
+  },
+
+  clear: function () {
+    return (this._data = {});
+  },
+};
+
+function LocalScoreManager() {
+  this.key = "bestScore";
+
+  var supported = this.localStorageSupported();
+  this.storage = supported ? window.localStorage : window.fakeStorage;
+}
+
+LocalScoreManager.prototype.localStorageSupported = function () {
+  var testKey = "test";
+  var storage = window.localStorage;
+
+  try {
+    storage.setItem(testKey, "1");
+    storage.removeItem(testKey);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+LocalScoreManager.prototype.get = function () {
+  return this.storage.getItem(this.key) || 0;
+};
+
+LocalScoreManager.prototype.set = function (score) {
+  this.storage.setItem(this.key, score);
+};
+
+/**
+ * All code is in an anonymous closure to keep the global namespace clean.
+ */
+(function (global, pool, math, width, chunks, digits, module, define, rngname) {
+  //
+  // The following constants are related to IEEE 754 limits.
+  //
+  var startdenom = math.pow(width, chunks),
+    significance = math.pow(2, digits),
+    overflow = significance * 2,
+    mask = width - 1,
+    //
+    // seedrandom()
+    // This is the seedrandom function described above.
+    //
+    impl = (math["seed" + rngname] = function (seed, use_entropy, callback) {
+      var key = [];
+
+      // Flatten the seed string or build one from local entropy if needed.
+      var shortseed = mixkey(
+        flatten(
+          use_entropy
+            ? [seed, tostring(pool)]
+            : seed == null
+            ? autoseed()
+            : seed,
+          3
+        ),
+        key
+      );
+
+      // Use the seed to initialize an ARC4 generator.
+      var arc4 = new ARC4(key);
+
+      // Mix the randomness into accumulated entropy.
+      mixkey(tostring(arc4.S), pool);
+
+      // Calling convention: what to return as a function of prng, seed, is_math.
+      return (
+        callback ||
+        // If called as a method of Math (Math.seedrandom()), mutate Math.random
+        // because that is how seedrandom.js has worked since v1.0.  Otherwise,
+        // it is a newer calling convention, so return the prng directly.
+        function (prng, seed, is_math_call) {
+          if (is_math_call) {
+            math[rngname] = prng;
+            return seed;
+          } else return prng;
+        }
+      )(
+        // This function returns a random double in [0, 1) that contains
+        // randomness in every bit of the mantissa of the IEEE 754 value.
+        function () {
+          var n = arc4.g(chunks), // Start with a numerator n < 2 ^ 48
+            d = startdenom, //   and denominator d = 2 ^ 48.
+            x = 0; //   and no 'extra last byte'.
+          while (n < significance) {
+            // Fill up all significant digits by
+            n = (n + x) * width; //   shifting numerator and
+            d *= width; //   denominator and generating a
+            x = arc4.g(1); //   new least-significant-byte.
+          }
+          while (n >= overflow) {
+            // To avoid rounding up, before adding
+            n /= 2; //   last byte, shift everything
+            d /= 2; //   right using integer math until
+            x >>>= 1; //   we have exactly the desired bits.
+          }
+          return (n + x) / d; // Form the number within [0, 1).
+        },
+        shortseed,
+        this == math
+      );
+    });
+
+  //
+  // ARC4
+  //
+  // An ARC4 implementation.  The constructor takes a key in the form of
+  // an array of at most (width) integers that should be 0 <= x < (width).
+  //
+  // The g(count) method returns a pseudorandom integer that concatenates
+  // the next (count) outputs from ARC4.  Its return value is a number x
+  // that is in the range 0 <= x < (width ^ count).
+  //
+  /** @constructor */
+  function ARC4(key) {
+    var t,
+      keylen = key.length,
+      me = this,
+      i = 0,
+      j = (me.i = me.j = 0),
+      s = (me.S = []);
+
+    // The empty key [] is treated as [0].
+    if (!keylen) {
+      key = [keylen++];
+    }
+
+    // Set up S using the standard key scheduling algorithm.
+    while (i < width) {
+      s[i] = i++;
+    }
+    for (i = 0; i < width; i++) {
+      s[i] = s[(j = mask & (j + key[i % keylen] + (t = s[i])))];
+      s[j] = t;
+    }
+
+    // The "g" method returns the next (count) outputs as one number.
+    (me.g = function (count) {
+      // Using instance members instead of closure state nearly doubles speed.
+      var t,
+        r = 0,
+        i = me.i,
+        j = me.j,
+        s = me.S;
+      while (count--) {
+        t = s[(i = mask & (i + 1))];
+        r =
+          r * width + s[mask & ((s[i] = s[(j = mask & (j + t))]) + (s[j] = t))];
+      }
+      me.i = i;
+      me.j = j;
+      return r;
+      // For robust unpredictability discard an initial batch of values.
+      // See http://www.rsa.com/rsalabs/node.asp?id=2009
+    })(width);
+  }
+
+  //
+  // flatten()
+  // Converts an object tree to nested arrays of strings.
+  //
+  function flatten(obj, depth) {
+    var result = [],
+      typ = typeof obj,
+      prop;
+    if (depth && typ == "object") {
+      for (prop in obj) {
+        try {
+          result.push(flatten(obj[prop], depth - 1));
+        } catch (e) {}
+      }
+    }
+    return result.length ? result : typ == "string" ? obj : obj + "\0";
+  }
+
+  //
+  // mixkey()
+  // Mixes a string seed into a key that is an array of integers, and
+  // returns a shortened string seed that is equivalent to the result key.
+  //
+  function mixkey(seed, key) {
+    var stringseed = seed + "",
+      smear,
+      j = 0;
+    while (j < stringseed.length) {
+      key[mask & j] =
+        mask & ((smear ^= key[mask & j] * 19) + stringseed.charCodeAt(j++));
+    }
+    return tostring(key);
+  }
+
+  //
+  // autoseed()
+  // Returns an object for autoseeding, using window.crypto if available.
+  //
+  /** @param {Uint8Array|Navigator=} seed */
+  function autoseed(seed) {
+    try {
+      global.crypto.getRandomValues((seed = new Uint8Array(width)));
+      return tostring(seed);
+    } catch (e) {
+      return [
+        +new Date(),
+        global,
+        (seed = global.navigator) && seed.plugins,
+        global.screen,
+        tostring(pool),
+      ];
+    }
+  }
+
+  //
+  // tostring()
+  // Converts an array of charcodes to a string
+  //
+  function tostring(a) {
+    return String.fromCharCode.apply(0, a);
+  }
+
+  //
+  // When seedrandom.js is loaded, we immediately mix a few bits
+  // from the built-in RNG into the entropy pool.  Because we do
+  // not want to intefere with determinstic PRNG state later,
+  // seedrandom will not call math.random on its own again after
+  // initialization.
+  //
+  mixkey(math[rngname](), pool);
+
+  //
+  // Nodejs and AMD support: export the implemenation as a module using
+  // either convention.
+  //
+  if (module && module.exports) {
+    module.exports = impl;
+  } else if (define && define.amd) {
+    define(function () {
+      return impl;
+    });
+  }
+
+  // End anonymous scope, and pass initial values.
+})(
+  this, // global window object
+  [], // pool: entropy pool starts empty
+  Math, // math: package containing random, pow, and seedrandom
+  256, // width: each RC4 output is 0 <= x < 256
+  6, // chunks: at least six RC4 outputs for each double
+  52, // digits: there are 52 significant digits in a double
+  typeof module == "object" && module, // present in node.js
+  typeof define == "function" && define, // present with an AMD loader
+  "random" // rngname: name for Math.random and Math.seedrandom
+);
+
+function Tile(position, value) {
+  this.x = position.x;
+  this.y = position.y;
+  this.value = value || 2;
+
+  this.previousPosition = null;
+  this.mergedFrom = null; // Tracks tiles that merged together
+}
+
+Tile.prototype.savePosition = function () {
+  this.previousPosition = { x: this.x, y: this.y };
+};
+
+Tile.prototype.updatePosition = function (position) {
+  this.x = position.x;
+  this.y = position.y;
+};
+
+Tile.prototype.save = function (next) {
+  var copy = {};
+  copy.x = this.x;
+  copy.y = this.y;
+  copy.value = this.value;
+  copy.previousPosition = {
+    // In order to reverse the animation, we store the
+    // next position as the previous
+    x: next.x,
+    y: next.y,
+  };
+  return copy;
+};

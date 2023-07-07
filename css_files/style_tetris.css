@@ -17,14 +17,12 @@
   margin: 10px;
 }
 
-
-
 @media only screen and (min-width: 451px) {
   .tetris-btn + #settings-content {
     position: relative;
     bottom: 820px;
   }
-  
+
   .grid {
     display: grid;
     grid-template-columns: 350px 320px 200px;
@@ -177,7 +175,7 @@
   }
 }
 
-@media only screen and (max-width: 400px) { 
+@media only screen and (max-width: 400px) {
   .tetris-btn + #settings-content {
     position: relative;
     bottom: 597px;

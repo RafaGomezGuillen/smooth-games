@@ -1,289 +1,181 @@
-const _0x34b93d = _0x1394;
-(function (_0xdda93e, _0x2e0971) {
-  const _0x26217f = _0x1394,
-    _0xcea941 = _0xdda93e();
-  while (!![]) {
-    try {
-      const _0x5cdee5 =
-        (parseInt(_0x26217f(0xef)) / 0x1) * (parseInt(_0x26217f(0x10d)) / 0x2) +
-        (parseInt(_0x26217f(0x111)) / 0x3) *
-          (parseInt(_0x26217f(0x110)) / 0x4) +
-        -parseInt(_0x26217f(0x101)) / 0x5 +
-        parseInt(_0x26217f(0x11a)) / 0x6 +
-        -parseInt(_0x26217f(0xfc)) / 0x7 +
-        (-parseInt(_0x26217f(0x11c)) / 0x8) *
-          (parseInt(_0x26217f(0x116)) / 0x9) +
-        parseInt(_0x26217f(0x120)) / 0xa;
-      if (_0x5cdee5 === _0x2e0971) break;
-      else _0xcea941["push"](_0xcea941["shift"]());
-    } catch (_0x1ab59c) {
-      _0xcea941["push"](_0xcea941["shift"]());
-    }
-  }
-})(_0x42fe, 0x63750);
 class Board {
-  constructor(_0x261337, _0x126603) {
-    const _0x533726 = _0x1394;
-    (this["ctx"] = _0x261337),
-      (this[_0x533726(0xe8)] = _0x126603),
-      this["init"]();
+  constructor(ctx, ctxNext) {
+    this.ctx = ctx;
+    this.ctxNext = ctxNext;
+    this.init();
   }
-  [_0x34b93d(0x10a)]() {
-    const _0x5e7011 = _0x34b93d;
-    (this[_0x5e7011(0xe9)][_0x5e7011(0x115)][_0x5e7011(0xf6)] =
-      COLS * BLOCK_SIZE),
-      (this[_0x5e7011(0xe9)]["canvas"][_0x5e7011(0xec)] = ROWS * BLOCK_SIZE),
-      this[_0x5e7011(0xe9)][_0x5e7011(0xf4)](BLOCK_SIZE, BLOCK_SIZE);
+
+  init() {
+    // Calculate size of canvas from constants.
+    this.ctx.canvas.width = COLS * BLOCK_SIZE;
+    this.ctx.canvas.height = ROWS * BLOCK_SIZE;
+
+    // Scale so we don't need to give size on every draw.
+    this.ctx.scale(BLOCK_SIZE, BLOCK_SIZE);
   }
-  [_0x34b93d(0xf9)]() {
-    const _0x552cbb = _0x34b93d;
-    (this[_0x552cbb(0x102)] = this[_0x552cbb(0x119)]()),
-      (this[_0x552cbb(0xf2)] = new Piece(this[_0x552cbb(0xe9)])),
-      this["piece"]["setStartingPosition"](),
-      this[_0x552cbb(0xf3)]();
+
+  reset() {
+    this.grid = this.getEmptyGrid();
+    this.piece = new Piece(this.ctx);
+    this.piece.setStartingPosition();
+    this.getNewPiece();
   }
-  ["getNewPiece"]() {
-    const _0x3e3c40 = _0x34b93d,
-      { width: _0x1d9a73, height: _0x27edc3 } =
-        this[_0x3e3c40(0xe8)][_0x3e3c40(0x115)];
-    (this[_0x3e3c40(0x103)] = new Piece(this[_0x3e3c40(0xe8)])),
-      this[_0x3e3c40(0xe8)][_0x3e3c40(0x10e)](0x0, 0x0, _0x1d9a73, _0x27edc3),
-      this[_0x3e3c40(0x103)][_0x3e3c40(0xfe)]();
+
+  getNewPiece() {
+    const { width, height } = this.ctxNext.canvas;
+    this.next = new Piece(this.ctxNext);
+    this.ctxNext.clearRect(0, 0, width, height);
+    this.next.draw();
   }
-  [_0x34b93d(0xfe)]() {
-    const _0x3ff454 = _0x34b93d;
-    this[_0x3ff454(0xf2)][_0x3ff454(0x106)](),
-      this[_0x3ff454(0xf2)]["draw"](),
-      this["drawBoard"]();
+
+  // modificada
+  draw() {
+    this.piece.drawGhost();
+    this.piece.draw();
+    this.drawBoard();
   }
-  [_0x34b93d(0x112)]() {
-    const _0x2f41c8 = _0x34b93d;
-    let _0x43c9a0 = moves[KEY[_0x2f41c8(0xff)]](this[_0x2f41c8(0xf2)]);
-    if (this[_0x2f41c8(0xea)](_0x43c9a0))
-      this[_0x2f41c8(0xf2)][_0x2f41c8(0x117)](_0x43c9a0);
-    else {
-      this["freeze"](), this["clearLines"]();
-      if (this["piece"]["y"] === 0x0) return ![];
-      (this[_0x2f41c8(0xf2)] = this[_0x2f41c8(0x103)]),
-        (this["piece"]["ctx"] = this[_0x2f41c8(0xe9)]),
-        this["piece"][_0x2f41c8(0x118)](),
-        this[_0x2f41c8(0xf3)]();
+
+  drop() {
+    let p = moves[KEY.DOWN](this.piece);
+    if (this.valid(p)) {
+      this.piece.move(p);
+    } else {
+      this.freeze();
+      this.clearLines();
+      if (this.piece.y === 0) {
+        // Game over
+        return false;
+      }
+      this.piece = this.next;
+      this.piece.ctx = this.ctx;
+      this.piece.setStartingPosition();
+      this.getNewPiece();
     }
-    return !![];
+    return true;
   }
-  ["clearLines"]() {
-    const _0xf80d47 = _0x34b93d;
-    let _0x2ce564 = 0x0;
-    this["grid"]["forEach"]((_0x14721b, _0x2641ab) => {
-      const _0x190528 = _0x1394;
-      _0x14721b[_0x190528(0x108)]((_0x22ed62) => _0x22ed62 > 0x0) &&
-        (_0x2ce564++,
-        this[_0x190528(0x102)][_0x190528(0x100)](_0x2641ab, 0x1),
-        this[_0x190528(0x102)][_0x190528(0xfb)](Array(COLS)["fill"](0x0)));
-    }),
-      _0x2ce564 > 0x0 &&
-        ((account[_0xf80d47(0x10f)] += this[_0xf80d47(0x11b)](_0x2ce564)),
-        (account[_0xf80d47(0xf8)] += _0x2ce564),
-        account["lines"] >= LINES_PER_LEVEL &&
-          (account[_0xf80d47(0xf1)]++,
-          (account[_0xf80d47(0xf8)] -= LINES_PER_LEVEL),
-          (time[_0xf80d47(0xf1)] = LEVEL[account[_0xf80d47(0xf1)]])));
+
+  clearLines() {
+    let lines = 0;
+
+    this.grid.forEach((row, y) => {
+      // If every value is greater than zero then we have a full row.
+      if (row.every((value) => value > 0)) {
+        lines++;
+
+        // Remove the row.
+        this.grid.splice(y, 1);
+
+        // Add zero filled row at the top.
+        this.grid.unshift(Array(COLS).fill(0));
+      }
+    });
+
+    if (lines > 0) {
+      // Calculate points from cleared lines and level.
+
+      account.score += this.getLinesClearedPoints(lines);
+      account.lines += lines;
+
+      // If we have reached the lines for next level
+      if (account.lines >= LINES_PER_LEVEL) {
+        // Goto next level
+        account.level++;
+
+        // Remove lines so we start working for the next level
+        account.lines -= LINES_PER_LEVEL;
+
+        // Increase speed of game
+        time.level = LEVEL[account.level];
+      }
+    }
   }
-  ["valid"](_0x5d92b6) {
-    const _0x92e5e2 = _0x34b93d;
-    return _0x5d92b6["shape"][_0x92e5e2(0x108)]((_0x453621, _0x49c80c) => {
-      const _0x3f0eba = _0x92e5e2;
-      return _0x453621[_0x3f0eba(0x108)]((_0x39d01c, _0x3ac6ba) => {
-        const _0x4e4bed = _0x3f0eba;
-        let _0x49b4b2 = _0x5d92b6["x"] + _0x3ac6ba,
-          _0x173347 = _0x5d92b6["y"] + _0x49c80c;
+
+  valid(p) {
+    return p.shape.every((row, dy) => {
+      return row.every((value, dx) => {
+        let x = p.x + dx;
+        let y = p.y + dy;
         return (
-          _0x39d01c === 0x0 ||
-          (this[_0x4e4bed(0x105)](_0x49b4b2, _0x173347) &&
-            this["notOccupied"](_0x49b4b2, _0x173347))
+          value === 0 || (this.isInsideWalls(x, y) && this.notOccupied(x, y))
         );
       });
     });
   }
-  ["freeze"]() {
-    const _0x26ae5f = _0x34b93d;
-    this[_0x26ae5f(0xf2)][_0x26ae5f(0xee)][_0x26ae5f(0x113)](
-      (_0x3c74bd, _0x58ff1a) => {
-        const _0x59d203 = _0x26ae5f;
-        _0x3c74bd[_0x59d203(0x113)]((_0x29cccb, _0x6496ec) => {
-          const _0x6d0a41 = _0x59d203;
-          _0x29cccb > 0x0 &&
-            (this[_0x6d0a41(0x102)][_0x58ff1a + this[_0x6d0a41(0xf2)]["y"]][
-              _0x6496ec + this["piece"]["x"]
-            ] = _0x29cccb);
-        });
-      }
-    );
+
+  freeze() {
+    this.piece.shape.forEach((row, y) => {
+      row.forEach((value, x) => {
+        if (value > 0) {
+          this.grid[y + this.piece.y][x + this.piece.x] = value;
+        }
+      });
+    });
   }
-  [_0x34b93d(0x107)]() {
-    const _0x1d46e2 = _0x34b93d;
-    for (let _0x550b32 = 0x0; _0x550b32 < ROWS; _0x550b32++) {
-      for (let _0x5c8c65 = 0x0; _0x5c8c65 < COLS; _0x5c8c65++) {
-        this[_0x1d46e2(0x102)][_0x550b32][_0x5c8c65] > 0x0
-          ? ((this[_0x1d46e2(0xe9)][_0x1d46e2(0xf5)] =
-              COLORS[this[_0x1d46e2(0x102)][_0x550b32][_0x5c8c65]]),
-            this[_0x1d46e2(0xe9)][_0x1d46e2(0x121)](
-              _0x5c8c65,
-              _0x550b32,
-              0x1,
-              0x1
-            ),
-            (this[_0x1d46e2(0xe9)][_0x1d46e2(0xed)] = "black"),
-            (this[_0x1d46e2(0xe9)]["lineWidth"] = 0.05),
-            this[_0x1d46e2(0xe9)][_0x1d46e2(0xeb)](
-              _0x5c8c65,
-              _0x550b32,
-              0x1,
-              0x1
-            ))
-          : ((this[_0x1d46e2(0xe9)][_0x1d46e2(0xed)] = _0x1d46e2(0x122)),
-            this["ctx"]["strokeRect"](_0x5c8c65, _0x550b32, 0x1, 0x1));
-      }
-    }
-  }
-  ["getEmptyGrid"]() {
-    const _0x308498 = _0x34b93d;
-    return Array[_0x308498(0x10b)]({ length: ROWS }, () =>
-      Array(COLS)[_0x308498(0x11e)](0x0)
-    );
-  }
-  [_0x34b93d(0x105)](_0x2ea113, _0x2e9397) {
-    return _0x2ea113 >= 0x0 && _0x2ea113 < COLS && _0x2e9397 <= ROWS;
-  }
-  [_0x34b93d(0x10c)](_0x182a65, _0x24dcf0) {
-    const _0x11ab11 = _0x34b93d;
-    return (
-      this["grid"][_0x24dcf0] &&
-      this[_0x11ab11(0x102)][_0x24dcf0][_0x182a65] === 0x0
-    );
-  }
-  ["rotate"](_0x52f49f, _0x342476) {
-    const _0x14c54a = _0x34b93d;
-    let _0x7ea1d1 = JSON["parse"](JSON[_0x14c54a(0xfd)](_0x52f49f));
-    if (!_0x52f49f[_0x14c54a(0x104)]) {
-      for (
-        let _0xebbd73 = 0x0;
-        _0xebbd73 < _0x7ea1d1["shape"][_0x14c54a(0x11f)];
-        ++_0xebbd73
-      ) {
-        for (let _0x1afdf1 = 0x0; _0x1afdf1 < _0xebbd73; ++_0x1afdf1) {
-          [
-            _0x7ea1d1[_0x14c54a(0xee)][_0x1afdf1][_0xebbd73],
-            _0x7ea1d1[_0x14c54a(0xee)][_0xebbd73][_0x1afdf1],
-          ] = [
-            _0x7ea1d1[_0x14c54a(0xee)][_0xebbd73][_0x1afdf1],
-            _0x7ea1d1[_0x14c54a(0xee)][_0x1afdf1][_0xebbd73],
-          ];
+
+  // modificada
+   drawBoard() {
+    for (let y = 0; y < ROWS; y++) {
+      for (let x = 0; x < COLS; x++) {
+        if (this.grid[y][x] > 0) {
+          this.ctx.fillStyle = COLORS[this.grid[y][x]];
+          this.ctx.fillRect(x, y, 1, 1);
+          this.ctx.strokeStyle = "black";
+          this.ctx.lineWidth = 0.05;
+          this.ctx.strokeRect(x, y, 1, 1);
+        } else {
+          this.ctx.strokeStyle = 'grey';
+          this.ctx.strokeRect(x, y, 1, 1);
         }
       }
-      if (_0x342476 === ROTATION[_0x14c54a(0xf0)])
-        _0x7ea1d1[_0x14c54a(0xee)]["forEach"]((_0x4fc61d) =>
-          _0x4fc61d[_0x14c54a(0x109)]()
-        );
-      else
-        _0x342476 === ROTATION[_0x14c54a(0x114)] &&
-          _0x7ea1d1[_0x14c54a(0xee)][_0x14c54a(0x109)]();
     }
-    return _0x7ea1d1;
   }
-  ["getLinesClearedPoints"](_0x574048, _0x2f8e35) {
-    const _0xaed409 = _0x34b93d,
-      _0x5a331d =
-        _0x574048 === 0x1
-          ? POINTS["SINGLE"]
-          : _0x574048 === 0x2
-          ? POINTS[_0xaed409(0x11d)]
-          : _0x574048 === 0x3
-          ? POINTS["TRIPLE"]
-          : _0x574048 === 0x4
-          ? POINTS[_0xaed409(0xfa)]
-          : 0x0;
-    return (
-      pointsSound[_0xaed409(0xf7)](),
-      (account[_0xaed409(0xf1)] + 0x1) * _0x5a331d
-    );
+  
+
+  getEmptyGrid() {
+    return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
   }
-}
-function _0x1394(_0x4e0d1, _0x3cfe15) {
-  const _0x42fe5b = _0x42fe();
-  return (
-    (_0x1394 = function (_0x1394ba, _0x11ef33) {
-      _0x1394ba = _0x1394ba - 0xe8;
-      let _0x5bcea7 = _0x42fe5b[_0x1394ba];
-      return _0x5bcea7;
-    }),
-    _0x1394(_0x4e0d1, _0x3cfe15)
-  );
-}
-function _0x42fe() {
-  const _0x11880d = [
-    "notOccupied",
-    "56QljarP",
-    "clearRect",
-    "score",
-    "4oPeCAx",
-    "1179771YiXdTo",
-    "drop",
-    "forEach",
-    "LEFT",
-    "canvas",
-    "252CXnokx",
-    "move",
-    "setStartingPosition",
-    "getEmptyGrid",
-    "1091814rdWwzD",
-    "getLinesClearedPoints",
-    "144264qBfEAQ",
-    "DOUBLE",
-    "fill",
-    "length",
-    "12463670sUJobf",
-    "fillRect",
-    "grey",
-    "ctxNext",
-    "ctx",
-    "valid",
-    "strokeRect",
-    "height",
-    "strokeStyle",
-    "shape",
-    "19262PkArKl",
-    "RIGHT",
-    "level",
-    "piece",
-    "getNewPiece",
-    "scale",
-    "fillStyle",
-    "width",
-    "play",
-    "lines",
-    "reset",
-    "TETRIS",
-    "unshift",
-    "5349337DrRKcM",
-    "stringify",
-    "draw",
-    "DOWN",
-    "splice",
-    "3422190dpOEnT",
-    "grid",
-    "next",
-    "hardDropped",
-    "isInsideWalls",
-    "drawGhost",
-    "drawBoard",
-    "every",
-    "reverse",
-    "init",
-    "from",
-  ];
-  _0x42fe = function () {
-    return _0x11880d;
-  };
-  return _0x42fe();
+
+  isInsideWalls(x, y) {
+    return x >= 0 && x < COLS && y <= ROWS;
+  }
+
+  notOccupied(x, y) {
+    return this.grid[y] && this.grid[y][x] === 0;
+  }
+
+  rotate(piece, direction) {
+    // Clone with JSON for immutability.
+    let p = JSON.parse(JSON.stringify(piece));
+    if (!piece.hardDropped) {
+      // Transpose matrix
+      for (let y = 0; y < p.shape.length; ++y) {
+        for (let x = 0; x < y; ++x) {
+          [p.shape[x][y], p.shape[y][x]] = [p.shape[y][x], p.shape[x][y]];
+        }
+      }
+      // Reverse the order of the columns.
+      if (direction === ROTATION.RIGHT) {
+        p.shape.forEach((row) => row.reverse());
+      } else if (direction === ROTATION.LEFT) {
+        p.shape.reverse();
+      }
+    }
+
+    return p;
+  }
+
+  getLinesClearedPoints(lines, level) {
+    const lineClearPoints =
+      lines === 1
+        ? POINTS.SINGLE
+        : lines === 2
+        ? POINTS.DOUBLE
+        : lines === 3
+        ? POINTS.TRIPLE
+        : lines === 4
+        ? POINTS.TETRIS
+        : 0;
+    pointsSound.play();
+    return (account.level + 1) * lineClearPoints;
+  }
 }

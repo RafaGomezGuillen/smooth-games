@@ -1,159 +1,81 @@
-"use strict";
-const _0x47ec15 = _0x587f;
-function _0xbb80() {
-  const _0xf1ed65 = [
-    "freeze",
-    "95748PpxEEJ",
-    "55AxXoqn",
-    "#008080",
-    "2yrJFPa",
-    "3297wtgQYW",
-    "969190zGNuVI",
-    "forEach",
-    "391187JMrHbT",
-    "246245giuyev",
-    "#dde2c1",
-    "6503463JrEnCw",
-    "left",
-    "6828IiaEkM",
-    "2204688HLxpcs",
-    "#ff8080",
-    "60fVaIiB",
-    "right",
-    "none",
-  ];
-  _0xbb80 = function () {
-    return _0xf1ed65;
-  };
-  return _0xbb80();
-}
-(function (_0x19bdf5, _0x11e255) {
-  const _0x4d2e83 = _0x587f,
-    _0x19e724 = _0x19bdf5();
-  while (!![]) {
-    try {
-      const _0x2ced22 =
-        -parseInt(_0x4d2e83(0x78)) / 0x1 +
-        (-parseInt(_0x4d2e83(0x87)) / 0x2) *
-          (-parseInt(_0x4d2e83(0x84)) / 0x3) +
-        (-parseInt(_0x4d2e83(0x80)) / 0x4) * (parseInt(_0x4d2e83(0x79)) / 0x5) +
-        (parseInt(_0x4d2e83(0x7d)) / 0x6) * (parseInt(_0x4d2e83(0x88)) / 0x7) +
-        -parseInt(_0x4d2e83(0x7e)) / 0x8 +
-        parseInt(_0x4d2e83(0x7b)) / 0x9 +
-        (-parseInt(_0x4d2e83(0x89)) / 0xa) * (-parseInt(_0x4d2e83(0x85)) / 0xb);
-      if (_0x2ced22 === _0x11e255) break;
-      else _0x19e724["push"](_0x19e724["shift"]());
-    } catch (_0x30cd13) {
-      _0x19e724["push"](_0x19e724["shift"]());
-    }
-  }
-})(_0xbb80, 0x5a3c8);
-function _0x587f(_0x43d7a1, _0x435bc6) {
-  const _0xbb80c8 = _0xbb80();
-  return (
-    (_0x587f = function (_0x587f0f, _0x59d664) {
-      _0x587f0f = _0x587f0f - 0x78;
-      let _0x19f86d = _0xbb80c8[_0x587f0f];
-      return _0x19f86d;
-    }),
-    _0x587f(_0x43d7a1, _0x435bc6)
-  );
-}
-const COLS = 0xa,
-  ROWS = 0x14,
-  BLOCK_SIZE = 0x1e,
-  LINES_PER_LEVEL = 0xa,
-  NO_OF_HIGH_SCORES = 0xa,
-  COLORS = [
-    _0x47ec15(0x82),
-    "#80ffff",
-    _0x47ec15(0x7a),
-    _0x47ec15(0x7f),
-    "#ffff80",
-    _0x47ec15(0x86),
-    "#8080ff",
-    "#ff00ff",
-  ],
-  SHAPES = [
-    [],
-    [
-      [0x0, 0x0, 0x0, 0x0],
-      [0x1, 0x1, 0x1, 0x1],
-      [0x0, 0x0, 0x0, 0x0],
-      [0x0, 0x0, 0x0, 0x0],
-    ],
-    [
-      [0x2, 0x0, 0x0],
-      [0x2, 0x2, 0x2],
-      [0x0, 0x0, 0x0],
-    ],
-    [
-      [0x0, 0x0, 0x3],
-      [0x3, 0x3, 0x3],
-      [0x0, 0x0, 0x0],
-    ],
-    [
-      [0x4, 0x4],
-      [0x4, 0x4],
-    ],
-    [
-      [0x0, 0x5, 0x5],
-      [0x5, 0x5, 0x0],
-      [0x0, 0x0, 0x0],
-    ],
-    [
-      [0x0, 0x6, 0x0],
-      [0x6, 0x6, 0x6],
-      [0x0, 0x0, 0x0],
-    ],
-    [
-      [0x7, 0x7, 0x0],
-      [0x0, 0x7, 0x7],
-      [0x0, 0x0, 0x0],
-    ],
-  ],
-  KEY = {
-    ESC: 0x1b,
-    SPACE: 0x20,
-    LEFT: 0x25,
-    UP: 0x26,
-    RIGHT: 0x27,
-    DOWN: 0x28,
-    P: 0x50,
-    Q: 0x51,
-  },
-  POINTS = {
-    SINGLE: 0x64,
-    DOUBLE: 0x12c,
-    TRIPLE: 0x1f4,
-    TETRIS: 0x320,
-    SOFT_DROP: 0x1,
-    HARD_DROP: 0x2,
-  },
-  LEVEL = {
-    0x0: 0x320,
-    0x1: 0x2d0,
-    0x2: 0x276,
-    0x3: 0x226,
-    0x4: 0x1d6,
-    0x5: 0x17c,
-    0x6: 0x12c,
-    0x7: 0xdc,
-    0x8: 0x82,
-    0x9: 0x64,
-    0xa: 0x50,
-    0xb: 0x50,
-    0xc: 0x50,
-    0xd: 0x46,
-    0xe: 0x46,
-    0xf: 0x46,
-    0x10: 0x32,
-    0x11: 0x32,
-    0x12: 0x32,
-    0x13: 0x1e,
-    0x14: 0x1e,
-  },
-  ROTATION = { LEFT: _0x47ec15(0x7c), RIGHT: _0x47ec15(0x81) };
-[COLORS, SHAPES, KEY, POINTS, LEVEL, ROTATION][_0x47ec15(0x8a)]((_0x315d69) =>
-  Object[_0x47ec15(0x83)](_0x315d69)
-);
+'use strict';
+
+const COLS = 10;
+const ROWS = 20;
+const BLOCK_SIZE = 30;
+const LINES_PER_LEVEL = 10;
+const NO_OF_HIGH_SCORES = 10;
+const COLORS = [
+  'none',
+  '#80ffff',
+  '#dde2c1',
+  '#ff8080',
+  '#ffff80',
+  '#008080',
+  '#8080ff',
+  '#ff00ff'
+];
+
+const SHAPES = [
+  [],
+  [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
+  [[2, 0, 0], [2, 2, 2], [0, 0, 0]],
+  [[0, 0, 3], // 0,0 -> 2,0 ; 0,1 -> 1,0 ; 0,2 -> 0,0
+   [3, 3, 3], // 1,0 -> 2,1 ; 1,1 -> 1,1 ; 1,2 -> 0,1 
+   [0, 0, 0]],// 2,0 -> 2,2 ; 2,1 -> 1,2 ; 2,2 -> 0,2
+  [[4, 4], [4, 4]],
+  [[0, 5, 5], [5, 5, 0], [0, 0, 0]],
+  [[0, 6, 0], [6, 6, 6], [0, 0, 0]],
+  [[7, 7, 0], [0, 7, 7], [0, 0, 0]]
+];
+
+const KEY = {
+  ESC: 27,
+  SPACE: 32,
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  DOWN: 40,
+  P: 80,
+  Q: 81
+};
+
+const POINTS = {
+  SINGLE: 100,
+  DOUBLE: 300,
+  TRIPLE: 500,
+  TETRIS: 800,
+  SOFT_DROP: 1,
+  HARD_DROP: 2,
+};
+
+const LEVEL = {
+  0: 800,
+  1: 720,
+  2: 630,
+  3: 550,
+  4: 470,
+  5: 380,
+  6: 300,
+  7: 220,
+  8: 130,
+  9: 100,
+  10: 80,
+  11: 80,
+  12: 80,
+  13: 70,
+  14: 70,
+  15: 70,
+  16: 50,
+  17: 50,
+  18: 50,
+  19: 30,
+  20: 30,
+};
+
+const ROTATION = {
+  LEFT: 'left',
+  RIGHT: 'right'
+};
+
+[COLORS, SHAPES, KEY, POINTS, LEVEL, ROTATION].forEach(item => Object.freeze(item));
