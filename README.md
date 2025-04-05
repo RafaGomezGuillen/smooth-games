@@ -1,4 +1,11 @@
 # Smooth Games
+
+🔗 View it live: [Smooth Games Website](https://rafagomezguillen.github.io/smooth-games/index.html)
+
+## 🎥 Watch the YouTube video to see the Smooth Games in action!
+
+[![Watch the video](https://img.youtube.com/vi/SXFAFqZT86A/0.jpg)](https://www.youtube.com/watch?v=SXFAFqZT86A)
+
 ## Smooth Match 3
 
 Smooth Match 3 is a game based on match 3 games puzzles. I create this webpage just for fun, not monetary purposes, obviously any kind of donation is great for me, but you are not forced to.
